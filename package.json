@@ -1,0 +1,59 @@
+{
+  "name": "scandit-capacitor-datacapture-barcode",
+  "version": "6.8.0",
+  "description": "Scandit Data Capture SDK for Capacitor",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Scandit",
+    "email": "support@scandit.com"
+  },
+  "homepage": "https://github.com/Scandit/scandit-capacitor-datacapture-barcode",
+  "main": "dist/plugin.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "lint": "tslint --project . && npm run swiftlint -- lint",
+    "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
+    "swiftlint": "node-swiftlint",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "scandit-capacitor-datacapture-core": "file:../scandit-capacitor-datacapture-core"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^2.0.0",
+    "@capacitor/core": "^2.0.0",
+    "@capacitor/ios": "^2.0.0",
+    "@ionic/prettier-config": "^1.0.0",
+    "@ionic/swiftlint-config": "^1.0.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "prettier": "^2.0.5",
+    "prettier-plugin-java": "^0.8.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^2.21.0",
+    "swiftlint": "^1.0.1",
+    "typescript": "~3.8.3",
+    "tslint": "^5.16.0"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^2.0.0"
+  },
+  "files": [
+    "dist/",
+    "ios/",
+    "android/",
+    "ScanditCapacitorDatacaptureBarcode.podspec"
+  ],
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  },
+  "prettier": "@ionic/prettier-config",
+  "swiftlint": "@ionic/swiftlint-config"
+}
