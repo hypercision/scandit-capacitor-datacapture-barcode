@@ -46,6 +46,10 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
     var lastTrackedBarcodes: [NSNumber: TrackedBarcode]?
     var lastFrameSequenceId: Int?
 
+    override func load() {
+        ScanditCaptureCore.dataCapturePlugins.append(self as DataCapturePlugin)
+    }
+
     func onReset() {
         callbacks.reset()
 
@@ -55,25 +59,27 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
 
     @objc(getDefaults:)
     func getDefaults(_ call: CAPPluginCall) {
-        let settings = BarcodeCaptureSettings()
-        let barcodeCapture = BarcodeCapture(context: nil, settings: settings)
-        let barcodeTracking = BarcodeTracking(context: nil, settings: BarcodeTrackingSettings())
-        let overlay = BarcodeCaptureOverlay(barcodeCapture: barcodeCapture)
-        let basicTrackingOverlay = BarcodeTrackingBasicOverlay(barcodeTracking: barcodeTracking)
+        DispatchQueue.main.async {
+            let settings = BarcodeCaptureSettings()
+            let barcodeCapture = BarcodeCapture(context: nil, settings: settings)
+            let barcodeTracking = BarcodeTracking(context: nil, settings: BarcodeTrackingSettings())
+            let overlay = BarcodeCaptureOverlay(barcodeCapture: barcodeCapture)
+            let basicTrackingOverlay = BarcodeTrackingBasicOverlay(barcodeTracking: barcodeTracking)
 
-        let defaults = ScanditBarcodeCaptureDefaults(barcodeCaptureSettings: settings,
-                                                     overlay: overlay,
-                                                     basicTrackingOverlay: basicTrackingOverlay)
+            let defaults = ScanditBarcodeCaptureDefaults(barcodeCaptureSettings: settings,
+                                                         overlay: overlay,
+                                                         basicTrackingOverlay: basicTrackingOverlay)
 
-        var defaultsDictionary: [String: Any]? {
-                guard let data = try? JSONEncoder().encode(defaults) else { return nil }
-                guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                    return nil
+            var defaultsDictionary: [String: Any]? {
+                    guard let data = try? JSONEncoder().encode(defaults) else { return nil }
+                    guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+                        return nil
+                    }
+                    return json
                 }
-                return json
-            }
 
-        call.resolve(defaultsDictionary ?? [:])
+            call.resolve(defaultsDictionary ?? [:])
+        }
     }
 
     // MARK: Listeners

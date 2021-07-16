@@ -55,7 +55,7 @@ export const defaultsFromJSON = (json) => {
                 lineStyle: viewfinder.lineStyle,
                 dimming: viewfinder.dimming,
                 animation: RectangularViewfinderAnimation
-                    .fromJSON(JSON.parse(viewfinder.animation)),
+                    .fromJSON(viewfinder.animation ? JSON.parse(viewfinder.animation) : null),
             };
             return acc;
         }, { defaultStyle: json.RectangularViewfinder.defaultStyle, styles: {} }),

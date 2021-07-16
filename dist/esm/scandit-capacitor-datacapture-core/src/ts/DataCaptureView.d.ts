@@ -87,6 +87,9 @@ export declare class DataCaptureView extends DefaultSerializeable {
     private _htmlElementState;
     private set htmlElementState(value);
     private get htmlElementState();
+    private scrollListener;
+    private domObserver;
+    private orientationChangeListener;
     /**
      * The current context as a PrivateDataCaptureContext
      */
@@ -94,6 +97,7 @@ export declare class DataCaptureView extends DefaultSerializeable {
     static forContext(context: Optional<DataCaptureContext>): DataCaptureView;
     constructor();
     connectToElement(element: HTMLElement): void;
+    detachFromElement(): void;
     setFrame(frame: Rect, isUnderContent?: boolean): Promise<void>;
     show(): Promise<void>;
     hide(): Promise<void>;
@@ -108,6 +112,7 @@ export declare class DataCaptureView extends DefaultSerializeable {
     private controlUpdated;
     private initialize;
     private subscribeToChangesOnHTMLElement;
+    private unsubscribeFromChangesOnHTMLElement;
     private elementDidChange;
     private updatePositionAndSize;
     private _show;

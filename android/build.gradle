@@ -44,7 +44,7 @@ dependencies {
     implementation project(':capacitor-android')
 
     implementation project(':scandit-capacitor-datacapture-core')
-    api "com.scandit.datacapture:barcode:6.8.1"
+    api "com.scandit.datacapture:barcode:6.9.0-beta.1"
 
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -6,6 +6,7 @@
 package com.scandit.capacitor.datacapture.barcode
 
 import android.Manifest
+import android.util.Log
 import android.view.View
 import com.getcapacitor.JSObject
 import com.getcapacitor.NativePlugin
@@ -112,8 +113,13 @@ class ScanditBarcodeNative : Plugin(),
         super.load()
 
         // We need to register the plugin with its Core dependency for serializers to load.
-        (bridge.getPlugin(CORE_PLUGIN_NAME).instance as ScanditCaptureCoreNative)
-            .registerPluginInstance(pluginHandle.instance)
+        val corePlugin = bridge.getPlugin(CORE_PLUGIN_NAME)
+        if (corePlugin != null) {
+            (corePlugin.instance as ScanditCaptureCoreNative)
+                    .registerPluginInstance(pluginHandle.instance)
+        } else {
+            Log.e("Registering:", "Core not found")
+        }
     }
 
     //region BarcodeCaptureListener
