@@ -1072,11 +1072,11 @@ var capacitorPlugin = (function (exports, core) {
             this.preferredResolution = Capacitor.defaults.Camera.Settings.preferredResolution;
             this.zoomFactor = Capacitor.defaults.Camera.Settings.zoomFactor;
             this.zoomGestureZoomFactor = Capacitor.defaults.Camera.Settings.zoomGestureZoomFactor;
-            this.focusGestureStrategy = Capacitor.defaults.Camera.Settings.focusGestureStrategy;
-            this.shouldPreferSmoothAutoFocus = Capacitor.defaults.Camera.Settings.shouldPreferSmoothAutoFocus;
             this.api = 0;
             this.focus = {
                 range: Capacitor.defaults.Camera.Settings.focusRange,
+                focusGestureStrategy: Capacitor.defaults.Camera.Settings.focusGestureStrategy,
+                shouldPreferSmoothAutoFocus: Capacitor.defaults.Camera.Settings.shouldPreferSmoothAutoFocus,
             };
             if (settings !== undefined && settings !== null) {
                 Object.getOwnPropertyNames(settings).forEach(propertyName => {
@@ -1089,6 +1089,18 @@ var capacitorPlugin = (function (exports, core) {
         }
         set focusRange(newRange) {
             this.focus.range = newRange;
+        }
+        get focusGestureStrategy() {
+            return this.focus.focusGestureStrategy;
+        }
+        set focusGestureStrategy(newStrategy) {
+            this.focus.focusGestureStrategy = newStrategy;
+        }
+        get shouldPreferSmoothAutoFocus() {
+            return this.focus.shouldPreferSmoothAutoFocus;
+        }
+        set shouldPreferSmoothAutoFocus(newShouldPreferSmoothAutoFocus) {
+            this.focus.shouldPreferSmoothAutoFocus = newShouldPreferSmoothAutoFocus;
         }
         static fromJSON(json) {
             const settings = new CameraSettings();

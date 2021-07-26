@@ -63,12 +63,14 @@ export declare class CameraSettings extends DefaultSerializeable {
     preferredResolution: VideoResolution;
     zoomFactor: number;
     zoomGestureZoomFactor: number;
-    focusGestureStrategy: FocusGestureStrategy;
-    shouldPreferSmoothAutoFocus: boolean;
     private api;
     private focus;
     get focusRange(): FocusRange;
     set focusRange(newRange: FocusRange);
+    get focusGestureStrategy(): FocusGestureStrategy;
+    set focusGestureStrategy(newStrategy: FocusGestureStrategy);
+    get shouldPreferSmoothAutoFocus(): boolean;
+    set shouldPreferSmoothAutoFocus(newShouldPreferSmoothAutoFocus: boolean);
     private static fromJSON;
     constructor();
     constructor(settings: CameraSettings);
