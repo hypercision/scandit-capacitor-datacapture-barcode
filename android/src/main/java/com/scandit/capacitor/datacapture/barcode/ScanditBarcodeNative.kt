@@ -413,7 +413,7 @@ class ScanditBarcodeNative : Plugin(),
     fun setBrushForTrackedBarcode(call: PluginCall) {
         try {
             val data = SerializableBrushAndTrackedBarcode(
-                JSONObject(call.data.getString("brush"))
+                JSONObject(call.data.toString())
             )
             val overlay = barcodeTrackingBasicOverlayHandler.barcodeTrackingBasicOverlay
                 ?: return call.resolve()
