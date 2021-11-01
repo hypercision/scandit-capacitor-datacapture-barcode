@@ -12,10 +12,10 @@ import { getDefaults } from './ts/Capacitor/Capacitor';
 import { Barcode, Checksum, CompositeFlag, CompositeType, EncodingRange, LocalizedOnlyBarcode, Range, Symbology, SymbologyDescription, SymbologySettings, TrackedBarcode, } from './ts/Barcode';
 import { BarcodeCapture, } from './ts/BarcodeCapture';
 import { BarcodeCaptureSettings, } from './ts/BarcodeCaptureSettings';
-import { BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureSession, } from './ts/BarcodeCapture+Related';
+import { BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, } from './ts/BarcodeCapture+Related';
 import { BarcodeTracking, } from './ts/BarcodeTracking';
 import { BarcodeTrackingScenario, BarcodeTrackingSettings, } from './ts/BarcodeTrackingSettings';
-import { BarcodeTrackingAdvancedOverlay, BarcodeTrackingBasicOverlay, BarcodeTrackingSession, } from './ts/BarcodeTracking+Related';
+import { BarcodeTrackingAdvancedOverlay, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingSession, } from './ts/BarcodeTracking+Related';
 import { TrackedBarcodeView, } from './ts/TrackedBarcodeView';
 export class ScanditBarcodePlugin extends WebPlugin {
     constructor() {
@@ -38,6 +38,7 @@ export class ScanditBarcodePlugin extends WebPlugin {
                 BarcodeCaptureSettings,
                 BarcodeCaptureSession,
                 BarcodeCaptureOverlay,
+                BarcodeCaptureOverlayStyle,
                 BarcodeCaptureFeedback,
                 BarcodeTracking,
                 BarcodeTrackingSession,
@@ -45,6 +46,7 @@ export class ScanditBarcodePlugin extends WebPlugin {
                 BarcodeTrackingSettings,
                 TrackedBarcode,
                 BarcodeTrackingBasicOverlay,
+                BarcodeTrackingBasicOverlayStyle,
                 BarcodeTrackingAdvancedOverlay,
                 EncodingRange,
                 LocalizedOnlyBarcode,

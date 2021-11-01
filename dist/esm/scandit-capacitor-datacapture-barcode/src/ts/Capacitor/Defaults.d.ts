@@ -2,6 +2,8 @@ import { CameraSettings } from '../../../../scandit-capacitor-datacapture-core/s
 import { CameraSettingsDefaultsJSON } from '../../../../scandit-capacitor-datacapture-core/src/ts/Capacitor/Defaults';
 import { Color } from '../../../../scandit-capacitor-datacapture-core/src/ts/Common';
 import { PrivateCompositeTypeDescription, SymbologyDescription, SymbologySettings } from '../Barcode';
+declare type BarcodeCaptureOverlayStyle = any;
+declare type BarcodeTrackingBasicOverlayStyle = any;
 export interface Defaults {
     SymbologySettings: {
         [key: string]: SymbologySettings;
@@ -10,6 +12,8 @@ export interface Defaults {
     CompositeTypeDescriptions: PrivateCompositeTypeDescription[];
     BarcodeCapture: {
         BarcodeCaptureOverlay: {
+            defaultStyle: BarcodeCaptureOverlayStyle;
+            styles: any;
             DefaultBrush: {
                 fillColor: Color;
                 strokeColor: Color;
@@ -24,6 +28,8 @@ export interface Defaults {
     BarcodeTracking: {
         RecommendedCameraSettings: CameraSettings;
         BarcodeTrackingBasicOverlay: {
+            defaultStyle: BarcodeTrackingBasicOverlayStyle;
+            styles: any;
             DefaultBrush: {
                 fillColor: Color;
                 strokeColor: Color;
@@ -40,6 +46,8 @@ export interface DefaultsJSON {
     CompositeTypeDescriptions: string[];
     BarcodeCapture: {
         BarcodeCaptureOverlay: {
+            defaultStyle: string;
+            styles: any;
             DefaultBrush: {
                 fillColor: string;
                 strokeColor: string;
@@ -54,6 +62,8 @@ export interface DefaultsJSON {
     BarcodeTracking: {
         RecommendedCameraSettings: CameraSettingsDefaultsJSON;
         BarcodeTrackingBasicOverlay: {
+            defaultStyle: string;
+            styles: any;
             DefaultBrush: {
                 fillColor: string;
                 strokeColor: string;
@@ -63,3 +73,4 @@ export interface DefaultsJSON {
     };
 }
 export declare const defaultsFromJSON: (json: DefaultsJSON) => Defaults;
+export {};

@@ -38,6 +38,11 @@ export class BarcodeCaptureFeedback extends DefaultSerializeable {
         return new BarcodeCaptureFeedback();
     }
 }
+export var BarcodeCaptureOverlayStyle;
+(function (BarcodeCaptureOverlayStyle) {
+    BarcodeCaptureOverlayStyle["Frame"] = "frame";
+    BarcodeCaptureOverlayStyle["Legacy"] = "legacy";
+})(BarcodeCaptureOverlayStyle || (BarcodeCaptureOverlayStyle = {}));
 export class BarcodeCaptureOverlay extends DefaultSerializeable {
     constructor() {
         super();
@@ -47,7 +52,10 @@ export class BarcodeCaptureOverlay extends DefaultSerializeable {
         this._brush = BarcodeCaptureOverlay.defaultBrush;
     }
     static get defaultBrush() {
-        return new Brush(Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.fillColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeWidth);
+        // tslint:disable-next-line:no-console
+        console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
+            'Use .brush to get the default for your selected style');
+        return new Brush(Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeWidth);
     }
     get brush() {
         return this._brush;
@@ -70,12 +78,20 @@ export class BarcodeCaptureOverlay extends DefaultSerializeable {
         this._shouldShowScanAreaGuides = shouldShow;
         this.barcodeCapture.didChange();
     }
+    get style() {
+        return this._style;
+    }
     static withBarcodeCapture(barcodeCapture) {
         return BarcodeCaptureOverlay.withBarcodeCaptureForView(barcodeCapture, null);
     }
     static withBarcodeCaptureForView(barcodeCapture, view) {
+        return this.withBarcodeCaptureForViewWithStyle(barcodeCapture, view, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle);
+    }
+    static withBarcodeCaptureForViewWithStyle(barcodeCapture, view, style) {
         const overlay = new BarcodeCaptureOverlay();
         overlay.barcodeCapture = barcodeCapture;
+        overlay._style = style;
+        overlay._brush = new Brush(Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.fillColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeWidth);
         if (view) {
             view.addOverlay(overlay);
         }
@@ -95,4 +111,7 @@ __decorate([
 __decorate([
     nameForSerialization('brush')
 ], BarcodeCaptureOverlay.prototype, "_brush", void 0);
+__decorate([
+    nameForSerialization('style')
+], BarcodeCaptureOverlay.prototype, "_style", void 0);
 //# sourceMappingURL=BarcodeCapture+Related.js.map

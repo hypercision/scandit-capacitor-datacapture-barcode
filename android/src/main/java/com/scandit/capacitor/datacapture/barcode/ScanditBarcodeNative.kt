@@ -61,12 +61,12 @@ import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingDeseriali
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingDeserializerListener
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingListener
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSession
+import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSettings
 import com.scandit.datacapture.barcode.tracking.data.TrackedBarcode
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvancedOverlay
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvancedOverlayListener
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlay
-import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlayListener
+import com.scandit.datacapture.barcode.tracking.ui.overlay.*
 import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlay
+import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlayStyle
+import com.scandit.datacapture.barcode.ui.overlay.toJson
 import com.scandit.datacapture.core.capture.serialization.DataCaptureModeDeserializer
 import com.scandit.datacapture.core.common.geometry.Anchor
 import com.scandit.datacapture.core.common.geometry.MeasureUnit
@@ -116,7 +116,7 @@ class ScanditBarcodeNative : Plugin(),
         val corePlugin = bridge.getPlugin(CORE_PLUGIN_NAME)
         if (corePlugin != null) {
             (corePlugin.instance as ScanditCaptureCoreNative)
-                    .registerPluginInstance(pluginHandle.instance)
+                .registerPluginInstance(pluginHandle.instance)
         } else {
             Log.e("Registering:", "Core not found")
         }
@@ -325,13 +325,20 @@ class ScanditBarcodeNative : Plugin(),
             val brush = BarcodeCaptureOverlay.defaultBrush()
             val symbologyDescriptions = SymbologyDescription.all()
             val captureCameraSettings = BarcodeCapture.createRecommendedCameraSettings()
+            val capture = BarcodeCapture.forDataCaptureContext(null, captureSettings)
+            val tracking = BarcodeTracking.forDataCaptureContext(null, BarcodeTrackingSettings())
 
             val trackingCameraSettings = BarcodeTracking.createRecommendedCameraSettings()
 
             val defaults = SerializableBarcodeDefaults(
                 barcodeCaptureDefaults = SerializableBarcodeCaptureDefaults(
                     barcodeCaptureOverlayDefaults = SerializableBarcodeCaptureOverlayDefaults(
-                        brushDefaults = SerializableBrushDefaults(brush = brush)
+                        brushDefaults = SerializableBrushDefaults(brush = brush),
+                        defaultStyle = BarcodeCaptureOverlay.newInstance(
+                            capture,
+                            null
+                        ).style.toJson(),
+                        styles = BarcodeCaptureOverlayStyle.values()
                     ),
                     barcodeCaptureSettingsDefaults = SerializableBarcodeCaptureSettingsDefaults(
                         codeDuplicateFilter = captureSettings.codeDuplicateFilter.asMillis()
@@ -353,7 +360,12 @@ class ScanditBarcodeNative : Plugin(),
                     trackingBasicOverlayDefaults = SerializableTrackingBasicOverlayDefaults(
                         defaultBrush = SerializableBrushDefaults(
                             brush = BarcodeTrackingBasicOverlay.DEFAULT_BRUSH
-                        )
+                        ),
+                        defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
+                            tracking,
+                            null
+                        ).style.toJson(),
+                        styles = BarcodeTrackingBasicOverlayStyle.values()
                     )
                 ),
                 compositeTypeDescriptions = JSONArray(
@@ -560,9 +572,9 @@ class ScanditBarcodeNative : Plugin(),
     //endregion
 
     private fun getAdvancedOverlayActionDoneData(): Triple<
-        BarcodeTrackingAdvancedOverlay,
-        BarcodeTrackingCallback,
-        BarcodeTrackingAdvancedOverlayCallback>? {
+            BarcodeTrackingAdvancedOverlay,
+            BarcodeTrackingCallback,
+            BarcodeTrackingAdvancedOverlayCallback>? {
         val overlay = barcodeTrackingAdvancedOverlayHandler.barcodeTrackingAdvancedOverlay
             ?: return null
         val barcodeTrackingCallback = barcodeCallbacks.barcodeTrackingCallback ?: return null

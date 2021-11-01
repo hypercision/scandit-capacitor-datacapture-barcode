@@ -8,19 +8,51 @@ package com.scandit.capacitor.datacapture.barcode.data.defaults
 
 import com.scandit.capacitor.datacapture.core.data.SerializableData
 import com.scandit.capacitor.datacapture.core.data.defaults.SerializableBrushDefaults
+import com.scandit.datacapture.barcode.tracking.capture.BarcodeTracking
+import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSettings
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlay
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlayStyle
+import com.scandit.datacapture.barcode.tracking.ui.overlay.toJson
 import org.json.JSONObject
 
 class SerializableTrackingBasicOverlayDefaults(
-    private val defaultBrush: SerializableBrushDefaults
+    private val defaultBrush: SerializableBrushDefaults,
+    private val defaultStyle: String,
+    private val styles: Array<BarcodeTrackingBasicOverlayStyle>
 ) : SerializableData {
 
     override fun toJson(): JSONObject = JSONObject(
-            mapOf(
-                    FIELD_BRUSH to defaultBrush.toJson()
-            )
+        mapOf(
+            FIELD_BRUSH to defaultBrush.toJson(),
+            FIELD_DEFAULT_STYLE to defaultStyle,
+            FIELD_STYLES to stylesMap(styles)
+        )
     )
+
+    private fun stylesMap(styles: Array<BarcodeTrackingBasicOverlayStyle>): JSONObject {
+        val map = mutableMapOf<String, Map<String, JSONObject>>()
+
+        styles.forEach {
+            map[it.toJson()] = mapOf(
+                FIELD_BRUSH to SerializableBrushDefaults(
+                    BarcodeTrackingBasicOverlay.newInstance(
+                        BarcodeTracking.forDataCaptureContext(
+                            null,
+                            BarcodeTrackingSettings()
+                        ),
+                        null,
+                        it
+                    ).brush
+                ).toJSONObject()
+            )
+        }
+
+        return JSONObject(map as Map<String, Map<String, JSONObject>>)
+    }
 
     companion object {
         private const val FIELD_BRUSH = "DefaultBrush"
+        private const val FIELD_DEFAULT_STYLE = "defaultStyle"
+        private const val FIELD_STYLES = "styles"
     }
 }

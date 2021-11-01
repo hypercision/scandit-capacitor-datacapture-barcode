@@ -20,6 +20,19 @@ export declare class TorchSwitchControl extends DefaultSerializeable implements 
     get torchOnPressedImage(): string | null;
     set torchOnPressedImage(torchOnPressedImage: string | null);
 }
+export declare class ZoomSwitchControl extends DefaultSerializeable implements Control {
+    private type;
+    private icon;
+    private view;
+    get zoomedOutImage(): string | null;
+    set zoomedOutImage(zoomedOutImage: string | null);
+    get zoomedInImage(): string | null;
+    set zoomedInImage(zoomedInImage: string | null);
+    get zoomedInPressedImage(): string | null;
+    set zoomedInPressedImage(zoomedInPressedImage: string | null);
+    get zoomedOutPressedImage(): string | null;
+    set zoomedOutPressedImage(zoomedOutPressedImage: string | null);
+}
 export interface DataCaptureViewListener {
     didChangeSize?(view: DataCaptureView, size: Size, orientation: Orientation): void;
 }

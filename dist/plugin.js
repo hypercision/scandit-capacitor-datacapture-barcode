@@ -1135,6 +1135,7 @@ var capacitorPlugin = (function (exports, core) {
             CompositeTypeDescriptions: json.CompositeTypeDescriptions.map(description => JSON.parse(description)),
             BarcodeCapture: {
                 BarcodeCaptureOverlay: {
+                    defaultStyle: json.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle,
                     DefaultBrush: {
                         fillColor: Color
                             .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.fillColor),
@@ -1142,6 +1143,19 @@ var capacitorPlugin = (function (exports, core) {
                             .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeColor),
                         strokeWidth: json.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeWidth,
                     },
+                    styles: Object
+                        .keys(json.BarcodeCapture.BarcodeCaptureOverlay.styles)
+                        .reduce((previousValue, currentValue) => {
+                        return Object.assign(Object.assign({}, previousValue), { [currentValue]: {
+                                DefaultBrush: {
+                                    fillColor: Color
+                                        .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.styles[currentValue].DefaultBrush.fillColor),
+                                    strokeColor: Color
+                                        .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.styles[currentValue].DefaultBrush.strokeColor),
+                                    strokeWidth: json.BarcodeCapture.BarcodeCaptureOverlay.styles[currentValue].DefaultBrush.strokeWidth,
+                                },
+                            } });
+                    }, {}),
                 },
                 BarcodeCaptureSettings: {
                     codeDuplicateFilter: json.BarcodeCapture.BarcodeCaptureSettings.codeDuplicateFilter,
@@ -1153,6 +1167,7 @@ var capacitorPlugin = (function (exports, core) {
                 RecommendedCameraSettings: CameraSettings
                     .fromJSON(json.BarcodeTracking.RecommendedCameraSettings),
                 BarcodeTrackingBasicOverlay: {
+                    defaultStyle: json.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle,
                     DefaultBrush: {
                         fillColor: Color
                             .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor),
@@ -1160,6 +1175,22 @@ var capacitorPlugin = (function (exports, core) {
                             .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor),
                         strokeWidth: json.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth,
                     },
+                    styles: Object
+                        .keys(json.BarcodeTracking.BarcodeTrackingBasicOverlay.styles)
+                        .reduce((previousValue, currentValue) => {
+                        return Object.assign(Object.assign({}, previousValue), { [currentValue]: {
+                                DefaultBrush: {
+                                    fillColor: Color
+                                        .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.
+                                        styles[currentValue].DefaultBrush.fillColor),
+                                    strokeColor: Color
+                                        .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.
+                                        styles[currentValue].DefaultBrush.strokeColor),
+                                    strokeWidth: json.BarcodeTracking.BarcodeTrackingBasicOverlay.
+                                        styles[currentValue].DefaultBrush.strokeWidth,
+                                },
+                            } });
+                    }, {}),
                 },
             },
         };
@@ -1434,6 +1465,11 @@ var capacitorPlugin = (function (exports, core) {
             return new BarcodeCaptureFeedback();
         }
     }
+    var BarcodeCaptureOverlayStyle;
+    (function (BarcodeCaptureOverlayStyle) {
+        BarcodeCaptureOverlayStyle["Frame"] = "frame";
+        BarcodeCaptureOverlayStyle["Legacy"] = "legacy";
+    })(BarcodeCaptureOverlayStyle || (BarcodeCaptureOverlayStyle = {}));
     class BarcodeCaptureOverlay extends DefaultSerializeable {
         constructor() {
             super();
@@ -1443,7 +1479,10 @@ var capacitorPlugin = (function (exports, core) {
             this._brush = BarcodeCaptureOverlay.defaultBrush;
         }
         static get defaultBrush() {
-            return new Brush(Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeWidth);
+            // tslint:disable-next-line:no-console
+            console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
+                'Use .brush to get the default for your selected style');
+            return new Brush(Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeWidth);
         }
         get brush() {
             return this._brush;
@@ -1466,12 +1505,20 @@ var capacitorPlugin = (function (exports, core) {
             this._shouldShowScanAreaGuides = shouldShow;
             this.barcodeCapture.didChange();
         }
+        get style() {
+            return this._style;
+        }
         static withBarcodeCapture(barcodeCapture) {
             return BarcodeCaptureOverlay.withBarcodeCaptureForView(barcodeCapture, null);
         }
         static withBarcodeCaptureForView(barcodeCapture, view) {
+            return this.withBarcodeCaptureForViewWithStyle(barcodeCapture, view, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle);
+        }
+        static withBarcodeCaptureForViewWithStyle(barcodeCapture, view, style) {
             const overlay = new BarcodeCaptureOverlay();
             overlay.barcodeCapture = barcodeCapture;
+            overlay._style = style;
+            overlay._brush = new Brush(Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeWidth);
             if (view) {
                 view.addOverlay(overlay);
             }
@@ -1491,6 +1538,9 @@ var capacitorPlugin = (function (exports, core) {
     __decorate$5([
         nameForSerialization('brush')
     ], BarcodeCaptureOverlay.prototype, "_brush", void 0);
+    __decorate$5([
+        nameForSerialization('style')
+    ], BarcodeCaptureOverlay.prototype, "_style", void 0);
 
     var BarcodeCaptureListenerEvent;
     (function (BarcodeCaptureListenerEvent) {
@@ -1977,16 +2027,25 @@ var capacitorPlugin = (function (exports, core) {
             return session;
         }
     }
+    var BarcodeTrackingBasicOverlayStyle;
+    (function (BarcodeTrackingBasicOverlayStyle) {
+        BarcodeTrackingBasicOverlayStyle["Frame"] = "frame";
+        BarcodeTrackingBasicOverlayStyle["Dot"] = "dot";
+        BarcodeTrackingBasicOverlayStyle["Legacy"] = "legacy";
+    })(BarcodeTrackingBasicOverlayStyle || (BarcodeTrackingBasicOverlayStyle = {}));
     class BarcodeTrackingBasicOverlay extends DefaultSerializeable {
         constructor() {
             super();
             this.type = 'barcodeTrackingBasic';
-            this._defaultBrush = new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth);
+            this._defaultBrush = new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
             this._shouldShowScanAreaGuides = false;
             this.listener = null;
         }
         static get defaultBrush() {
-            return new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth);
+            // tslint:disable-next-line:no-console
+            console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
+                'Use .brush to get the default for your selected style');
+            return new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
         }
         get brush() {
             return this._defaultBrush;
@@ -2008,12 +2067,23 @@ var capacitorPlugin = (function (exports, core) {
             this._shouldShowScanAreaGuides = shouldShow;
             this.barcodeTracking.didChange();
         }
+        get style() {
+            return this._style;
+        }
         static withBarcodeTracking(barcodeTracking) {
             return BarcodeTrackingBasicOverlay.withBarcodeTrackingForView(barcodeTracking, null);
         }
         static withBarcodeTrackingForView(barcodeTracking, view) {
+            return this.withBarcodeTrackingForViewWithStyle(barcodeTracking, view, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle);
+        }
+        static withBarcodeTrackingForViewWithStyle(barcodeTracking, view, style) {
             const overlay = new BarcodeTrackingBasicOverlay();
             overlay.barcodeTracking = barcodeTracking;
+            overlay._style = style;
+            overlay._defaultBrush = new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+                .DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+                .DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+                .DefaultBrush.strokeWidth);
             if (view) {
                 view.addOverlay(overlay);
             }
@@ -2048,6 +2118,9 @@ var capacitorPlugin = (function (exports, core) {
     __decorate$9([
         ignoreFromSerialization
     ], BarcodeTrackingBasicOverlay.prototype, "_proxy", void 0);
+    __decorate$9([
+        nameForSerialization('style')
+    ], BarcodeTrackingBasicOverlay.prototype, "_style", void 0);
     class BarcodeTrackingAdvancedOverlay extends DefaultSerializeable {
         constructor() {
             super();
@@ -2375,6 +2448,7 @@ var capacitorPlugin = (function (exports, core) {
                     BarcodeCaptureSettings,
                     BarcodeCaptureSession,
                     BarcodeCaptureOverlay,
+                    BarcodeCaptureOverlayStyle,
                     BarcodeCaptureFeedback,
                     BarcodeTracking,
                     BarcodeTrackingSession,
@@ -2382,6 +2456,7 @@ var capacitorPlugin = (function (exports, core) {
                     BarcodeTrackingSettings,
                     TrackedBarcode,
                     BarcodeTrackingBasicOverlay,
+                    BarcodeTrackingBasicOverlayStyle,
                     BarcodeTrackingAdvancedOverlay,
                     EncodingRange,
                     LocalizedOnlyBarcode,

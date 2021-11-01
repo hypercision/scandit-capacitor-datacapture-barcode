@@ -10,7 +10,7 @@ import com.scandit.capacitor.datacapture.core.data.SerializableData
 import com.scandit.capacitor.datacapture.core.data.defaults.SerializableCameraSettingsDefault
 import org.json.JSONObject
 
-data class SerializableBarcodeCaptureDefaults(
+class SerializableBarcodeCaptureDefaults(
     private val barcodeCaptureOverlayDefaults: SerializableBarcodeCaptureOverlayDefaults,
     private val barcodeCaptureSettingsDefaults: SerializableBarcodeCaptureSettingsDefaults,
     private val recommendedCameraSettings: SerializableCameraSettingsDefault

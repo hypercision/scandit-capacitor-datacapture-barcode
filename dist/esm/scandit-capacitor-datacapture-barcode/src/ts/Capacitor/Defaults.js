@@ -13,6 +13,7 @@ export const defaultsFromJSON = (json) => {
         CompositeTypeDescriptions: json.CompositeTypeDescriptions.map(description => JSON.parse(description)),
         BarcodeCapture: {
             BarcodeCaptureOverlay: {
+                defaultStyle: json.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle,
                 DefaultBrush: {
                     fillColor: Color
                         .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.fillColor),
@@ -20,6 +21,19 @@ export const defaultsFromJSON = (json) => {
                         .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeColor),
                     strokeWidth: json.BarcodeCapture.BarcodeCaptureOverlay.DefaultBrush.strokeWidth,
                 },
+                styles: Object
+                    .keys(json.BarcodeCapture.BarcodeCaptureOverlay.styles)
+                    .reduce((previousValue, currentValue) => {
+                    return Object.assign(Object.assign({}, previousValue), { [currentValue]: {
+                            DefaultBrush: {
+                                fillColor: Color
+                                    .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.styles[currentValue].DefaultBrush.fillColor),
+                                strokeColor: Color
+                                    .fromJSON(json.BarcodeCapture.BarcodeCaptureOverlay.styles[currentValue].DefaultBrush.strokeColor),
+                                strokeWidth: json.BarcodeCapture.BarcodeCaptureOverlay.styles[currentValue].DefaultBrush.strokeWidth,
+                            },
+                        } });
+                }, {}),
             },
             BarcodeCaptureSettings: {
                 codeDuplicateFilter: json.BarcodeCapture.BarcodeCaptureSettings.codeDuplicateFilter,
@@ -31,6 +45,7 @@ export const defaultsFromJSON = (json) => {
             RecommendedCameraSettings: CameraSettings
                 .fromJSON(json.BarcodeTracking.RecommendedCameraSettings),
             BarcodeTrackingBasicOverlay: {
+                defaultStyle: json.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle,
                 DefaultBrush: {
                     fillColor: Color
                         .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor),
@@ -38,6 +53,22 @@ export const defaultsFromJSON = (json) => {
                         .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor),
                     strokeWidth: json.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth,
                 },
+                styles: Object
+                    .keys(json.BarcodeTracking.BarcodeTrackingBasicOverlay.styles)
+                    .reduce((previousValue, currentValue) => {
+                    return Object.assign(Object.assign({}, previousValue), { [currentValue]: {
+                            DefaultBrush: {
+                                fillColor: Color
+                                    .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.
+                                    styles[currentValue].DefaultBrush.fillColor),
+                                strokeColor: Color
+                                    .fromJSON(json.BarcodeTracking.BarcodeTrackingBasicOverlay.
+                                    styles[currentValue].DefaultBrush.strokeColor),
+                                strokeWidth: json.BarcodeTracking.BarcodeTrackingBasicOverlay.
+                                    styles[currentValue].DefaultBrush.strokeWidth,
+                            },
+                        } });
+                }, {}),
             },
         },
     };

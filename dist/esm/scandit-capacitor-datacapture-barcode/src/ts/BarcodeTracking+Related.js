@@ -45,16 +45,25 @@ export class BarcodeTrackingSession {
         return session;
     }
 }
+export var BarcodeTrackingBasicOverlayStyle;
+(function (BarcodeTrackingBasicOverlayStyle) {
+    BarcodeTrackingBasicOverlayStyle["Frame"] = "frame";
+    BarcodeTrackingBasicOverlayStyle["Dot"] = "dot";
+    BarcodeTrackingBasicOverlayStyle["Legacy"] = "legacy";
+})(BarcodeTrackingBasicOverlayStyle || (BarcodeTrackingBasicOverlayStyle = {}));
 export class BarcodeTrackingBasicOverlay extends DefaultSerializeable {
     constructor() {
         super();
         this.type = 'barcodeTrackingBasic';
-        this._defaultBrush = new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth);
+        this._defaultBrush = new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
         this._shouldShowScanAreaGuides = false;
         this.listener = null;
     }
     static get defaultBrush() {
-        return new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.DefaultBrush.strokeWidth);
+        // tslint:disable-next-line:no-console
+        console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
+            'Use .brush to get the default for your selected style');
+        return new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
     }
     get brush() {
         return this._defaultBrush;
@@ -76,12 +85,23 @@ export class BarcodeTrackingBasicOverlay extends DefaultSerializeable {
         this._shouldShowScanAreaGuides = shouldShow;
         this.barcodeTracking.didChange();
     }
+    get style() {
+        return this._style;
+    }
     static withBarcodeTracking(barcodeTracking) {
         return BarcodeTrackingBasicOverlay.withBarcodeTrackingForView(barcodeTracking, null);
     }
     static withBarcodeTrackingForView(barcodeTracking, view) {
+        return this.withBarcodeTrackingForViewWithStyle(barcodeTracking, view, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle);
+    }
+    static withBarcodeTrackingForViewWithStyle(barcodeTracking, view, style) {
         const overlay = new BarcodeTrackingBasicOverlay();
         overlay.barcodeTracking = barcodeTracking;
+        overlay._style = style;
+        overlay._defaultBrush = new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+            .DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+            .DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+            .DefaultBrush.strokeWidth);
         if (view) {
             view.addOverlay(overlay);
         }
@@ -116,6 +136,9 @@ __decorate([
 __decorate([
     ignoreFromSerialization
 ], BarcodeTrackingBasicOverlay.prototype, "_proxy", void 0);
+__decorate([
+    nameForSerialization('style')
+], BarcodeTrackingBasicOverlay.prototype, "_style", void 0);
 export class BarcodeTrackingAdvancedOverlay extends DefaultSerializeable {
     constructor() {
         super();

@@ -42,6 +42,11 @@ export interface BarcodeTrackingBasicOverlayListener {
 export interface PrivateBarcodeTrackingBasicOverlay {
     toJSON(): object;
 }
+export declare enum BarcodeTrackingBasicOverlayStyle {
+    Frame = "frame",
+    Dot = "dot",
+    Legacy = "legacy"
+}
 export declare class BarcodeTrackingBasicOverlay extends DefaultSerializeable implements DataCaptureOverlay {
     private type;
     private barcodeTracking;
@@ -55,8 +60,11 @@ export declare class BarcodeTrackingBasicOverlay extends DefaultSerializeable im
     private get proxy();
     get shouldShowScanAreaGuides(): boolean;
     set shouldShowScanAreaGuides(shouldShow: boolean);
+    private _style;
+    get style(): BarcodeTrackingBasicOverlayStyle;
     static withBarcodeTracking(barcodeTracking: BarcodeTracking): BarcodeTrackingBasicOverlay;
     static withBarcodeTrackingForView(barcodeTracking: BarcodeTracking, view: Optional<DataCaptureView>): BarcodeTrackingBasicOverlay;
+    static withBarcodeTrackingForViewWithStyle(barcodeTracking: BarcodeTracking, view: DataCaptureView | null, style: BarcodeTrackingBasicOverlayStyle): BarcodeTrackingBasicOverlay;
     private constructor();
     setBrushForTrackedBarcode(brush: Brush, trackedBarcode: TrackedBarcode): Promise<void>;
     clearTrackedBarcodeBrushes(): Promise<void>;

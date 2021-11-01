@@ -29,6 +29,10 @@ export declare class BarcodeCaptureFeedback extends DefaultSerializeable {
     success: Feedback;
     static get default(): BarcodeCaptureFeedback;
 }
+export declare enum BarcodeCaptureOverlayStyle {
+    Frame = "frame",
+    Legacy = "legacy"
+}
 export declare class BarcodeCaptureOverlay extends DefaultSerializeable implements DataCaptureOverlay {
     private type;
     private barcodeCapture;
@@ -36,13 +40,16 @@ export declare class BarcodeCaptureOverlay extends DefaultSerializeable implemen
     private _viewfinder;
     static get defaultBrush(): Brush;
     private _brush;
+    private _style;
     get brush(): Brush;
     set brush(newBrush: Brush);
     get viewfinder(): Optional<Viewfinder>;
     set viewfinder(newViewfinder: Optional<Viewfinder>);
     get shouldShowScanAreaGuides(): boolean;
     set shouldShowScanAreaGuides(shouldShow: boolean);
+    get style(): BarcodeCaptureOverlayStyle;
     static withBarcodeCapture(barcodeCapture: BarcodeCapture): BarcodeCaptureOverlay;
     static withBarcodeCaptureForView(barcodeCapture: BarcodeCapture, view: Optional<DataCaptureView>): BarcodeCaptureOverlay;
+    static withBarcodeCaptureForViewWithStyle(barcodeCapture: BarcodeCapture, view: DataCaptureView | null, style: BarcodeCaptureOverlayStyle): BarcodeCaptureOverlay;
     private constructor();
 }
