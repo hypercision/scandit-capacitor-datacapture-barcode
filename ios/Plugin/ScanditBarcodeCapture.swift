@@ -46,6 +46,8 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
     var lastTrackedBarcodes: [NSNumber: TrackedBarcode]?
     var lastFrameSequenceId: Int?
 
+    var offset: [Int: PointWithUnit] = [:]
+
     override func load() {
         ScanditCaptureCore.dataCapturePlugins.append(self as DataCapturePlugin)
     }
@@ -214,10 +216,12 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
 
         guard let offsetString = json.offset, let offset = PointWithUnit(JSONString: offsetString) else {
             call.reject(CommandError.invalidJSON.toJSONString())
+            self.offset[trackedBarcode.identifier] = PointWithUnit.zero
             return
         }
 
         self.barcodeTrackingAdvancedOverlay?.setOffset(offset, for: trackedBarcode)
+        self.offset[trackedBarcode.identifier] = offset
         call.resolve()
     }
 
@@ -317,11 +321,12 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
             }
             overlay.setAnchor(anchor, for: trackedBarcode)
         case .offsetForTrackedBarcode:
-            guard let offset = callbackResult.offset else {
+            guard let offset = callbackResult.offset ?? self.offset[trackedBarcode.identifier] else {
                 /// The JS listener didn't return a valid offset,
                 /// e.g. it didn't implement the relevant listener function.
                 return
             }
+            self.offset.removeValue(forKey: trackedBarcode.identifier)
             overlay.setOffset(offset, for: trackedBarcode)
         default:
             return
