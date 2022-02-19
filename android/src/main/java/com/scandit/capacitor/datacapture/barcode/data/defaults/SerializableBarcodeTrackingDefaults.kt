@@ -16,10 +16,10 @@ class SerializableBarcodeTrackingDefaults(
 ) : SerializableData {
 
     override fun toJson(): JSONObject = JSONObject(
-            mapOf(
-                    FIELD_RECOMMENDED_CAMERA_SETTINGS to recommendedCameraSettings.toJson(),
-                    FIELD_TRACKING_BASIC_OVERLAY to trackingBasicOverlayDefaults.toJson()
-            )
+        mapOf(
+            FIELD_RECOMMENDED_CAMERA_SETTINGS to recommendedCameraSettings.toJson(),
+            FIELD_TRACKING_BASIC_OVERLAY to trackingBasicOverlayDefaults.toJson()
+        )
     )
 
     companion object {

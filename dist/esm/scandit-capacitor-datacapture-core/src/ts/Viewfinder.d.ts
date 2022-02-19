@@ -43,6 +43,7 @@ export declare class RectangularViewfinder extends DefaultSerializeable implemen
     private readonly _style;
     private readonly _lineStyle;
     private _dimming;
+    private _disabledDimming;
     private _animation;
     private _sizeWithUnitAndAspect;
     color: Color;
@@ -54,6 +55,8 @@ export declare class RectangularViewfinder extends DefaultSerializeable implemen
     get lineStyle(): RectangularViewfinderLineStyle;
     get dimming(): number;
     set dimming(value: number);
+    get disabledDimming(): number;
+    set disabledDimming(value: number);
     get animation(): RectangularViewfinderAnimation | null;
     set animation(animation: RectangularViewfinderAnimation | null);
     setSize(size: SizeWithUnit): void;

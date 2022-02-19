@@ -26,10 +26,10 @@ import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvanc
 import com.scandit.datacapture.core.common.geometry.Anchor
 import com.scandit.datacapture.core.common.geometry.MeasureUnit
 import com.scandit.datacapture.core.common.geometry.PointWithUnit
+import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-import org.json.JSONObject
 
 class BarcodeTrackingAdvancedOverlayCallback(
     private val plugin: CapacitorPlugin,
@@ -50,6 +50,8 @@ class BarcodeTrackingAdvancedOverlayCallback(
     private val latestViewData = AtomicReference<SerializableFinishAdvancedOverlayViewData?>()
     private val latestOffsetData = AtomicReference<SerializableFinishAdvancedOverlayOffsetData?>()
     private val latestAnchorData = AtomicReference<SerializableFinishAdvancedOverlayAnchorData?>()
+
+    private val offsetsForTrackedBarcodes: MutableMap<Int, PointWithUnit> = mutableMapOf()
 
     fun viewForTrackedBarcode(
         overlay: BarcodeTrackingAdvancedOverlay,
@@ -244,9 +246,9 @@ class BarcodeTrackingAdvancedOverlayCallback(
         offset: PointWithUnit?,
         overlay: BarcodeTrackingAdvancedOverlay
     ) {
-        overlay.setOffsetForTrackedBarcode(
-            trackedBarcode, offset ?: PointWithUnit(0f, 0f, MeasureUnit.PIXEL)
-        )
+        val offsetValue = offset ?: PointWithUnit(0f, 0f, MeasureUnit.PIXEL)
+        offsetsForTrackedBarcodes[trackedBarcode.identifier] = offsetValue
+        overlay.setOffsetForTrackedBarcode(trackedBarcode, offsetValue)
     }
 
     fun setAnchorForTrackedBarcode(
@@ -330,8 +332,14 @@ class BarcodeTrackingAdvancedOverlayCallback(
     ) {
         latestOffsetData.get()?.let { latestOffset ->
             setOffsetForTrackedBarcode(
-                trackedBarcode, latestOffset.offset, overlay, switchToOverlayWorker = false
+                trackedBarcode,
+                latestOffset.offset
+                    ?: offsetsForTrackedBarcodes[trackedBarcode.identifier]
+                    ?: PointWithUnit(0f, 0f, MeasureUnit.PIXEL),
+                overlay,
+                switchToOverlayWorker = false
             )
+            offsetsForTrackedBarcodes.remove(trackedBarcode.identifier)
             latestOffsetData.set(null)
         }
         // If we don't have the latestData, it means no listener is set from js, so we do nothing.

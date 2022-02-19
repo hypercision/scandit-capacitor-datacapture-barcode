@@ -14,10 +14,10 @@ import com.scandit.capacitor.datacapture.core.utils.Callback
 import com.scandit.datacapture.barcode.capture.BarcodeCapture
 import com.scandit.datacapture.barcode.capture.BarcodeCaptureSession
 import com.scandit.datacapture.core.data.FrameData
+import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-import org.json.JSONObject
 
 class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
 
@@ -29,7 +29,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
     fun onSessionUpdated(
         barcodeCapture: BarcodeCapture,
         session: BarcodeCaptureSession,
-        frameData: FrameData
+        @Suppress("UNUSED_PARAMETER") frameData: FrameData
     ) {
         if (disposed.get()) return
 
@@ -41,9 +41,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
                         mapOf(
                             NAME to BarcodeCaptureActionFactory.SEND_SESSION_UPDATED_EVENT,
                             FIELD_SESSION to session.toJson(),
-                            FIELD_FRAME_DATA to serializeFrameData(
-                                frameData
-                            ).toString()
+                            FIELD_FRAME_DATA to serializeFrameData().toString()
                         )
                     )
                 )
@@ -56,7 +54,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
     fun onBarcodeScanned(
         barcodeCapture: BarcodeCapture,
         session: BarcodeCaptureSession,
-        frameData: FrameData
+        @Suppress("UNUSED_PARAMETER") frameData: FrameData
     ) {
         if (disposed.get()) return
 
@@ -70,7 +68,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
                             FIELD_SESSION to session.toJson(),
                             // TODO [SDC-2001] -> add frame data serialization
                             FIELD_FRAME_DATA to
-                                serializeFrameData(frameData).toString()
+                                serializeFrameData().toString()
                         )
                     )
                 )
@@ -109,7 +107,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
         }
     }
 
-    private fun serializeFrameData(frameData: FrameData): JSONObject = JSONObject(
+    private fun serializeFrameData(): JSONObject = JSONObject(
         mapOf(
             FIELD_FRAME_DATA to JSONObject()
         )

@@ -16,13 +16,13 @@ class SerializableBrushAndTrackedBarcode(
 ) {
 
     constructor(jsonObject: JSONObject) : this(
-            brush = if (jsonObject.has(FIELD_BRUSH)) {
-                BrushDeserializer.fromJson(jsonObject.getString(FIELD_BRUSH))
-            } else null,
-            trackedBarcodeId = jsonObject.getInt(FIELD_TRACKED_BARCODE_ID),
-            sessionFrameSequenceId = if (jsonObject.has(FIELD_FRAME_SEQUENCE_ID)) {
-                jsonObject.getLong(FIELD_FRAME_SEQUENCE_ID)
-            } else null
+        brush = if (jsonObject.has(FIELD_BRUSH)) {
+            BrushDeserializer.fromJson(jsonObject.getString(FIELD_BRUSH))
+        } else null,
+        trackedBarcodeId = jsonObject.getInt(FIELD_TRACKED_BARCODE_ID),
+        sessionFrameSequenceId = if (jsonObject.has(FIELD_FRAME_SEQUENCE_ID)) {
+            jsonObject.getLong(FIELD_FRAME_SEQUENCE_ID)
+        } else null
     )
 
     companion object {

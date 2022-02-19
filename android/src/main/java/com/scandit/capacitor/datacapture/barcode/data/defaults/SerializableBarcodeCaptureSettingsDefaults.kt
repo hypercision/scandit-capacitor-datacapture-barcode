@@ -14,9 +14,9 @@ data class SerializableBarcodeCaptureSettingsDefaults(
 ) : SerializableData {
 
     override fun toJson(): JSONObject = JSONObject(
-            mapOf(
-                    FIELD_CODE_DUPLICATE_FILTER to codeDuplicateFilter
-            )
+        mapOf(
+            FIELD_CODE_DUPLICATE_FILTER to codeDuplicateFilter
+        )
     )
 
     companion object {

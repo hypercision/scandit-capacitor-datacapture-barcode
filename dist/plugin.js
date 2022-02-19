@@ -964,6 +964,7 @@ var capacitorPlugin = (function (exports, core) {
                     style: viewfinder.style,
                     lineStyle: viewfinder.lineStyle,
                     dimming: viewfinder.dimming,
+                    disabledDimming: viewfinder.disabledDimming,
                     animation: RectangularViewfinderAnimation
                         .fromJSON(viewfinder.animation ? JSON.parse(viewfinder.animation) : null),
                 };
@@ -1372,6 +1373,8 @@ var capacitorPlugin = (function (exports, core) {
             this._style = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].style;
             this._lineStyle = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].lineStyle;
             this._dimming = parseFloat(Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].dimming);
+            this._disabledDimming =
+                parseFloat(Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].disabledDimming);
             this._animation = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].animation;
             this.color = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].color;
             this._sizeWithUnitAndAspect = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].size;
@@ -1393,6 +1396,12 @@ var capacitorPlugin = (function (exports, core) {
         }
         set dimming(value) {
             this._dimming = value;
+        }
+        get disabledDimming() {
+            return this._disabledDimming;
+        }
+        set disabledDimming(value) {
+            this._disabledDimming = value;
         }
         get animation() {
             return this._animation;
@@ -1422,6 +1431,9 @@ var capacitorPlugin = (function (exports, core) {
     __decorate$4([
         nameForSerialization('dimming')
     ], RectangularViewfinder.prototype, "_dimming", void 0);
+    __decorate$4([
+        nameForSerialization('disabledDimming')
+    ], RectangularViewfinder.prototype, "_disabledDimming", void 0);
     __decorate$4([
         nameForSerialization('animation'),
         ignoreFromSerialization

@@ -14,33 +14,33 @@ class FinishCallbackHelper {
 
     fun isFinishBarcodeCaptureModeCallback(data: JSONObject): Boolean {
         return checkFinishCallbackIdFieldForValue(
-                data, BarcodeCaptureActionFactory.SEND_BARCODE_SCANNED_EVENT
+            data, BarcodeCaptureActionFactory.SEND_BARCODE_SCANNED_EVENT
         ) || checkFinishCallbackIdFieldForValue(
-                data, BarcodeCaptureActionFactory.SEND_SESSION_UPDATED_EVENT
+            data, BarcodeCaptureActionFactory.SEND_SESSION_UPDATED_EVENT
         )
     }
 
     fun isFinishBarcodeTrackingModeCallback(data: JSONObject): Boolean {
         return checkFinishCallbackIdFieldForValue(
-                data, BarcodeCaptureActionFactory.SEND_TRACKING_SESSION_UPDATED_EVENT
+            data, BarcodeCaptureActionFactory.SEND_TRACKING_SESSION_UPDATED_EVENT
         )
     }
 
     fun isFinishBarcodeTrackingBasicOverlayCallback(data: JSONObject): Boolean {
         return checkFinishCallbackIdFieldForValue(
-                data, BarcodeCaptureActionFactory.SEND_BRUSH_FOR_TRACKED_BARCODE
+            data, BarcodeCaptureActionFactory.SEND_BRUSH_FOR_TRACKED_BARCODE
         )
     }
 
     fun isFinishBarcodeTrackingAdvancedOverlayViewCallback(data: JSONObject): Boolean {
         return checkFinishCallbackIdFieldForValue(
-                data, BarcodeCaptureActionFactory.SEND_VIEW_FOR_TRACKED_BARCODE
+            data, BarcodeCaptureActionFactory.SEND_VIEW_FOR_TRACKED_BARCODE
         )
     }
 
     fun isFinishBarcodeTrackingAdvancedOverlayOffsetCallback(data: JSONObject): Boolean {
         return checkFinishCallbackIdFieldForValue(
-                data, BarcodeCaptureActionFactory.SEND_OFFSET_FOR_TRACKED_BARCODE
+            data, BarcodeCaptureActionFactory.SEND_OFFSET_FOR_TRACKED_BARCODE
         )
     }
 
@@ -58,6 +58,6 @@ class FinishCallbackHelper {
 
     private fun checkFinishCallbackIdFieldForValue(data: JSONObject, value: String): Boolean {
         return data.has(SerializableCallbackAction.FIELD_FINISH_CALLBACK_ID) &&
-                data[SerializableCallbackAction.FIELD_FINISH_CALLBACK_ID] == value
+            data[SerializableCallbackAction.FIELD_FINISH_CALLBACK_ID] == value
     }
 }

@@ -83,7 +83,8 @@ import org.json.JSONObject
         Manifest.permission.CAMERA
     ]
 )
-class ScanditBarcodeNative : Plugin(),
+class ScanditBarcodeNative :
+    Plugin(),
     CapacitorPlugin,
     ActionFinishHandler,
     BarcodeCaptureListener,
@@ -309,10 +310,8 @@ class ScanditBarcodeNative : Plugin(),
                 )
             }
         } catch (e: JSONException) {
-            e.printStackTrace()
             onJsonParseError(e, call)
         } catch (e: RuntimeException) { // TODO [SDC-1851] - fine-catch deserializer exceptions
-            e.printStackTrace()
             onJsonParseError(e, call)
         }
     }
@@ -374,7 +373,6 @@ class ScanditBarcodeNative : Plugin(),
             )
             call.resolve(JSObject.fromJSONObject(defaults.toJson()))
         } catch (e: JSONException) {
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         }
     }
@@ -447,10 +445,8 @@ class ScanditBarcodeNative : Plugin(),
                 call.resolve()
             }
         } catch (e: JSONException) {
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         } catch (e: RuntimeException) { // TODO [SDC-1851] - fine-catch deserializer exceptions
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         }
     }
@@ -490,10 +486,8 @@ class ScanditBarcodeNative : Plugin(),
                 )
             }
         } catch (e: JSONException) {
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         } catch (e: RuntimeException) { // TODO [SDC-1851] - fine-catch deserializer exceptions
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         }
 
@@ -520,10 +514,8 @@ class ScanditBarcodeNative : Plugin(),
                 )
             }
         } catch (e: JSONException) {
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         } catch (e: RuntimeException) { // TODO [SDC-1851] - fine-catch deserializer exceptions
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         }
 
@@ -549,10 +541,8 @@ class ScanditBarcodeNative : Plugin(),
                 )
             }
         } catch (e: JSONException) {
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         } catch (e: RuntimeException) { // TODO [SDC-1851] - fine-catch deserializer exceptions
-            e.printStackTrace()
             call.reject(JsonParseError(e.message).toString())
         }
 
@@ -572,9 +562,9 @@ class ScanditBarcodeNative : Plugin(),
     //endregion
 
     private fun getAdvancedOverlayActionDoneData(): Triple<
-            BarcodeTrackingAdvancedOverlay,
-            BarcodeTrackingCallback,
-            BarcodeTrackingAdvancedOverlayCallback>? {
+        BarcodeTrackingAdvancedOverlay,
+        BarcodeTrackingCallback,
+        BarcodeTrackingAdvancedOverlayCallback>? {
         val overlay = barcodeTrackingAdvancedOverlayHandler.barcodeTrackingAdvancedOverlay
             ?: return null
         val barcodeTrackingCallback = barcodeCallbacks.barcodeTrackingCallback ?: return null

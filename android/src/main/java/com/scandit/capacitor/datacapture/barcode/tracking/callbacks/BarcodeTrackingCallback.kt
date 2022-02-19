@@ -15,10 +15,10 @@ import com.scandit.datacapture.barcode.tracking.capture.BarcodeTracking
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSession
 import com.scandit.datacapture.barcode.tracking.data.TrackedBarcode
 import com.scandit.datacapture.core.data.FrameData
+import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-import org.json.JSONObject
 
 class BarcodeTrackingCallback(private val plugin: CapacitorPlugin) : Callback() {
 
@@ -31,7 +31,7 @@ class BarcodeTrackingCallback(private val plugin: CapacitorPlugin) : Callback() 
     fun onSessionUpdated(
         barcodeTracking: BarcodeTracking,
         session: BarcodeTrackingSession,
-        frameData: FrameData
+        @Suppress("UNUSED_PARAMETER") frameData: FrameData
     ) {
         if (disposed.get()) return
 

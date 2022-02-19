@@ -16,8 +16,8 @@ data class SerializableSymbologySettingsDefaults(
 ) : SerializableData {
 
     override fun toJson(): JSONObject = JSONObject(
-            SymbologyDescription.all().associate {
-                it.identifier to barcodeCaptureSettings.getSymbologySettings(it.symbology).toJson()
-            }
+        SymbologyDescription.all().associate {
+            it.identifier to barcodeCaptureSettings.getSymbologySettings(it.symbology).toJson()
+        }
     )
 }

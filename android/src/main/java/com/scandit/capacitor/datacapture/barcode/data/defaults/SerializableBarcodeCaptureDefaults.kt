@@ -17,11 +17,11 @@ class SerializableBarcodeCaptureDefaults(
 ) : SerializableData {
 
     override fun toJson(): JSONObject = JSONObject(
-            mapOf(
-                    FIELD_OVERLAY_DEFAULTS to barcodeCaptureOverlayDefaults.toJson(),
-                    FIELD_CAPTURE_SETTINGS_DEFAULTS to barcodeCaptureSettingsDefaults.toJson(),
-                    FIELD_RECOMMENDED_CAMERA_SETTINGS to recommendedCameraSettings.toJson()
-            )
+        mapOf(
+            FIELD_OVERLAY_DEFAULTS to barcodeCaptureOverlayDefaults.toJson(),
+            FIELD_CAPTURE_SETTINGS_DEFAULTS to barcodeCaptureSettingsDefaults.toJson(),
+            FIELD_RECOMMENDED_CAMERA_SETTINGS to recommendedCameraSettings.toJson()
+        )
     )
 
     companion object {

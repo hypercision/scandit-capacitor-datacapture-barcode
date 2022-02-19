@@ -16,10 +16,10 @@ import com.scandit.capacitor.datacapture.core.workers.Worker
 import com.scandit.datacapture.barcode.tracking.data.TrackedBarcode
 import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlay
 import com.scandit.datacapture.core.ui.style.Brush
+import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
-import org.json.JSONObject
 
 class BarcodeTrackingBasicOverlayCallback(
     private val plugin: CapacitorPlugin,
@@ -72,7 +72,7 @@ class BarcodeTrackingBasicOverlayCallback(
     }
 
     fun onTrackedBarcodeTapped(
-        overlay: BarcodeTrackingBasicOverlay,
+        @Suppress("UNUSED_PARAMETER") overlay: BarcodeTrackingBasicOverlay,
         trackedBarcode: TrackedBarcode,
         switchToOverlayWorker: Boolean
     ) {
@@ -80,15 +80,14 @@ class BarcodeTrackingBasicOverlayCallback(
 
         if (switchToOverlayWorker) {
             overlayListenerWorker.post {
-                onTrackedBarcodeTapped(overlay, trackedBarcode)
+                onTrackedBarcodeTapped(trackedBarcode)
             }
         } else {
-            onTrackedBarcodeTapped(overlay, trackedBarcode)
+            onTrackedBarcodeTapped(trackedBarcode)
         }
     }
 
     private fun onTrackedBarcodeTapped(
-        overlay: BarcodeTrackingBasicOverlay,
         trackedBarcode: TrackedBarcode
     ) {
         plugin.notify(
