@@ -24,6 +24,11 @@ interface ActionFinishHandler {
         call: PluginCall
     )
 
+    fun onFinishBarcodeSelectionMode(
+        finishData: SerializableFinishModeCallbackData?,
+        call: PluginCall
+    )
+
     fun onFinishBasicOverlay(
         finishData: SerializableFinishBasicOverlayCallbackData?,
         call: PluginCall

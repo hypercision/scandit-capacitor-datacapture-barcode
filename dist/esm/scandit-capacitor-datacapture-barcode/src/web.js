@@ -11,8 +11,11 @@ import { WebPlugin } from '@capacitor/core';
 import { getDefaults } from './ts/Capacitor/Capacitor';
 import { Barcode, Checksum, CompositeFlag, CompositeType, EncodingRange, LocalizedOnlyBarcode, Range, Symbology, SymbologyDescription, SymbologySettings, TrackedBarcode, } from './ts/Barcode';
 import { BarcodeCapture, } from './ts/BarcodeCapture';
+import { BarcodeSelection, } from './ts/BarcodeSelection';
 import { BarcodeCaptureSettings, } from './ts/BarcodeCaptureSettings';
+import { BarcodeSelectionSettings, } from './ts/BarcodeSelectionSettings';
 import { BarcodeCaptureFeedback, BarcodeCaptureOverlay, BarcodeCaptureOverlayStyle, BarcodeCaptureSession, } from './ts/BarcodeCapture+Related';
+import { BarcodeSelectionAimerSelection, BarcodeSelectionAutoSelectionStrategy, BarcodeSelectionBasicOverlay, BarcodeSelectionBasicOverlayStyle, BarcodeSelectionFeedback, BarcodeSelectionFreezeBehavior, BarcodeSelectionManualSelectionStrategy, BarcodeSelectionSession, BarcodeSelectionTapBehavior, BarcodeSelectionTapSelection, } from './ts/BarcodeSelection+Related';
 import { BarcodeTracking, } from './ts/BarcodeTracking';
 import { BarcodeTrackingScenario, BarcodeTrackingSettings, } from './ts/BarcodeTrackingSettings';
 import { BarcodeTrackingAdvancedOverlay, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingSession, } from './ts/BarcodeTracking+Related';
@@ -40,6 +43,18 @@ export class ScanditBarcodePlugin extends WebPlugin {
                 BarcodeCaptureOverlay,
                 BarcodeCaptureOverlayStyle,
                 BarcodeCaptureFeedback,
+                BarcodeSelection,
+                BarcodeSelectionSettings,
+                BarcodeSelectionAimerSelection,
+                BarcodeSelectionAutoSelectionStrategy,
+                BarcodeSelectionBasicOverlay,
+                BarcodeSelectionBasicOverlayStyle,
+                BarcodeSelectionFeedback,
+                BarcodeSelectionFreezeBehavior,
+                BarcodeSelectionManualSelectionStrategy,
+                BarcodeSelectionSession,
+                BarcodeSelectionTapBehavior,
+                BarcodeSelectionTapSelection,
                 BarcodeTracking,
                 BarcodeTrackingSession,
                 BarcodeTrackingScenario,

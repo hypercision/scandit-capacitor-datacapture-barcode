@@ -15,9 +15,11 @@ import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
 import com.scandit.capacitor.datacapture.barcode.callbacks.BarcodeCallbackContainer
 import com.scandit.capacitor.datacapture.barcode.callbacks.BarcodeCaptureCallback
+import com.scandit.capacitor.datacapture.barcode.callbacks.BarcodeSelectionCallback
 import com.scandit.capacitor.datacapture.barcode.data.SerializableAdvancedOverlayAnchorActionData
 import com.scandit.capacitor.datacapture.barcode.data.SerializableAdvancedOverlayOffsetActionData
 import com.scandit.capacitor.datacapture.barcode.data.SerializableAdvancedOverlayViewActionData
+import com.scandit.capacitor.datacapture.barcode.data.SerializableBarcodeSelectionSessionData
 import com.scandit.capacitor.datacapture.barcode.data.SerializableBrushAndTrackedBarcode
 import com.scandit.capacitor.datacapture.barcode.data.SerializableFinishAdvancedOverlayAnchorData
 import com.scandit.capacitor.datacapture.barcode.data.SerializableFinishAdvancedOverlayOffsetData
@@ -27,12 +29,14 @@ import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableBarco
 import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableBarcodeCaptureOverlayDefaults
 import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableBarcodeCaptureSettingsDefaults
 import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableBarcodeDefaults
+import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableBarcodeSelectionDefaults
 import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableBarcodeTrackingDefaults
 import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableSymbologySettingsDefaults
 import com.scandit.capacitor.datacapture.barcode.data.defaults.SerializableTrackingBasicOverlayDefaults
 import com.scandit.capacitor.datacapture.barcode.errors.ErrorTrackedBarcodeNotFound
 import com.scandit.capacitor.datacapture.barcode.handlers.ActionFinishHandler
 import com.scandit.capacitor.datacapture.barcode.handlers.BarcodeCaptureHandler
+import com.scandit.capacitor.datacapture.barcode.handlers.BarcodeSelectionHandler
 import com.scandit.capacitor.datacapture.barcode.tracking.callbacks.BarcodeTrackingAdvancedOverlayCallback
 import com.scandit.capacitor.datacapture.barcode.tracking.callbacks.BarcodeTrackingBasicOverlayCallback
 import com.scandit.capacitor.datacapture.barcode.tracking.callbacks.BarcodeTrackingCallback
@@ -56,6 +60,7 @@ import com.scandit.datacapture.barcode.capture.BarcodeCaptureSession
 import com.scandit.datacapture.barcode.capture.BarcodeCaptureSettings
 import com.scandit.datacapture.barcode.data.CompositeTypeDescription
 import com.scandit.datacapture.barcode.data.SymbologyDescription
+import com.scandit.datacapture.barcode.selection.capture.*
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTracking
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingDeserializer
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingDeserializerListener
@@ -89,10 +94,12 @@ class ScanditBarcodeNative :
     ActionFinishHandler,
     BarcodeCaptureListener,
     BarcodeTrackingListener,
+    BarcodeSelectionListener,
     BarcodeTrackingBasicOverlayListener,
     BarcodeTrackingAdvancedOverlayListener,
     BarcodeCaptureDeserializerListener,
     BarcodeTrackingDeserializerListener,
+    BarcodeSelectionDeserializerListener,
     ModeDeserializersProvider {
 
     companion object {
@@ -103,6 +110,7 @@ class ScanditBarcodeNative :
     private val barcodeCallbacks: BarcodeCallbackContainer = BarcodeCallbackContainer()
     private val barcodeCaptureHandler: BarcodeCaptureHandler = BarcodeCaptureHandler(this)
     private val barcodeTrackingHandler: BarcodeTrackingHandler = BarcodeTrackingHandler(this)
+    private val barcodeSelectionHandler: BarcodeSelectionHandler = BarcodeSelectionHandler(this)
     private val barcodeTrackingBasicOverlayHandler = BarcodeTrackingBasicOverlayHandler(this)
     private val barcodeTrackingAdvancedOverlayHandler = BarcodeTrackingAdvancedOverlayHandler(this)
 
@@ -208,6 +216,9 @@ class ScanditBarcodeNative :
         },
         BarcodeTrackingDeserializer().also {
             it.listener = this
+        },
+        BarcodeSelectionDeserializer().also {
+            it.listener = this
         }
     )
     //endregion
@@ -218,9 +229,6 @@ class ScanditBarcodeNative :
         mode: BarcodeCapture,
         json: JsonValue
     ) {
-        if (json.contains("enabled")) {
-            mode.isEnabled = json.requireByKeyAsBoolean("enabled")
-        }
         barcodeCaptureHandler.attachBarcodeCapture(mode)
     }
     //endregion
@@ -237,6 +245,18 @@ class ScanditBarcodeNative :
         barcodeTrackingHandler.attachBarcodeTracking(mode)
     }
 
+    //region BarcodeSelectionDeserializerListener
+    override fun onModeDeserializationFinished(
+        deserializer: BarcodeSelectionDeserializer,
+        mode: BarcodeSelection,
+        json: JsonValue
+    ) {
+        if (json.contains("enabled")) {
+            mode.isEnabled = json.requireByKeyAsBoolean("enabled")
+        }
+        barcodeSelectionHandler.attachBarcodeSelection(mode)
+    }
+
     override fun onBasicOverlayDeserializationStarted(
         deserializer: BarcodeTrackingDeserializer,
         overlay: BarcodeTrackingBasicOverlay,
@@ -251,6 +271,24 @@ class ScanditBarcodeNative :
         json: JsonValue
     ) {
         barcodeTrackingAdvancedOverlayHandler.attachOverlay(overlay)
+    }
+    //endregion
+
+    //region BarcodeSelectionListener
+    override fun onSelectionUpdated(
+        barcodeSelection: BarcodeSelection,
+        session: BarcodeSelectionSession,
+        frameData: FrameData?
+    ) {
+        barcodeCallbacks.barcodeSelectionCallback?.onSelectionUpdated(barcodeSelection, session)
+    }
+
+    override fun onSessionUpdated(
+        barcodeSelection: BarcodeSelection,
+        session: BarcodeSelectionSession,
+        frameData: FrameData?
+    ) {
+        barcodeCallbacks.barcodeSelectionCallback?.onSessionUpdated(barcodeSelection, session)
     }
     //endregion
 
@@ -271,6 +309,11 @@ class ScanditBarcodeNative :
 
                 finnishCallbackHelper.isFinishBarcodeTrackingModeCallback(result) ->
                     onFinishBarcodeTrackingMode(
+                        SerializableFinishModeCallbackData.fromJson(result), call
+                    )
+
+                finnishCallbackHelper.isFinishBarcodeSelectionModeCallback(result) ->
+                    onFinishBarcodeSelectionMode(
                         SerializableFinishModeCallbackData.fromJson(result), call
                     )
 
@@ -367,6 +410,7 @@ class ScanditBarcodeNative :
                         styles = BarcodeTrackingBasicOverlayStyle.values()
                     )
                 ),
+                barcodeSelectionDefaults = SerializableBarcodeSelectionDefaults.create(),
                 compositeTypeDescriptions = JSONArray(
                     CompositeTypeDescription.all().map { it.toJson() }
                 )
@@ -399,6 +443,16 @@ class ScanditBarcodeNative :
     fun subscribeBarcodeTrackingBasicOverlayListener(call: PluginCall) {
         barcodeCallbacks.setBarcodeTrackingBasicOverlayCallback(
             BarcodeTrackingBasicOverlayCallback(this)
+        )
+        call.resolve()
+    }
+    //endregion
+
+    // region ActionSubscribeBarcodeSelection.ResultListener
+    @PluginMethod
+    fun subscribeBarcodeSelectionListener(call: PluginCall) {
+        barcodeCallbacks.setBarcodeSelectionCallback(
+            BarcodeSelectionCallback(this)
         )
         call.resolve()
     }
@@ -559,7 +613,132 @@ class ScanditBarcodeNative :
         call.resolve()
     }
     //endregion
-    //endregion
+
+    @PluginMethod
+    fun getCountForBarcodeInBarcodeSelectionSession(call: PluginCall) {
+        try {
+            val parsedData = SerializableBarcodeSelectionSessionData(
+                call.data
+            )
+            onGetCountForBarcodeInBarcodeSelectionSession(parsedData, call)
+        } catch (e: JSONException) {
+            println(e)
+            onJsonParseError(e, call)
+        } catch (e: RuntimeException) {
+            println(e)
+            onJsonParseError(e, call)
+        }
+    }
+
+    @PluginMethod
+    fun resetBarcodeCaptureSession(call: PluginCall) {
+        try {
+            onResetBarcodeCaptureSession(call)
+        } catch (e: JSONException) {
+            println(e)
+            onJsonParseError(e, call)
+        } catch (e: RuntimeException) {
+            println(e)
+            onJsonParseError(e, call)
+        }
+    }
+
+    @PluginMethod
+    fun resetBarcodeTrackingSession(call: PluginCall) {
+        try {
+            onResetBarcodeTrackingSession(call)
+        } catch (e: JSONException) {
+            println(e)
+            onJsonParseError(e, call)
+        } catch (e: RuntimeException) {
+            println(e)
+            onJsonParseError(e, call)
+        }
+    }
+
+    @PluginMethod
+    fun resetBarcodeSelectionSession(call: PluginCall) {
+        try {
+            onResetBarcodeSelectionSession(call)
+        } catch (e: JSONException) {
+            println(e)
+            onJsonParseError(e, call)
+        } catch (e: RuntimeException) {
+            println(e)
+            onJsonParseError(e, call)
+        }
+    }
+
+    @PluginMethod
+    fun resetBarcodeSelection(call: PluginCall) {
+        try {
+            onResetBarcodeSelection(call)
+        } catch (e: JSONException) {
+            println(e)
+            onJsonParseError(e, call)
+        } catch (e: RuntimeException) {
+            println(e)
+            onJsonParseError(e, call)
+        }
+    }
+
+    @PluginMethod
+    fun unfreezeCameraInBarcodeSelection(call: PluginCall) {
+        try {
+            onUnfreezeCameraInBarcodeSelection(call)
+        } catch (e: JSONException) {
+            println(e)
+            onJsonParseError(e, call)
+        } catch (e: RuntimeException) {
+            println(e)
+            onJsonParseError(e, call)
+        }
+    }
+
+    fun onGetCountForBarcodeInBarcodeSelectionSession(
+        data: SerializableBarcodeSelectionSessionData,
+        call: PluginCall
+    ) {
+        call.resolve(
+            JSObject.fromJSONObject(
+                JSONObject(
+                    mapOf(
+                        FIELD_RESULT to (
+                            barcodeCallbacks.barcodeSelectionCallback?.getBarcodeCount(
+                                data.selectionIdentifier
+                            ) ?: 0
+                            )
+                    )
+                )
+            )
+
+        )
+    }
+
+    fun onUnfreezeCameraInBarcodeSelection(call: PluginCall) {
+        barcodeSelectionHandler.barcodeSelection?.unfreezeCamera()
+        call.resolve()
+    }
+
+    fun onResetBarcodeSelection(call: PluginCall) {
+        barcodeSelectionHandler.barcodeSelection?.reset()
+        call.resolve()
+    }
+
+    fun onResetBarcodeCaptureSession(call: PluginCall) {
+        barcodeCallbacks.barcodeCaptureCallback?.latestSession()?.reset()
+        call.resolve()
+    }
+
+    fun onResetBarcodeTrackingSession(call: PluginCall) {
+        barcodeCallbacks.barcodeTrackingCallback?.latestSession()?.reset()
+        call.resolve()
+    }
+
+    fun onResetBarcodeSelectionSession(call: PluginCall) {
+        barcodeCallbacks.barcodeSelectionCallback?.latestSession()?.reset()
+        call.resolve()
+    }
 
     private fun getAdvancedOverlayActionDoneData(): Triple<
         BarcodeTrackingAdvancedOverlay,
@@ -590,6 +769,13 @@ class ScanditBarcodeNative :
         call: PluginCall
     ) {
         barcodeCallbacks.onFinishBarcodeTrackingAction(finishData)
+    }
+
+    override fun onFinishBarcodeSelectionMode(
+        finishData: SerializableFinishModeCallbackData?,
+        call: PluginCall
+    ) {
+        barcodeCallbacks.onFinishBarcodeSelectionAction(finishData)
     }
 
     override fun onFinishBasicOverlay(

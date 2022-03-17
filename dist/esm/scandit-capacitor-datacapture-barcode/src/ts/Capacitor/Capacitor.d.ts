@@ -10,7 +10,14 @@ export declare enum CapacitorFunction {
     SetViewForTrackedBarcode = "setViewForTrackedBarcode",
     SetAnchorForTrackedBarcode = "setAnchorForTrackedBarcode",
     SetOffsetForTrackedBarcode = "setOffsetForTrackedBarcode",
-    ClearTrackedBarcodeViews = "clearTrackedBarcodeViews"
+    ClearTrackedBarcodeViews = "clearTrackedBarcodeViews",
+    SubscribeBarcodeSelectionListener = "subscribeBarcodeSelectionListener",
+    GetCountForBarcodeInBarcodeSelectionSession = "getCountForBarcodeInBarcodeSelectionSession",
+    ResetBarcodeCaptureSession = "resetBarcodeCaptureSession",
+    ResetBarcodeTrackingSession = "resetBarcodeTrackingSession",
+    ResetBarcodeSelectionSession = "resetBarcodeSelectionSession",
+    ResetBarcodeSelection = "resetBarcodeSelection",
+    UnfreezeCameraInBarcodeSelection = "unfreezeCameraInBarcodeSelection"
 }
 export declare const Capacitor: {
     pluginName: string;

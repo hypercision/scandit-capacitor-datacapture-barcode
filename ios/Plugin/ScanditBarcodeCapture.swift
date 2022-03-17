@@ -14,12 +14,33 @@ class BarcodeCaptureCallbacks {
     var barcodeTrackingListener: Callback?
     var barcodeTrackingBasicOverlayListener: Callback?
     var barcodeTrackingAdvancedOverlayListener: Callback?
+    var barcodeSelectionListener: Callback?
 
     func reset() {
         barcodeCaptureListener = nil
         barcodeTrackingListener = nil
+        barcodeSelectionListener = nil
         barcodeTrackingBasicOverlayListener = nil
         barcodeTrackingAdvancedOverlayListener = nil
+    }
+}
+
+extension Barcode {
+    var selectionIdentifier: String {
+        return (data ?? "") + SymbologyDescription(symbology: symbology).identifier
+    }
+}
+
+extension BarcodeSelectionSession {
+    var barcodes: [Barcode] {
+        return selectedBarcodes + newlyUnselectedBarcodes
+    }
+
+    func count(for selectionIdentifier: String) -> Int {
+        guard let barcode = barcodes.first(where: { $0.selectionIdentifier == selectionIdentifier }) else {
+            return 0
+        }
+        return count(for: barcode)
     }
 }
 
@@ -30,7 +51,9 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
         barcodeCaptureDeserializer.delegate = self
         let barcodeTrackingDeserializer = BarcodeTrackingDeserializer()
         barcodeTrackingDeserializer.delegate = self
-        return [barcodeCaptureDeserializer, barcodeTrackingDeserializer]
+        let barcodeSelectionDeserializer = BarcodeSelectionDeserializer()
+        barcodeSelectionDeserializer.delegate = self
+        return [barcodeCaptureDeserializer, barcodeTrackingDeserializer, barcodeSelectionDeserializer]
     }()
 
     lazy var componentDeserializers: [DataCaptureComponentDeserializer] = []
@@ -45,6 +68,12 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
     var barcodeTrackingAdvancedOverlay: BarcodeTrackingAdvancedOverlay?
     var lastTrackedBarcodes: [NSNumber: TrackedBarcode]?
     var lastFrameSequenceId: Int?
+
+    var barcodeSelection: BarcodeSelection?
+    var barcodeSelectionSession: BarcodeSelectionSession?
+    var barcodeCaptureSession: BarcodeCaptureSession?
+    var barcodeTrackingSession: BarcodeTrackingSession?
+    var barcodeSelectionBasicOverlay: BarcodeSelectionBasicOverlay?
 
     var offset: [Int: PointWithUnit] = [:]
 
@@ -228,6 +257,77 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
     @objc(clearTrackedBarcodeViews:)
     func clearTrackedBarcodeViews(_ call: CAPPluginCall) {
         self.barcodeTrackingAdvancedOverlay?.clearTrackedBarcodeViews()
+        call.resolve()
+    }
+
+    @objc(subscribeBarcodeSelectionListener:)
+    func subscribeBarcodeSelectionListener(_ call: CAPPluginCall) {
+        callbacks.barcodeSelectionListener = Callback(id: call.callbackId)
+        call.resolve()
+    }
+
+    @objc(resetBarcodeSelection:)
+    func resetBarcodeSelection(_ call: CAPPluginCall) {
+        guard let barcodeSelection = self.barcodeSelection else {
+            call.reject(CommandError.noBarcodeSelection.toJSONString())
+            return
+        }
+        barcodeSelection.reset()
+        call.resolve()
+    }
+
+    @objc(unfreezeCameraInBarcodeSelection:)
+    func unfreezeCameraInBarcodeSelection(_ call: CAPPluginCall) {
+        guard let barcodeSelection = self.barcodeSelection else {
+            call.reject(CommandError.noBarcodeSelection.toJSONString())
+            return
+        }
+        barcodeSelection.unfreezeCamera()
+        call.resolve()
+    }
+
+    @objc(getCountForBarcodeInBarcodeSelectionSession:)
+    func getCountForBarcodeInBarcodeSelectionSession(_ call: CAPPluginCall) {
+        guard let barcodeSelectionSession = self.barcodeSelectionSession else {
+            call.reject(CommandError.noBarcodeSelectionSession.toJSONString())
+            return
+        }
+        guard let json = try? SelectionIdentifierBarcodeJSON.fromJSONObject(call.options!) else {
+            call.reject(CommandError.invalidJSON.toJSONString())
+            return
+        }
+        call.resolve([
+            "result": barcodeSelectionSession.count(for : json.selectionIdentifier)
+        ])
+    }
+
+    @objc(resetBarcodeCaptureSession:)
+    func resetBarcodeCaptureSession(_ call: CAPPluginCall) {
+        guard let barcodeCaptureSession = self.barcodeCaptureSession else {
+            call.reject(CommandError.noBarcodeCaptureSession.toJSONString())
+            return
+        }
+        barcodeCaptureSession.reset()
+        call.resolve()
+    }
+
+    @objc(resetBarcodeTrackingSession:)
+    func resetBarcodeTrackingSession(_ call: CAPPluginCall) {
+        guard let barcodeTrackingSession = self.barcodeTrackingSession else {
+            call.reject(CommandError.noBarcodeTrackingSession.toJSONString())
+            return
+        }
+        barcodeTrackingSession.reset()
+        call.resolve()
+    }
+
+    @objc(resetBarcodeSelectionSession:)
+    func resetBarcodeSelectionSession(_ call: CAPPluginCall) {
+        guard let barcodeSelectionSession = self.barcodeSelectionSession else {
+            call.reject(CommandError.noBarcodeSelectionSession.toJSONString())
+            return
+        }
+        barcodeSelectionSession.reset()
         call.resolve()
     }
 

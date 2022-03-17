@@ -16,4 +16,11 @@ CAP_PLUGIN(ScanditBarcodeCapture, "ScanditBarcodeNative",
            CAP_PLUGIN_METHOD(setViewForTrackedBarcode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setAnchorForTrackedBarcode, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setOffsetForTrackedBarcode, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(clearTrackedBarcodeViews, CAPPluginReturnPromise);)
+           CAP_PLUGIN_METHOD(clearTrackedBarcodeViews, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(subscribeBarcodeSelectionListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(resetBarcodeSelection, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(resetBarcodeCaptureSession, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(resetBarcodeTrackingSession, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(resetBarcodeSelectionSession, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(unfreezeCameraInBarcodeSelection, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getCountForBarcodeInBarcodeSelectionSession, CAPPluginReturnPromise);)

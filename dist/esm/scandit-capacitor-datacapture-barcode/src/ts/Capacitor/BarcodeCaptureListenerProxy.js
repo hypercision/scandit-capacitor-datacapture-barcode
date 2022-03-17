@@ -16,6 +16,9 @@ export class BarcodeCaptureListenerProxy {
     initialize() {
         this.subscribeListener();
     }
+    reset() {
+        return Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
+    }
     subscribeListener() {
         Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
         Plugins[Capacitor.pluginName]

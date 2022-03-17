@@ -38,3 +38,7 @@ struct OffsetAndTrackedBarcodeJSON: CommandJSONArgument {
     let trackedBarcodeID: String
     let sessionFrameSequenceID: String?
 }
+
+struct SelectionIdentifierBarcodeJSON: CommandJSONArgument {
+    let selectionIdentifier: String
+}

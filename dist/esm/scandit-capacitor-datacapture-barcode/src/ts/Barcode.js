@@ -194,6 +194,7 @@ export class Barcode {
     get isColorInverted() { return this._isColorInverted; }
     get symbolCount() { return this._symbolCount; }
     get frameID() { return this._frameID; }
+    get selectionIdentifier() { return this.data + this.symbology; }
     static fromJSON(json) {
         const barcode = new Barcode();
         barcode._symbology = json.symbology;

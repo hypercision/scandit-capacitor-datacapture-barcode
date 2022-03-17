@@ -20,6 +20,9 @@ export class BarcodeTrackingListenerProxy {
         Plugins[Capacitor.pluginName]
             .addListener(BarcodeTrackingListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
     }
+    reset() {
+        return Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeTrackingSession]();
+    }
     notifyListeners(event) {
         const done = () => {
             this.barcodeTracking.isInListenerCallback = false;

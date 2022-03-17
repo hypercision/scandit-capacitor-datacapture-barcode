@@ -28,5 +28,8 @@ object BarcodeCaptureActionFactory {
     const val ACTION_ANCHOR_FOR_TRACKED_BARCODE = "anchorForTrackedBarcode"
     const val ACTION_TAP_VIEW_FOR_TRACKED_BARCODE = "didTapViewForTrackedBarcode"
 
+    const val ACTION_SELECTION_UPDATED = "didUpdateSelectionInBarcodeSelection"
+    const val ACTION_SELECTION_SESSION_UPDATED = "didUpdateSessionInBarcodeSelection"
+
     const val SEND_TRACKING_SESSION_UPDATED_EVENT = "onTrackingSessionUpdateEvent"
 }

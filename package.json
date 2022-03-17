@@ -1,6 +1,6 @@
 {
   "name": "scandit-capacitor-datacapture-barcode",
-  "version": "6.11.0",
+  "version": "6.12.0",
   "description": "Scandit Data Capture SDK for Capacitor",
   "license": "Apache-2.0",
   "author": {
@@ -9,9 +9,10 @@
   },
   "homepage": "https://github.com/Scandit/scandit-capacitor-datacapture-barcode",
   "main": "dist/plugin.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "module": "dist/esm/scandit-capacitor-datacapture-barcode/src/index.js",
+  "types": "dist/esm/scandit-capacitor-datacapture-barcode/src/definitions.d.ts",
   "scripts": {
+    "postbuild": "node ./scripts/normalize-d-ts.js",
     "lint": "tslint --project . && npm run swiftlint -- lint",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
     "swiftlint": "node-swiftlint",
@@ -20,7 +21,7 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "scandit-capacitor-datacapture-core": "6.11.0"
+    "scandit-capacitor-datacapture-core": "6.12.0"
   },
   "devDependencies": {
     "@capacitor/android": ">=2.0.0",

@@ -1,5 +1,6 @@
 import { CameraSettings } from '../../../../scandit-capacitor-datacapture-core/src/ts/Camera+Related';
 import { Color } from '../../../../scandit-capacitor-datacapture-core/src/ts/Common';
+import { Feedback } from '../../../../scandit-capacitor-datacapture-core/src/ts/Feedback';
 import { SymbologyDescription, SymbologySettings, } from '../Barcode';
 export const defaultsFromJSON = (json) => {
     return {
@@ -66,6 +67,106 @@ export const defaultsFromJSON = (json) => {
                                     styles[currentValue].DefaultBrush.strokeColor),
                                 strokeWidth: json.BarcodeTracking.BarcodeTrackingBasicOverlay.
                                     styles[currentValue].DefaultBrush.strokeWidth,
+                            },
+                        } });
+                }, {}),
+            },
+        },
+        BarcodeSelection: {
+            RecommendedCameraSettings: CameraSettings
+                .fromJSON(json.BarcodeSelection.RecommendedCameraSettings),
+            feedback: ({
+                selection: Feedback
+                    .fromJSON(JSON.parse(json.BarcodeSelection.feedback).selection),
+            }),
+            BarcodeSelectionSettings: {
+                codeDuplicateFilter: json.BarcodeSelection.BarcodeSelectionSettings.codeDuplicateFilter,
+                singleBarcodeAutoDetection: json.BarcodeSelection.BarcodeSelectionSettings.singleBarcodeAutoDetection,
+                selectionType: fromJSON => fromJSON(JSON.parse(json.BarcodeSelection.BarcodeSelectionSettings.selectionType)),
+            },
+            BarcodeSelectionTapSelection: {
+                defaultFreezeBehavior: json.BarcodeSelection.BarcodeSelectionTapSelection
+                    .defaultFreezeBehavior,
+                defaultTapBehavior: json.BarcodeSelection.BarcodeSelectionTapSelection
+                    .defaultTapBehavior,
+            },
+            BarcodeSelectionAimerSelection: {
+                defaultSelectionStrategy: fromJSON => fromJSON(JSON.parse(json.BarcodeSelection.BarcodeSelectionAimerSelection.defaultSelectionStrategy)),
+            },
+            BarcodeSelectionBasicOverlay: {
+                defaultStyle: json.BarcodeSelection
+                    .BarcodeSelectionBasicOverlay.defaultStyle,
+                DefaultTrackedBrush: {
+                    fillColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultTrackedBrush.fillColor),
+                    strokeColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultTrackedBrush.strokeColor),
+                    strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultTrackedBrush.strokeWidth,
+                },
+                DefaultAimedBrush: {
+                    fillColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultAimedBrush.fillColor),
+                    strokeColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultAimedBrush.strokeColor),
+                    strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultAimedBrush.strokeWidth,
+                },
+                DefaultSelectedBrush: {
+                    fillColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultSelectedBrush.fillColor),
+                    strokeColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultSelectedBrush.strokeColor),
+                    strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultSelectedBrush.strokeWidth,
+                },
+                DefaultSelectingBrush: {
+                    fillColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultSelectingBrush.fillColor),
+                    strokeColor: Color
+                        .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultSelectingBrush.strokeColor),
+                    strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.DefaultSelectingBrush.strokeWidth,
+                },
+                styles: Object
+                    .keys(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles)
+                    .reduce((previousValue, currentValue) => {
+                    return Object.assign(Object.assign({}, previousValue), { [currentValue]: {
+                            DefaultTrackedBrush: {
+                                fillColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultTrackedBrush.fillColor),
+                                strokeColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultTrackedBrush.strokeColor),
+                                strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultTrackedBrush.strokeWidth,
+                            },
+                            DefaultAimedBrush: {
+                                fillColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultAimedBrush.fillColor),
+                                strokeColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultAimedBrush.strokeColor),
+                                strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultAimedBrush.strokeWidth,
+                            },
+                            DefaultSelectedBrush: {
+                                fillColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultSelectedBrush.fillColor),
+                                strokeColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultSelectedBrush.strokeColor),
+                                strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultSelectedBrush.strokeWidth,
+                            },
+                            DefaultSelectingBrush: {
+                                fillColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultSelectingBrush.fillColor),
+                                strokeColor: Color
+                                    .fromJSON(json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultSelectingBrush.strokeColor),
+                                strokeWidth: json.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[currentValue]
+                                    .DefaultSelectingBrush.strokeWidth,
                             },
                         } });
                 }, {}),

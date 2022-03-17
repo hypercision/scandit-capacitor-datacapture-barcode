@@ -28,6 +28,9 @@ export class BarcodeCaptureSession {
         session._frameSequenceID = json.frameSequenceId;
         return session;
     }
+    reset() {
+        return this.listenerProxy.reset();
+    }
 }
 export class BarcodeCaptureFeedback extends DefaultSerializeable {
     constructor() {

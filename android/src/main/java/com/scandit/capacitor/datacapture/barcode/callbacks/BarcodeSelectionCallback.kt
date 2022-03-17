@@ -1,91 +1,88 @@
 /*
  * This file is part of the Scandit Data Capture SDK
  *
- * Copyright (C) 2019- Scandit AG. All rights reserved.
+ * Copyright (C) 2021- Scandit AG. All rights reserved.
  */
 
 package com.scandit.capacitor.datacapture.barcode.callbacks
 
 import com.getcapacitor.JSObject
 import com.scandit.capacitor.datacapture.barcode.CapacitorPlugin
-import com.scandit.capacitor.datacapture.barcode.factories.BarcodeCaptureActionFactory
+import com.scandit.capacitor.datacapture.barcode.factories.BarcodeCaptureActionFactory.ACTION_SELECTION_SESSION_UPDATED
+import com.scandit.capacitor.datacapture.barcode.factories.BarcodeCaptureActionFactory.ACTION_SELECTION_UPDATED
 import com.scandit.capacitor.datacapture.core.data.SerializableFinishModeCallbackData
 import com.scandit.capacitor.datacapture.core.utils.Callback
-import com.scandit.datacapture.barcode.capture.BarcodeCapture
-import com.scandit.datacapture.barcode.capture.BarcodeCaptureSession
-import com.scandit.datacapture.core.data.FrameData
+import com.scandit.datacapture.barcode.data.SymbologyDescription
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelection
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionSession
 import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
+class BarcodeSelectionCallback(private val plugin: CapacitorPlugin) : Callback() {
 
     private val lock = ReentrantLock(true)
     private val condition = lock.newCondition()
 
-    private val latestSession: AtomicReference<BarcodeCaptureSession?> = AtomicReference()
+    private val latestSession: AtomicReference<BarcodeSelectionSession?> = AtomicReference()
     private val latestStateData = AtomicReference<SerializableFinishModeCallbackData?>(null)
 
     fun latestSession() = latestSession.get()
 
+    fun onSelectionUpdated(
+        barcodeSelection: BarcodeSelection,
+        session: BarcodeSelectionSession
+    ) {
+        if (disposed.get()) return
+
+        lock.withLock {
+            plugin.notify(
+                ACTION_SELECTION_UPDATED,
+                JSObject.fromJSONObject(
+                    JSONObject(
+                        mapOf(
+                            NAME to ACTION_SELECTION_UPDATED,
+                            FIELD_SESSION to session.toJson(),
+                            FIELD_FRAME_DATA to JSONObject()
+                        )
+                    )
+                )
+            )
+            latestSession.set(session)
+            lockAndWait()
+            onUnlock(barcodeSelection)
+        }
+    }
+
     fun onSessionUpdated(
-        barcodeCapture: BarcodeCapture,
-        session: BarcodeCaptureSession,
-        @Suppress("UNUSED_PARAMETER") frameData: FrameData
+        barcodeSelection: BarcodeSelection,
+        session: BarcodeSelectionSession
     ) {
         if (disposed.get()) return
 
         lock.withLock {
             plugin.notify(
-                BarcodeCaptureActionFactory.SEND_SESSION_UPDATED_EVENT,
+                ACTION_SELECTION_SESSION_UPDATED,
                 JSObject.fromJSONObject(
                     JSONObject(
                         mapOf(
-                            NAME to BarcodeCaptureActionFactory.SEND_SESSION_UPDATED_EVENT,
+                            NAME to ACTION_SELECTION_SESSION_UPDATED,
                             FIELD_SESSION to session.toJson(),
-                            FIELD_FRAME_DATA to serializeFrameData().toString()
+                            FIELD_FRAME_DATA to JSONObject()
                         )
                     )
                 )
             )
             latestSession.set(session)
             lockAndWait()
-            onUnlock(barcodeCapture)
+            onUnlock(barcodeSelection)
         }
     }
 
-    fun onBarcodeScanned(
-        barcodeCapture: BarcodeCapture,
-        session: BarcodeCaptureSession,
-        @Suppress("UNUSED_PARAMETER") frameData: FrameData
-    ) {
-        if (disposed.get()) return
-
-        lock.withLock {
-            plugin.notify(
-                BarcodeCaptureActionFactory.SEND_BARCODE_SCANNED_EVENT,
-                JSObject.fromJSONObject(
-                    JSONObject(
-                        mapOf(
-                            NAME to BarcodeCaptureActionFactory.SEND_BARCODE_SCANNED_EVENT,
-                            FIELD_SESSION to session.toJson(),
-                            // TODO [SDC-2001] -> add frame data serialization
-                            FIELD_FRAME_DATA to
-                                serializeFrameData().toString()
-                        )
-                    )
-                )
-            )
-            latestSession.set(session)
-            lockAndWait()
-            onUnlock(barcodeCapture)
-        }
-    }
-
-    private fun onUnlock(barcodeCapture: BarcodeCapture) {
+    private fun onUnlock(barcodeSelection: BarcodeSelection) {
         latestStateData.get()?.let { latestData ->
-            barcodeCapture.isEnabled = latestData.enabled
+            barcodeSelection.isEnabled = latestData.enabled
             latestStateData.set(null)
         }
         // If we don't have the latestData, it means no listener is set from js, so we do nothing.
@@ -106,17 +103,24 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
         }
     }
 
+    fun getBarcodeCount(
+        selectionIdentifier: String
+    ): Int {
+        val session = latestSession.get() ?: return 0
+        val count = session.selectedBarcodes.find {
+            (it.data ?: "")
+                .plus(SymbologyDescription.create(it.symbology).identifier) == selectionIdentifier
+        }?.let {
+            session.getCount(it)
+        } ?: 0
+        return count
+    }
+
     private fun unlock() {
         lock.withLock {
             condition.signal()
         }
     }
-
-    private fun serializeFrameData(): JSONObject = JSONObject(
-        mapOf(
-            FIELD_FRAME_DATA to JSONObject()
-        )
-    )
 
     override fun dispose() {
         super.dispose()

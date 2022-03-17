@@ -28,6 +28,8 @@ class BarcodeTrackingCallback(private val plugin: CapacitorPlugin) : Callback() 
     private val latestSession: AtomicReference<BarcodeTrackingSession?> = AtomicReference()
     private val latestStateData = AtomicReference<SerializableFinishModeCallbackData?>(null)
 
+    fun latestSession() = latestSession.get()
+
     fun onSessionUpdated(
         barcodeTracking: BarcodeTracking,
         session: BarcodeTrackingSession,

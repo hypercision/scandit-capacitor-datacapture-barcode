@@ -26,6 +26,14 @@ class FinishCallbackHelper {
         )
     }
 
+    fun isFinishBarcodeSelectionModeCallback(data: JSONObject): Boolean {
+        return checkFinishCallbackIdFieldForValue(
+            data, BarcodeCaptureActionFactory.ACTION_SELECTION_SESSION_UPDATED
+        ) || checkFinishCallbackIdFieldForValue(
+            data, BarcodeCaptureActionFactory.ACTION_SELECTION_UPDATED
+        )
+    }
+
     fun isFinishBarcodeTrackingBasicOverlayCallback(data: JSONObject): Boolean {
         return checkFinishCallbackIdFieldForValue(
             data, BarcodeCaptureActionFactory.SEND_BRUSH_FOR_TRACKED_BARCODE

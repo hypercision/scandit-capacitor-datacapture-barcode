@@ -15,6 +15,13 @@ export var CapacitorFunction;
     CapacitorFunction["SetAnchorForTrackedBarcode"] = "setAnchorForTrackedBarcode";
     CapacitorFunction["SetOffsetForTrackedBarcode"] = "setOffsetForTrackedBarcode";
     CapacitorFunction["ClearTrackedBarcodeViews"] = "clearTrackedBarcodeViews";
+    CapacitorFunction["SubscribeBarcodeSelectionListener"] = "subscribeBarcodeSelectionListener";
+    CapacitorFunction["GetCountForBarcodeInBarcodeSelectionSession"] = "getCountForBarcodeInBarcodeSelectionSession";
+    CapacitorFunction["ResetBarcodeCaptureSession"] = "resetBarcodeCaptureSession";
+    CapacitorFunction["ResetBarcodeTrackingSession"] = "resetBarcodeTrackingSession";
+    CapacitorFunction["ResetBarcodeSelectionSession"] = "resetBarcodeSelectionSession";
+    CapacitorFunction["ResetBarcodeSelection"] = "resetBarcodeSelection";
+    CapacitorFunction["UnfreezeCameraInBarcodeSelection"] = "unfreezeCameraInBarcodeSelection";
 })(CapacitorFunction || (CapacitorFunction = {}));
 const pluginName = 'ScanditBarcodeNative';
 // tslint:disable-next-line:variable-name

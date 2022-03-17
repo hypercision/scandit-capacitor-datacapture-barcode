@@ -23,6 +23,9 @@ class BarcodeCallbackContainer {
     var barcodeTrackingCallback: BarcodeTrackingCallback? = null
         private set
 
+    var barcodeSelectionCallback: BarcodeSelectionCallback? = null
+        private set
+
     var barcodeTrackingBasicOverlayCallback: BarcodeTrackingBasicOverlayCallback? = null
         private set
 
@@ -37,6 +40,11 @@ class BarcodeCallbackContainer {
     fun setBarcodeTrackingCallback(barcodeTrackingCallback: BarcodeTrackingCallback) {
         disposeBarcodeTrackingCallback()
         this.barcodeTrackingCallback = barcodeTrackingCallback
+    }
+
+    fun setBarcodeSelectionCallback(barcodeSelectionCallback: BarcodeSelectionCallback) {
+        disposeBarcodeSelectionCallback()
+        this.barcodeSelectionCallback = barcodeSelectionCallback
     }
 
     fun setBarcodeTrackingBasicOverlayCallback(
@@ -68,6 +76,10 @@ class BarcodeCallbackContainer {
         barcodeTrackingCallback?.onFinishCallback(finishData)
     }
 
+    fun onFinishBarcodeSelectionAction(finishData: SerializableFinishModeCallbackData?) {
+        barcodeSelectionCallback?.onFinishCallback(finishData)
+    }
+
     fun onFinishBasicOverlayAction(finishData: SerializableFinishBasicOverlayCallbackData?) {
         barcodeTrackingBasicOverlayCallback?.onFinishCallback(finishData)
     }
@@ -97,6 +109,7 @@ class BarcodeCallbackContainer {
         barcodeTrackingCallback?.forceRelease()
         barcodeTrackingBasicOverlayCallback?.forceRelease()
         barcodeTrackingAdvancedOverlayCallback?.forceRelease()
+        barcodeSelectionCallback?.forceRelease()
     }
 
     private fun disposeBarcodeCaptureCallback() {
@@ -107,6 +120,11 @@ class BarcodeCallbackContainer {
     private fun disposeBarcodeTrackingCallback() {
         barcodeTrackingCallback?.dispose()
         barcodeTrackingCallback = null
+    }
+
+    private fun disposeBarcodeSelectionCallback() {
+        barcodeSelectionCallback?.dispose()
+        barcodeSelectionCallback = null
     }
 
     private fun disposeBarcodeTrackingBasicOverlayCallback() {

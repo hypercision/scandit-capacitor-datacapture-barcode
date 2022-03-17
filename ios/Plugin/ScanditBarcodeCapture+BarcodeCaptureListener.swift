@@ -9,6 +9,8 @@ extension ScanditBarcodeCapture: BarcodeCaptureListener {
             return
         }
 
+        barcodeCaptureSession = session
+
         let listenerEvent = ListenerEvent(name: .didScanInBarcodeCapture,
                                   argument: ["session": session.jsonString, "frameData": frameData.toJSON()],
                                   shouldNotifyWhenFinished: true)
@@ -22,6 +24,8 @@ extension ScanditBarcodeCapture: BarcodeCaptureListener {
         guard let callback = callbacks.barcodeCaptureListener else {
             return
         }
+
+        barcodeCaptureSession = session
 
         let listenerEvent = ListenerEvent(name: .didUpdateSessionInBarcodeCapture,
                                   argument: ["session": session.jsonString, "frameData": frameData.toJSON()],
