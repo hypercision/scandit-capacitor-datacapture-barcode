@@ -1,6 +1,6 @@
 {
   "name": "scandit-capacitor-datacapture-barcode",
-  "version": "6.12.0",
+  "version": "6.12.1",
   "description": "Scandit Data Capture SDK for Capacitor",
   "license": "Apache-2.0",
   "author": {
@@ -21,7 +21,7 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "scandit-capacitor-datacapture-core": "6.12.0"
+    "scandit-capacitor-datacapture-core": "6.12.1"
   },
   "devDependencies": {
     "@capacitor/android": ">=2.0.0",
