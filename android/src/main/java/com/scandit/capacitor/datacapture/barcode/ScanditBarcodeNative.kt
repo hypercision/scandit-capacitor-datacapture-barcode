@@ -60,7 +60,11 @@ import com.scandit.datacapture.barcode.capture.BarcodeCaptureSession
 import com.scandit.datacapture.barcode.capture.BarcodeCaptureSettings
 import com.scandit.datacapture.barcode.data.CompositeTypeDescription
 import com.scandit.datacapture.barcode.data.SymbologyDescription
-import com.scandit.datacapture.barcode.selection.capture.*
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelection
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionDeserializer
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionDeserializerListener
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionListener
+import com.scandit.datacapture.barcode.selection.capture.BarcodeSelectionSession
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTracking
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingDeserializer
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingDeserializerListener
@@ -68,7 +72,12 @@ import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingListener
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSession
 import com.scandit.datacapture.barcode.tracking.capture.BarcodeTrackingSettings
 import com.scandit.datacapture.barcode.tracking.data.TrackedBarcode
-import com.scandit.datacapture.barcode.tracking.ui.overlay.*
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvancedOverlay
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingAdvancedOverlayListener
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlay
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlayListener
+import com.scandit.datacapture.barcode.tracking.ui.overlay.BarcodeTrackingBasicOverlayStyle
+import com.scandit.datacapture.barcode.tracking.ui.overlay.toJson
 import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlay
 import com.scandit.datacapture.barcode.ui.overlay.BarcodeCaptureOverlayStyle
 import com.scandit.datacapture.barcode.ui.overlay.toJson
@@ -364,11 +373,17 @@ class ScanditBarcodeNative :
     fun getDefaults(call: PluginCall) {
         try {
             val captureSettings = BarcodeCaptureSettings()
-            val brush = BarcodeCaptureOverlay.defaultBrush()
+            val capture = BarcodeCapture.forDataCaptureContext(null, captureSettings)
+            val defaultCaptureOverlayStyle = BarcodeCaptureOverlay.newInstance(capture, null).style
+            val brush = BarcodeCaptureOverlay.defaultBrush(defaultCaptureOverlayStyle)
             val symbologyDescriptions = SymbologyDescription.all()
             val captureCameraSettings = BarcodeCapture.createRecommendedCameraSettings()
-            val capture = BarcodeCapture.forDataCaptureContext(null, captureSettings)
+
             val tracking = BarcodeTracking.forDataCaptureContext(null, BarcodeTrackingSettings())
+            val defaultTrackingBasicOverlayStyle = BarcodeTrackingBasicOverlay.newInstance(
+                tracking,
+                null
+            ).style
 
             val trackingCameraSettings = BarcodeTracking.createRecommendedCameraSettings()
 
@@ -376,10 +391,7 @@ class ScanditBarcodeNative :
                 barcodeCaptureDefaults = SerializableBarcodeCaptureDefaults(
                     barcodeCaptureOverlayDefaults = SerializableBarcodeCaptureOverlayDefaults(
                         brushDefaults = SerializableBrushDefaults(brush = brush),
-                        defaultStyle = BarcodeCaptureOverlay.newInstance(
-                            capture,
-                            null
-                        ).style.toJson(),
+                        defaultStyle = defaultCaptureOverlayStyle.toJson(),
                         styles = BarcodeCaptureOverlayStyle.values()
                     ),
                     barcodeCaptureSettingsDefaults = SerializableBarcodeCaptureSettingsDefaults(
@@ -401,12 +413,11 @@ class ScanditBarcodeNative :
                     ),
                     trackingBasicOverlayDefaults = SerializableTrackingBasicOverlayDefaults(
                         defaultBrush = SerializableBrushDefaults(
-                            brush = BarcodeTrackingBasicOverlay.DEFAULT_BRUSH
+                            brush = BarcodeTrackingBasicOverlay.defaultBrush(
+                                defaultTrackingBasicOverlayStyle
+                            )
                         ),
-                        defaultStyle = BarcodeTrackingBasicOverlay.newInstance(
-                            tracking,
-                            null
-                        ).style.toJson(),
+                        defaultStyle = defaultTrackingBasicOverlayStyle.toJson(),
                         styles = BarcodeTrackingBasicOverlayStyle.values()
                     )
                 ),

@@ -32,9 +32,10 @@ class SerializableFinishAdvancedOverlayOffsetData(val offset: PointWithUnit?) {
         fun fromJson(json: JSONObject?): SerializableFinishAdvancedOverlayOffsetData? {
             if (json == null) return null
 
-            val offset: PointWithUnit? = json.optString(FIELD_OFFSET, null)?.let { offsetString ->
-                PointWithUnitDeserializer.fromJson(offsetString)
-            }
+            val offset: PointWithUnit? =
+                json.optString(FIELD_OFFSET, "").takeIf { it.isNotBlank() }?.let { offsetString ->
+                    PointWithUnitDeserializer.fromJson(offsetString)
+                }
             return SerializableFinishAdvancedOverlayOffsetData(offset)
         }
     }
@@ -46,9 +47,10 @@ class SerializableFinishAdvancedOverlayAnchorData(val anchor: Anchor?) {
         fun fromJson(json: JSONObject?): SerializableFinishAdvancedOverlayAnchorData? {
             if (json == null) return null
 
-            val anchor: Anchor? = json.optString(FIELD_ANCHOR, null)?.let { anchorString ->
-                AnchorDeserializer.fromJson(anchorString)
-            }
+            val anchor: Anchor? =
+                json.optString(FIELD_ANCHOR, "").takeIf { it.isNotBlank() }?.let { anchorString ->
+                    AnchorDeserializer.fromJson(anchorString)
+                }
             return SerializableFinishAdvancedOverlayAnchorData(anchor)
         }
     }

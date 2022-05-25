@@ -35,7 +35,7 @@ class SerializableBarcodeSelectionDefaults(
             FIELD_FEEDBACK to defaultFeedback.toJson(),
             FIELD_CAMERA_SETTINGS to recommendedCameraSettingsDefaults.toJson(),
             FIELD_TAP_SELECTION to tapSelectionDefaults.toJson(),
-            FIELD_AIMER_SELECTION to aimerSelectionDefaults.toJson(),
+            FIELD_AIMER_SELECTION to aimerSelectionDefaults.toJson()
         )
     )
 

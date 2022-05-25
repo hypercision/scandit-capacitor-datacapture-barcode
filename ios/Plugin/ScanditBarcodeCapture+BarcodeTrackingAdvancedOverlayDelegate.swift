@@ -79,7 +79,7 @@ extension ScanditBarcodeCapture: BarcodeTrackingAdvancedOverlayDelegate {
 
 extension ScanditBarcodeCapture {
     func didTapViewTrackedBarcode(trackedBarcode: TrackedBarcode) {
-        guard let callback = callbacks.barcodeTrackingAdvancedOverlayListener else {
+        if callbacks.barcodeTrackingAdvancedOverlayListener == nil {
             return
         }
 
