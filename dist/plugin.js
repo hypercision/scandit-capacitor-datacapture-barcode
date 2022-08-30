@@ -53,7 +53,12 @@ var capacitorPlugin = (function (exports, core) {
         core.Plugins[pluginName][functionName](args).then(extendedSuccessCallback, extendedErrorCallback);
     };
     const doReturnWithFinish = (finishCallbackID, result) => {
-        core.Plugins.ScanditBarcodeNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
+        if (core.Plugins.ScanditBarcodeNative) {
+            core.Plugins.ScanditBarcodeNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
+        }
+        else if (core.Plugins.ScanditIdNative) {
+            core.Plugins.ScanditIdNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
+        }
         return result;
     };
 
