@@ -129,7 +129,7 @@ var capacitorPlugin = (function (exports, core) {
         }
     }
 
-    var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$d = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -151,10 +151,10 @@ var capacitorPlugin = (function (exports, core) {
             return new Point(json.x, json.y);
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('x')
     ], Point.prototype, "_x", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('y')
     ], Point.prototype, "_y", void 0);
     class Quadrilateral extends DefaultSerializeable {
@@ -181,16 +181,16 @@ var capacitorPlugin = (function (exports, core) {
             return new Quadrilateral(Point.fromJSON(json.topLeft), Point.fromJSON(json.topRight), Point.fromJSON(json.bottomRight), Point.fromJSON(json.bottomLeft));
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('topLeft')
     ], Quadrilateral.prototype, "_topLeft", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('topRight')
     ], Quadrilateral.prototype, "_topRight", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('bottomRight')
     ], Quadrilateral.prototype, "_bottomRight", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('bottomLeft')
     ], Quadrilateral.prototype, "_bottomLeft", void 0);
     var MeasureUnit;
@@ -215,10 +215,10 @@ var capacitorPlugin = (function (exports, core) {
             return new NumberWithUnit(json.value, json.unit);
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('value')
     ], NumberWithUnit.prototype, "_value", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('unit')
     ], NumberWithUnit.prototype, "_unit", void 0);
     class PointWithUnit extends DefaultSerializeable {
@@ -240,10 +240,10 @@ var capacitorPlugin = (function (exports, core) {
             return new PointWithUnit(new NumberWithUnit(0, MeasureUnit.Pixel), new NumberWithUnit(0, MeasureUnit.Pixel));
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('x')
     ], PointWithUnit.prototype, "_x", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('y')
     ], PointWithUnit.prototype, "_y", void 0);
     class Rect extends DefaultSerializeable {
@@ -259,10 +259,10 @@ var capacitorPlugin = (function (exports, core) {
             return this._size;
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('origin')
     ], Rect.prototype, "_origin", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('size')
     ], Rect.prototype, "_size", void 0);
     class RectWithUnit extends DefaultSerializeable {
@@ -278,10 +278,10 @@ var capacitorPlugin = (function (exports, core) {
             return this._size;
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('origin')
     ], RectWithUnit.prototype, "_origin", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('size')
     ], RectWithUnit.prototype, "_size", void 0);
     class SizeWithUnit extends DefaultSerializeable {
@@ -297,10 +297,10 @@ var capacitorPlugin = (function (exports, core) {
             return this._height;
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('width')
     ], SizeWithUnit.prototype, "_width", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('height')
     ], SizeWithUnit.prototype, "_height", void 0);
     class Size extends DefaultSerializeable {
@@ -319,10 +319,10 @@ var capacitorPlugin = (function (exports, core) {
             return new Size(json.width, json.height);
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('width')
     ], Size.prototype, "_width", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('height')
     ], Size.prototype, "_height", void 0);
     class SizeWithAspect {
@@ -337,10 +337,10 @@ var capacitorPlugin = (function (exports, core) {
             return this._aspect;
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('size')
     ], SizeWithAspect.prototype, "_size", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('aspect')
     ], SizeWithAspect.prototype, "_aspect", void 0);
     var SizingMode;
@@ -443,16 +443,16 @@ var capacitorPlugin = (function (exports, core) {
             }
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('widthAndHeight')
     ], SizeWithUnitAndAspect.prototype, "_widthAndHeight", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('widthAndAspectRatio')
     ], SizeWithUnitAndAspect.prototype, "_widthAndAspectRatio", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('heightAndAspectRatio')
     ], SizeWithUnitAndAspect.prototype, "_heightAndAspectRatio", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('shorterDimensionAndAspectRatio')
     ], SizeWithUnitAndAspect.prototype, "_shorterDimensionAndAspectRatio", void 0);
     class MarginsWithUnit extends DefaultSerializeable {
@@ -482,16 +482,16 @@ var capacitorPlugin = (function (exports, core) {
             return new MarginsWithUnit(new NumberWithUnit(0, MeasureUnit.Pixel), new NumberWithUnit(0, MeasureUnit.Pixel), new NumberWithUnit(0, MeasureUnit.Pixel), new NumberWithUnit(0, MeasureUnit.Pixel));
         }
     }
-    __decorate([
+    __decorate$d([
         nameForSerialization('left')
     ], MarginsWithUnit.prototype, "_left", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('right')
     ], MarginsWithUnit.prototype, "_right", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('top')
     ], MarginsWithUnit.prototype, "_top", void 0);
-    __decorate([
+    __decorate$d([
         nameForSerialization('bottom')
     ], MarginsWithUnit.prototype, "_bottom", void 0);
     class Color {
@@ -595,7 +595,7 @@ var capacitorPlugin = (function (exports, core) {
         Direction["BottomToTop"] = "bottomToTop";
     })(Direction || (Direction = {}));
 
-    var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -704,13 +704,13 @@ var capacitorPlugin = (function (exports, core) {
             }
         }
     }
-    __decorate$1([
+    __decorate$c([
         ignoreFromSerialization
     ], SymbologySettings.prototype, "_symbology", void 0);
-    __decorate$1([
+    __decorate$c([
         nameForSerialization('enabled')
     ], SymbologySettings.prototype, "isEnabled", void 0);
-    __decorate$1([
+    __decorate$c([
         nameForSerialization('colorInvertedEnabled')
     ], SymbologySettings.prototype, "isColorInvertedEnabled", void 0);
     var Checksum;
@@ -766,13 +766,13 @@ var capacitorPlugin = (function (exports, core) {
             return range;
         }
     }
-    __decorate$1([
+    __decorate$c([
         nameForSerialization('minimum')
     ], Range.prototype, "_minimum", void 0);
-    __decorate$1([
+    __decorate$c([
         nameForSerialization('maximum')
     ], Range.prototype, "_maximum", void 0);
-    __decorate$1([
+    __decorate$c([
         nameForSerialization('step')
     ], Range.prototype, "_step", void 0);
     class Barcode {
@@ -875,7 +875,7 @@ var capacitorPlugin = (function (exports, core) {
         LogoStyle["Extended"] = "extended";
     })(LogoStyle || (LogoStyle = {}));
 
-    var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -913,11 +913,11 @@ var capacitorPlugin = (function (exports, core) {
             return this._isLooping;
         }
     }
-    __decorate$2([
+    __decorate$b([
         nameForSerialization('isLooping')
     ], RectangularViewfinderAnimation.prototype, "_isLooping", void 0);
 
-    const defaultsFromJSON = (json) => {
+    const defaultsFromJSON$1 = (json) => {
         return {
             Camera: {
                 Settings: {
@@ -992,7 +992,7 @@ var capacitorPlugin = (function (exports, core) {
         };
     };
 
-    var CapacitorFunction;
+    var CapacitorFunction$1;
     (function (CapacitorFunction) {
         CapacitorFunction["GetDefaults"] = "getDefaults";
         CapacitorFunction["ContextFromJSON"] = "contextFromJSON";
@@ -1011,17 +1011,17 @@ var capacitorPlugin = (function (exports, core) {
         CapacitorFunction["EmitFeedback"] = "emitFeedback";
         CapacitorFunction["SubscribeVolumeButtonObserver"] = "subscribeVolumeButtonObserver";
         CapacitorFunction["UnsubscribeVolumeButtonObserver"] = "unsubscribeVolumeButtonObserver";
-    })(CapacitorFunction || (CapacitorFunction = {}));
-    const pluginName = 'ScanditCaptureCoreNative';
+    })(CapacitorFunction$1 || (CapacitorFunction$1 = {}));
+    const pluginName$1 = 'ScanditCaptureCoreNative';
     // tslint:disable-next-line:variable-name
-    const Capacitor = {
-        pluginName,
+    const Capacitor$1 = {
+        pluginName: pluginName$1,
         defaults: {},
-        exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName, functionName, args),
+        exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName$1, functionName, args),
     };
-    const getDefaults = new Promise((resolve, reject) => core.Plugins[Capacitor.pluginName][CapacitorFunction.GetDefaults]().then((defaultsJSON) => {
-        const defaults = defaultsFromJSON(defaultsJSON);
-        Capacitor.defaults = defaults;
+    new Promise((resolve, reject) => core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetDefaults]().then((defaultsJSON) => {
+        const defaults = defaultsFromJSON$1(defaultsJSON);
+        Capacitor$1.defaults = defaults;
         resolve(defaults);
     }, reject));
 
@@ -1076,14 +1076,14 @@ var capacitorPlugin = (function (exports, core) {
     class CameraSettings extends DefaultSerializeable {
         constructor(settings) {
             super();
-            this.preferredResolution = Capacitor.defaults.Camera.Settings.preferredResolution;
-            this.zoomFactor = Capacitor.defaults.Camera.Settings.zoomFactor;
-            this.zoomGestureZoomFactor = Capacitor.defaults.Camera.Settings.zoomGestureZoomFactor;
+            this.preferredResolution = Capacitor$1.defaults.Camera.Settings.preferredResolution;
+            this.zoomFactor = Capacitor$1.defaults.Camera.Settings.zoomFactor;
+            this.zoomGestureZoomFactor = Capacitor$1.defaults.Camera.Settings.zoomGestureZoomFactor;
             this.api = 0;
             this.focus = {
-                range: Capacitor.defaults.Camera.Settings.focusRange,
-                focusGestureStrategy: Capacitor.defaults.Camera.Settings.focusGestureStrategy,
-                shouldPreferSmoothAutoFocus: Capacitor.defaults.Camera.Settings.shouldPreferSmoothAutoFocus,
+                range: Capacitor$1.defaults.Camera.Settings.focusRange,
+                focusGestureStrategy: Capacitor$1.defaults.Camera.Settings.focusGestureStrategy,
+                shouldPreferSmoothAutoFocus: Capacitor$1.defaults.Camera.Settings.shouldPreferSmoothAutoFocus,
             };
             if (settings !== undefined && settings !== null) {
                 Object.getOwnPropertyNames(settings).forEach(propertyName => {
@@ -1137,11 +1137,11 @@ var capacitorPlugin = (function (exports, core) {
             return proxy;
         }
         emit() {
-            core.Plugins[Capacitor.pluginName][CapacitorFunction.EmitFeedback]({ feedback: this.feedback.toJSON() });
+            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.EmitFeedback]({ feedback: this.feedback.toJSON() });
         }
     }
 
-    var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1184,7 +1184,7 @@ var capacitorPlugin = (function (exports, core) {
             return new Sound(null);
         }
     }
-    __decorate$3([
+    __decorate$a([
         ignoreFromSerializationIfNull
     ], Sound.prototype, "resource", void 0);
     class Feedback extends DefaultSerializeable {
@@ -1221,19 +1221,19 @@ var capacitorPlugin = (function (exports, core) {
             this.proxy = FeedbackProxy.forFeedback(this);
         }
     }
-    __decorate$3([
+    __decorate$a([
         ignoreFromSerializationIfNull,
         nameForSerialization('vibration')
     ], Feedback.prototype, "_vibration", void 0);
-    __decorate$3([
+    __decorate$a([
         ignoreFromSerializationIfNull,
         nameForSerialization('sound')
     ], Feedback.prototype, "_sound", void 0);
-    __decorate$3([
+    __decorate$a([
         ignoreFromSerialization
     ], Feedback.prototype, "proxy", void 0);
 
-    const defaultsFromJSON$1 = (json) => {
+    const defaultsFromJSON = (json) => {
         return {
             SymbologySettings: Object.keys(json.SymbologySettings)
                 .reduce((settings, identifier) => {
@@ -1406,7 +1406,7 @@ var capacitorPlugin = (function (exports, core) {
         };
     };
 
-    var CapacitorFunction$1;
+    var CapacitorFunction;
     (function (CapacitorFunction) {
         CapacitorFunction["GetDefaults"] = "getDefaults";
         CapacitorFunction["SubscribeBarcodeCaptureListener"] = "subscribeBarcodeCaptureListener";
@@ -1426,30 +1426,30 @@ var capacitorPlugin = (function (exports, core) {
         CapacitorFunction["ResetBarcodeSelectionSession"] = "resetBarcodeSelectionSession";
         CapacitorFunction["ResetBarcodeSelection"] = "resetBarcodeSelection";
         CapacitorFunction["UnfreezeCameraInBarcodeSelection"] = "unfreezeCameraInBarcodeSelection";
-    })(CapacitorFunction$1 || (CapacitorFunction$1 = {}));
-    const pluginName$1 = 'ScanditBarcodeNative';
+    })(CapacitorFunction || (CapacitorFunction = {}));
+    const pluginName = 'ScanditBarcodeNative';
     // tslint:disable-next-line:variable-name
-    const Capacitor$1 = {
-        pluginName: pluginName$1,
+    const Capacitor = {
+        pluginName,
         defaults: {},
-        exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName$1, functionName, args),
+        exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName, functionName, args),
     };
-    const getDefaults$1 = new Promise((resolve, reject) => core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetDefaults]().then((defaultsJSON) => {
-        const defaults = defaultsFromJSON$1(defaultsJSON);
-        Capacitor$1.defaults = defaults;
+    const getDefaults = new Promise((resolve, reject) => core.Plugins[Capacitor.pluginName][CapacitorFunction.GetDefaults]().then((defaultsJSON) => {
+        const defaults = defaultsFromJSON(defaultsJSON);
+        Capacitor.defaults = defaults;
         resolve(defaults);
     }, reject));
     // To circumvent a circular dependency
-    SymbologyDescription.defaults = () => Capacitor$1.defaults;
+    SymbologyDescription.defaults = () => Capacitor.defaults;
 
-    var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     class Brush extends DefaultSerializeable {
-        constructor(fillColor = Capacitor.defaults.Brush.fillColor, strokeColor = Capacitor.defaults.Brush.strokeColor, strokeWidth = Capacitor.defaults.Brush.strokeWidth) {
+        constructor(fillColor = Capacitor$1.defaults.Brush.fillColor, strokeColor = Capacitor$1.defaults.Brush.strokeColor, strokeWidth = Capacitor$1.defaults.Brush.strokeWidth) {
             super();
             this.fill = { color: fillColor };
             this.stroke = { color: strokeColor, width: strokeWidth };
@@ -1474,32 +1474,32 @@ var capacitorPlugin = (function (exports, core) {
         constructor(style) {
             super();
             this.type = 'laserline';
-            const viewfinderStyle = style || Capacitor.defaults.LaserlineViewfinder.defaultStyle;
-            this._style = Capacitor.defaults.LaserlineViewfinder.styles[viewfinderStyle].style;
-            this.width = Capacitor.defaults.LaserlineViewfinder.styles[viewfinderStyle].width;
-            this.enabledColor = Capacitor.defaults.LaserlineViewfinder.styles[viewfinderStyle].enabledColor;
-            this.disabledColor = Capacitor.defaults.LaserlineViewfinder.styles[viewfinderStyle].disabledColor;
+            const viewfinderStyle = style || Capacitor$1.defaults.LaserlineViewfinder.defaultStyle;
+            this._style = Capacitor$1.defaults.LaserlineViewfinder.styles[viewfinderStyle].style;
+            this.width = Capacitor$1.defaults.LaserlineViewfinder.styles[viewfinderStyle].width;
+            this.enabledColor = Capacitor$1.defaults.LaserlineViewfinder.styles[viewfinderStyle].enabledColor;
+            this.disabledColor = Capacitor$1.defaults.LaserlineViewfinder.styles[viewfinderStyle].disabledColor;
         }
         get style() {
             return this._style;
         }
     }
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('style')
     ], LaserlineViewfinder.prototype, "_style", void 0);
     class RectangularViewfinder extends DefaultSerializeable {
         constructor(style, lineStyle) {
             super();
             this.type = 'rectangular';
-            const viewfinderStyle = style || Capacitor.defaults.RectangularViewfinder.defaultStyle;
-            this._style = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].style;
-            this._lineStyle = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].lineStyle;
-            this._dimming = parseFloat(Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].dimming);
+            const viewfinderStyle = style || Capacitor$1.defaults.RectangularViewfinder.defaultStyle;
+            this._style = Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].style;
+            this._lineStyle = Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].lineStyle;
+            this._dimming = parseFloat(Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].dimming);
             this._disabledDimming =
-                parseFloat(Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].disabledDimming);
-            this._animation = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].animation;
-            this.color = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].color;
-            this._sizeWithUnitAndAspect = Capacitor.defaults.RectangularViewfinder.styles[viewfinderStyle].size;
+                parseFloat(Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].disabledDimming);
+            this._animation = Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].animation;
+            this.color = Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].color;
+            this._sizeWithUnitAndAspect = Capacitor$1.defaults.RectangularViewfinder.styles[viewfinderStyle].size;
             if (lineStyle !== undefined) {
                 this._lineStyle = lineStyle;
             }
@@ -1544,35 +1544,35 @@ var capacitorPlugin = (function (exports, core) {
             this._sizeWithUnitAndAspect = SizeWithUnitAndAspect.sizeWithShorterDimensionAndAspectRatio(new NumberWithUnit(fraction, MeasureUnit.Fraction), aspectRatio);
         }
     }
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('style')
     ], RectangularViewfinder.prototype, "_style", void 0);
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('lineStyle')
     ], RectangularViewfinder.prototype, "_lineStyle", void 0);
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('dimming')
     ], RectangularViewfinder.prototype, "_dimming", void 0);
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('disabledDimming')
     ], RectangularViewfinder.prototype, "_disabledDimming", void 0);
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('animation'),
         ignoreFromSerialization
     ], RectangularViewfinder.prototype, "_animation", void 0);
-    __decorate$4([
+    __decorate$9([
         nameForSerialization('size')
     ], RectangularViewfinder.prototype, "_sizeWithUnitAndAspect", void 0);
     class AimerViewfinder extends DefaultSerializeable {
         constructor() {
             super();
             this.type = 'aimer';
-            this.frameColor = Capacitor.defaults.AimerViewfinder.frameColor;
-            this.dotColor = Capacitor.defaults.AimerViewfinder.dotColor;
+            this.frameColor = Capacitor$1.defaults.AimerViewfinder.frameColor;
+            this.dotColor = Capacitor$1.defaults.AimerViewfinder.dotColor;
         }
     }
 
-    var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1627,7 +1627,7 @@ var capacitorPlugin = (function (exports, core) {
             // tslint:disable-next-line:no-console
             console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
                 'Use .brush to get the default for your selected style');
-            return new Brush(Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeWidth);
+            return new Brush(Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle].DefaultBrush.strokeWidth);
         }
         get brush() {
             return this._brush;
@@ -1657,33 +1657,33 @@ var capacitorPlugin = (function (exports, core) {
             return BarcodeCaptureOverlay.withBarcodeCaptureForView(barcodeCapture, null);
         }
         static withBarcodeCaptureForView(barcodeCapture, view) {
-            return this.withBarcodeCaptureForViewWithStyle(barcodeCapture, view, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle);
+            return this.withBarcodeCaptureForViewWithStyle(barcodeCapture, view, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.defaultStyle);
         }
         static withBarcodeCaptureForViewWithStyle(barcodeCapture, view, style) {
             const overlay = new BarcodeCaptureOverlay();
             overlay.barcodeCapture = barcodeCapture;
             overlay._style = style;
-            overlay._brush = new Brush(Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeWidth);
+            overlay._brush = new Brush(Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.fillColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeCapture.BarcodeCaptureOverlay.styles[overlay._style].DefaultBrush.strokeWidth);
             if (view) {
                 view.addOverlay(overlay);
             }
             return overlay;
         }
     }
-    __decorate$5([
+    __decorate$8([
         ignoreFromSerialization
     ], BarcodeCaptureOverlay.prototype, "barcodeCapture", void 0);
-    __decorate$5([
+    __decorate$8([
         nameForSerialization('shouldShowScanAreaGuides')
     ], BarcodeCaptureOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
-    __decorate$5([
+    __decorate$8([
         serializationDefault(NoViewfinder),
         nameForSerialization('viewfinder')
     ], BarcodeCaptureOverlay.prototype, "_viewfinder", void 0);
-    __decorate$5([
+    __decorate$8([
         nameForSerialization('brush')
     ], BarcodeCaptureOverlay.prototype, "_brush", void 0);
-    __decorate$5([
+    __decorate$8([
         nameForSerialization('style')
     ], BarcodeCaptureOverlay.prototype, "_style", void 0);
 
@@ -1703,19 +1703,19 @@ var capacitorPlugin = (function (exports, core) {
             this.subscribeListener();
         }
         reset() {
-            return core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.ResetBarcodeCaptureSession]();
+            return core.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
         }
         subscribeListener() {
-            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.SubscribeBarcodeCaptureListener]();
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeCaptureListenerEvent.DidScan, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeCaptureListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
             const done = () => {
                 this.barcodeCapture.isInListenerCallback = false;
-                core.Plugins[Capacitor$1.pluginName].finishCallback({
+                core.Plugins[Capacitor.pluginName].finishCallback({
                     result: {
                         enabled: this.barcodeCapture.isEnabled,
                         finishCallbackID: event.name,
@@ -1750,9 +1750,9 @@ var capacitorPlugin = (function (exports, core) {
             return done();
         }
     }
-    BarcodeCaptureListenerProxy.capacitorExec = Capacitor$1.exec;
+    BarcodeCaptureListenerProxy.capacitorExec = Capacitor.exec;
 
-    var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1791,7 +1791,7 @@ var capacitorPlugin = (function (exports, core) {
             this.didChange();
         }
         static get recommendedCameraSettings() {
-            return new CameraSettings(Capacitor$1.defaults.BarcodeCapture.RecommendedCameraSettings);
+            return new CameraSettings(Capacitor.defaults.BarcodeCapture.RecommendedCameraSettings);
         }
         static forContext(context, settings) {
             const barcodeCapture = new BarcodeCapture();
@@ -1827,26 +1827,26 @@ var capacitorPlugin = (function (exports, core) {
             }
         }
     }
-    __decorate$6([
+    __decorate$7([
         nameForSerialization('enabled')
     ], BarcodeCapture.prototype, "_isEnabled", void 0);
-    __decorate$6([
+    __decorate$7([
         nameForSerialization('feedback')
     ], BarcodeCapture.prototype, "_feedback", void 0);
-    __decorate$6([
+    __decorate$7([
         ignoreFromSerialization
     ], BarcodeCapture.prototype, "_context", void 0);
-    __decorate$6([
+    __decorate$7([
         ignoreFromSerialization
     ], BarcodeCapture.prototype, "listeners", void 0);
-    __decorate$6([
+    __decorate$7([
         ignoreFromSerialization
     ], BarcodeCapture.prototype, "listenerProxy", void 0);
-    __decorate$6([
+    __decorate$7([
         ignoreFromSerialization
     ], BarcodeCapture.prototype, "isInListenerCallback", void 0);
 
-    var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -1855,7 +1855,7 @@ var capacitorPlugin = (function (exports, core) {
     class BarcodeSelectionFeedback extends DefaultSerializeable {
         constructor() {
             super(...arguments);
-            this.selection = Capacitor$1.defaults.BarcodeSelection.feedback.selection;
+            this.selection = Capacitor.defaults.BarcodeSelection.feedback.selection;
         }
         static get default() {
             return new BarcodeSelectionFeedback();
@@ -1927,7 +1927,7 @@ var capacitorPlugin = (function (exports, core) {
         constructor() {
             super();
             this.type = BarcodeSelectionTypeName.Aimer;
-            this.selectionStrategy = Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionAimerSelection
+            this.selectionStrategy = Capacitor.defaults.BarcodeSelection.BarcodeSelectionAimerSelection
                 .defaultSelectionStrategy(PrivateBarcodeSelectionStrategy.fromJSON);
         }
         static get aimerSelection() {
@@ -1945,8 +1945,8 @@ var capacitorPlugin = (function (exports, core) {
         constructor() {
             super(...arguments);
             this.type = BarcodeSelectionTypeName.Tap;
-            this.freezeBehavior = Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionTapSelection.defaultFreezeBehavior;
-            this.tapBehavior = Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionTapSelection.defaultTapBehavior;
+            this.freezeBehavior = Capacitor.defaults.BarcodeSelection.BarcodeSelectionTapSelection.defaultFreezeBehavior;
+            this.tapBehavior = Capacitor.defaults.BarcodeSelection.BarcodeSelectionTapSelection.defaultTapBehavior;
         }
         static get tapSelection() {
             return new BarcodeSelectionTapSelection();
@@ -2006,10 +2006,10 @@ var capacitorPlugin = (function (exports, core) {
         constructor() {
             super();
             this.type = 'barcodeSelectionBasic';
-            this._trackedBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeWidth);
-            this._aimedBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeWidth);
-            this._selectedBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeWidth);
-            this._selectingBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeWidth);
+            this._trackedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeWidth);
+            this._aimedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeWidth);
+            this._selectedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeWidth);
+            this._selectingBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeWidth);
             this._shouldShowScanAreaGuides = false;
             this._shouldShowHints = true;
             this._viewfinder = new AimerViewfinder();
@@ -2066,27 +2066,27 @@ var capacitorPlugin = (function (exports, core) {
             return BarcodeSelectionBasicOverlay.withBarcodeSelectionForView(barcodeSelection, null);
         }
         static withBarcodeSelectionForView(barcodeSelection, view) {
-            return this.withBarcodeSelectionForViewWithStyle(barcodeSelection, view, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle);
+            return this.withBarcodeSelectionForViewWithStyle(barcodeSelection, view, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle);
         }
         static withBarcodeSelectionForViewWithStyle(barcodeSelection, view, style) {
             const overlay = new BarcodeSelectionBasicOverlay();
             overlay.barcodeSelection = barcodeSelection;
             overlay._style = style;
-            overlay._trackedBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultTrackedBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultTrackedBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+            overlay._trackedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultTrackedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultTrackedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
                 .DefaultTrackedBrush.strokeWidth);
-            overlay._aimedBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultAimedBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultAimedBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+            overlay._aimedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultAimedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultAimedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
                 .DefaultAimedBrush.strokeWidth);
-            overlay._selectedBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultSelectedBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultSelectedBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+            overlay._selectedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultSelectedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultSelectedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
                 .DefaultSelectedBrush.strokeWidth);
-            overlay._selectingBrush = new Brush(Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultSelectingBrush.fillColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
-                .DefaultSelectingBrush.strokeColor, Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+            overlay._selectingBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultSelectingBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
+                .DefaultSelectingBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[overlay._style]
                 .DefaultSelectingBrush.strokeWidth);
             if (view) {
                 view.addOverlay(overlay);
@@ -2094,31 +2094,31 @@ var capacitorPlugin = (function (exports, core) {
             return overlay;
         }
     }
-    __decorate$7([
+    __decorate$6([
         ignoreFromSerialization
     ], BarcodeSelectionBasicOverlay.prototype, "barcodeSelection", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('trackedBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_trackedBrush", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('aimedBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_aimedBrush", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('selectedBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_selectedBrush", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('selectingBrush')
     ], BarcodeSelectionBasicOverlay.prototype, "_selectingBrush", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('style')
     ], BarcodeSelectionBasicOverlay.prototype, "_style", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('shouldShowScanAreaGuides')
     ], BarcodeSelectionBasicOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('shouldShowHints')
     ], BarcodeSelectionBasicOverlay.prototype, "_shouldShowHints", void 0);
-    __decorate$7([
+    __decorate$6([
         nameForSerialization('viewfinder')
     ], BarcodeSelectionBasicOverlay.prototype, "_viewfinder", void 0);
 
@@ -2136,28 +2136,28 @@ var capacitorPlugin = (function (exports, core) {
         }
         getCount(barcode) {
             return new Promise((resolve, reject) => {
-                BarcodeSelectionListenerProxy.exec((response) => resolve(response.result), reject, CapacitorFunction$1.GetCountForBarcodeInBarcodeSelectionSession, {
+                BarcodeSelectionListenerProxy.exec((response) => resolve(response.result), reject, CapacitorFunction.GetCountForBarcodeInBarcodeSelectionSession, {
                     selectionIdentifier: barcode.selectionIdentifier,
                 });
             });
         }
         reset() {
-            return core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.ResetBarcodeSelectionSession]();
+            return core.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeSelectionSession]();
         }
         initialize() {
             this.subscribeListener();
         }
         subscribeListener() {
-            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.SubscribeBarcodeSelectionListener]();
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeSelectionListener]();
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeSelectionListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeSelectionListenerEvent.DidUpdateSelection, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
             const done = () => {
                 this.barcodeSelection.isInListenerCallback = false;
-                core.Plugins[Capacitor$1.pluginName].finishCallback({
+                core.Plugins[Capacitor.pluginName].finishCallback({
                     result: {
                         enabled: this.barcodeSelection.isEnabled,
                         finishCallbackID: event.name,
@@ -2196,23 +2196,23 @@ var capacitorPlugin = (function (exports, core) {
             return done();
         }
     }
-    BarcodeSelectionListenerProxy.exec = Capacitor$1.exec;
+    BarcodeSelectionListenerProxy.exec = Capacitor.exec;
 
     class BarcodeSelectionProxy {
         reset() {
             return new Promise((resolve, reject) => {
-                BarcodeSelectionProxy.exec(resolve, reject, CapacitorFunction$1.ResetBarcodeSelection, null);
+                BarcodeSelectionProxy.exec(resolve, reject, CapacitorFunction.ResetBarcodeSelection, null);
             });
         }
         unfreezeCamera() {
             return new Promise((resolve, reject) => {
-                BarcodeSelectionProxy.exec(resolve, reject, CapacitorFunction$1.UnfreezeCameraInBarcodeSelection, null);
+                BarcodeSelectionProxy.exec(resolve, reject, CapacitorFunction.UnfreezeCameraInBarcodeSelection, null);
             });
         }
     }
-    BarcodeSelectionProxy.exec = Capacitor$1.exec;
+    BarcodeSelectionProxy.exec = Capacitor.exec;
 
-    var __decorate$8 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2260,7 +2260,7 @@ var capacitorPlugin = (function (exports, core) {
             this.didChange();
         }
         static get recommendedCameraSettings() {
-            return new CameraSettings(Capacitor$1.defaults.BarcodeSelection.RecommendedCameraSettings);
+            return new CameraSettings(Capacitor.defaults.BarcodeSelection.RecommendedCameraSettings);
         }
         static forContext(context, settings) {
             const barcodeSelection = new BarcodeSelection();
@@ -2302,32 +2302,32 @@ var capacitorPlugin = (function (exports, core) {
             }
         }
     }
-    __decorate$8([
+    __decorate$5([
         nameForSerialization('enabled')
     ], BarcodeSelection.prototype, "_isEnabled", void 0);
-    __decorate$8([
+    __decorate$5([
         nameForSerialization('feedback')
     ], BarcodeSelection.prototype, "_feedback", void 0);
-    __decorate$8([
+    __decorate$5([
         nameForSerialization('pointOfInterest')
     ], BarcodeSelection.prototype, "_pointOfInterest", void 0);
-    __decorate$8([
+    __decorate$5([
         ignoreFromSerialization
     ], BarcodeSelection.prototype, "_context", void 0);
-    __decorate$8([
+    __decorate$5([
         ignoreFromSerialization
     ], BarcodeSelection.prototype, "listeners", void 0);
-    __decorate$8([
+    __decorate$5([
         ignoreFromSerialization
     ], BarcodeSelection.prototype, "listenerProxy", void 0);
-    __decorate$8([
+    __decorate$5([
         ignoreFromSerialization
     ], BarcodeSelection.prototype, "modeProxy", void 0);
-    __decorate$8([
+    __decorate$5([
         ignoreFromSerialization
     ], BarcodeSelection.prototype, "isInListenerCallback", void 0);
 
-    var __decorate$9 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2345,7 +2345,7 @@ var capacitorPlugin = (function (exports, core) {
             return this._radius;
         }
     }
-    __decorate$9([
+    __decorate$4([
         nameForSerialization('radius')
     ], RadiusLocationSelection.prototype, "_radius", void 0);
     class RectangularLocationSelection extends DefaultSerializeable {
@@ -2374,11 +2374,11 @@ var capacitorPlugin = (function (exports, core) {
             return locationSelection;
         }
     }
-    __decorate$9([
+    __decorate$4([
         nameForSerialization('size')
     ], RectangularLocationSelection.prototype, "_sizeWithUnitAndAspect", void 0);
 
-    var __decorate$a = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2387,14 +2387,14 @@ var capacitorPlugin = (function (exports, core) {
     class BarcodeCaptureSettings extends DefaultSerializeable {
         constructor() {
             super();
-            this.codeDuplicateFilter = Capacitor$1.defaults.BarcodeCapture.BarcodeCaptureSettings.codeDuplicateFilter;
+            this.codeDuplicateFilter = Capacitor.defaults.BarcodeCapture.BarcodeCaptureSettings.codeDuplicateFilter;
             this.locationSelection = null;
             this.enabledCompositeTypes = [];
             this.properties = {};
             this.symbologies = {};
         }
         get compositeTypeDescriptions() {
-            return Capacitor$1.defaults.CompositeTypeDescriptions.reduce((descriptions, description) => {
+            return Capacitor.defaults.CompositeTypeDescriptions.reduce((descriptions, description) => {
                 descriptions[description.types[0]] = description;
                 return descriptions;
             }, {});
@@ -2405,7 +2405,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         settingsForSymbology(symbology) {
             if (!this.symbologies[symbology]) {
-                const symbologySettings = Capacitor$1.defaults.SymbologySettings[symbology];
+                const symbologySettings = Capacitor.defaults.SymbologySettings[symbology];
                 symbologySettings._symbology = symbology;
                 this.symbologies[symbology] = symbologySettings;
             }
@@ -2429,11 +2429,11 @@ var capacitorPlugin = (function (exports, core) {
             });
         }
     }
-    __decorate$a([
+    __decorate$3([
         serializationDefault(NoneLocationSelection)
     ], BarcodeCaptureSettings.prototype, "locationSelection", void 0);
 
-    var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2442,9 +2442,9 @@ var capacitorPlugin = (function (exports, core) {
     class BarcodeSelectionSettings extends DefaultSerializeable {
         constructor() {
             super();
-            this.codeDuplicateFilter = Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionSettings.codeDuplicateFilter;
-            this.singleBarcodeAutoDetection = Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionSettings.singleBarcodeAutoDetection;
-            this.selectionType = Capacitor$1.defaults.BarcodeSelection.BarcodeSelectionSettings.selectionType(PrivateBarcodeSelectionType.fromJSON);
+            this.codeDuplicateFilter = Capacitor.defaults.BarcodeSelection.BarcodeSelectionSettings.codeDuplicateFilter;
+            this.singleBarcodeAutoDetection = Capacitor.defaults.BarcodeSelection.BarcodeSelectionSettings.singleBarcodeAutoDetection;
+            this.selectionType = Capacitor.defaults.BarcodeSelection.BarcodeSelectionSettings.selectionType(PrivateBarcodeSelectionType.fromJSON);
             this.properties = {};
             this.symbologies = {};
         }
@@ -2454,7 +2454,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         settingsForSymbology(symbology) {
             if (!this.symbologies[symbology]) {
-                const symbologySettings = Capacitor$1.defaults.SymbologySettings[symbology];
+                const symbologySettings = Capacitor.defaults.SymbologySettings[symbology];
                 symbologySettings._symbology = symbology;
                 this.symbologies[symbology] = symbologySettings;
             }
@@ -2473,7 +2473,7 @@ var capacitorPlugin = (function (exports, core) {
             this.settingsForSymbology(symbology).isEnabled = enabled;
         }
     }
-    __decorate$b([
+    __decorate$2([
         nameForSerialization('singleBarcodeAutoDetectionEnabled')
     ], BarcodeSelectionSettings.prototype, "singleBarcodeAutoDetection", void 0);
 
@@ -2501,7 +2501,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         setViewForTrackedBarcodeSync(view, trackedBarcode) {
             return new Promise((resolve, reject) => {
-                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction$1.SetViewForTrackedBarcode, {
+                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction.SetViewForTrackedBarcode, {
                     view: view ? view.toJSON() : null,
                     sessionFrameSequenceID: trackedBarcode.sessionFrameSequenceID,
                     trackedBarcodeID: trackedBarcode.identifier,
@@ -2510,7 +2510,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         setAnchorForTrackedBarcode(anchor, trackedBarcode) {
             return new Promise((resolve, reject) => {
-                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction$1.SetAnchorForTrackedBarcode, {
+                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction.SetAnchorForTrackedBarcode, {
                     anchor,
                     sessionFrameSequenceID: trackedBarcode.sessionFrameSequenceID,
                     trackedBarcodeID: trackedBarcode.identifier,
@@ -2519,7 +2519,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         setOffsetForTrackedBarcode(offset, trackedBarcode) {
             return new Promise((resolve, reject) => {
-                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction$1.SetOffsetForTrackedBarcode, {
+                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction.SetOffsetForTrackedBarcode, {
                     offset: offset ? JSON.stringify(offset.toJSON()) : null,
                     sessionFrameSequenceID: trackedBarcode.sessionFrameSequenceID,
                     trackedBarcodeID: trackedBarcode.identifier,
@@ -2528,15 +2528,15 @@ var capacitorPlugin = (function (exports, core) {
         }
         clearTrackedBarcodeViews() {
             return new Promise((resolve, reject) => {
-                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction$1.ClearTrackedBarcodeViews, null);
+                BarcodeTrackingAdvancedOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction.ClearTrackedBarcodeViews, null);
             });
         }
         subscribeListener() {
-            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.SubscribeBarcodeTrackingAdvancedOverlayListener]();
-            core.Plugins[Capacitor$1.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.AnchorForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor$1.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.DidTapViewForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor$1.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.OffsetForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor$1.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.ViewForTrackedBarcode, this.notifyListeners.bind(this));
+            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingAdvancedOverlayListener]();
+            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.AnchorForTrackedBarcode, this.notifyListeners.bind(this));
+            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.DidTapViewForTrackedBarcode, this.notifyListeners.bind(this));
+            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.OffsetForTrackedBarcode, this.notifyListeners.bind(this));
+            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.ViewForTrackedBarcode, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
             if (!event || !this.overlay.listener) {
@@ -2591,7 +2591,7 @@ var capacitorPlugin = (function (exports, core) {
             this.subscribeListener();
         }
     }
-    BarcodeTrackingAdvancedOverlayProxy.capacitorExec = Capacitor$1.exec;
+    BarcodeTrackingAdvancedOverlayProxy.capacitorExec = Capacitor.exec;
 
     var BarcodeTrackingBasicOverlayListenerEvent;
     (function (BarcodeTrackingBasicOverlayListenerEvent) {
@@ -2607,7 +2607,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         setBrushForTrackedBarcode(brush, trackedBarcode) {
             return new Promise((resolve, reject) => {
-                BarcodeTrackingBasicOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction$1.SetBrushForTrackedBarcode, {
+                BarcodeTrackingBasicOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction.SetBrushForTrackedBarcode, {
                     brush: brush ? JSON.stringify(brush.toJSON()) : null,
                     sessionFrameSequenceID: trackedBarcode.sessionFrameSequenceID,
                     trackedBarcodeID: trackedBarcode.identifier,
@@ -2616,14 +2616,14 @@ var capacitorPlugin = (function (exports, core) {
         }
         clearTrackedBarcodeBrushes() {
             return new Promise((resolve, reject) => {
-                BarcodeTrackingBasicOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction$1.ClearTrackedBarcodeBrushes, null);
+                BarcodeTrackingBasicOverlayProxy.capacitorExec(resolve, reject, CapacitorFunction.ClearTrackedBarcodeBrushes, null);
             });
         }
         subscribeListener() {
-            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.SubscribeBarcodeTrackingBasicOverlayListener]();
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingBasicOverlayListener]();
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeTrackingBasicOverlayListenerEvent.BrushForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeTrackingBasicOverlayListenerEvent.DidTapTrackedBarcode, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
@@ -2657,9 +2657,9 @@ var capacitorPlugin = (function (exports, core) {
             this.subscribeListener();
         }
     }
-    BarcodeTrackingBasicOverlayProxy.capacitorExec = Capacitor$1.exec;
+    BarcodeTrackingBasicOverlayProxy.capacitorExec = Capacitor.exec;
 
-    var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2713,7 +2713,7 @@ var capacitorPlugin = (function (exports, core) {
         constructor() {
             super();
             this.type = 'barcodeTrackingBasic';
-            this._defaultBrush = new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
+            this._defaultBrush = new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
             this._shouldShowScanAreaGuides = false;
             this.listener = null;
         }
@@ -2721,7 +2721,7 @@ var capacitorPlugin = (function (exports, core) {
             // tslint:disable-next-line:no-console
             console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
                 'Use .brush to get the default for your selected style');
-            return new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
+            return new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle].DefaultBrush.strokeWidth);
         }
         get brush() {
             return this._defaultBrush;
@@ -2750,15 +2750,15 @@ var capacitorPlugin = (function (exports, core) {
             return BarcodeTrackingBasicOverlay.withBarcodeTrackingForView(barcodeTracking, null);
         }
         static withBarcodeTrackingForView(barcodeTracking, view) {
-            return this.withBarcodeTrackingForViewWithStyle(barcodeTracking, view, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle);
+            return this.withBarcodeTrackingForViewWithStyle(barcodeTracking, view, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.defaultStyle);
         }
         static withBarcodeTrackingForViewWithStyle(barcodeTracking, view, style) {
             const overlay = new BarcodeTrackingBasicOverlay();
             overlay.barcodeTracking = barcodeTracking;
             overlay._style = style;
-            overlay._defaultBrush = new Brush(Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
-                .DefaultBrush.fillColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
-                .DefaultBrush.strokeColor, Capacitor$1.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+            overlay._defaultBrush = new Brush(Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+                .DefaultBrush.fillColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
+                .DefaultBrush.strokeColor, Capacitor.defaults.BarcodeTracking.BarcodeTrackingBasicOverlay.styles[overlay._style]
                 .DefaultBrush.strokeWidth);
             if (view) {
                 view.addOverlay(overlay);
@@ -2779,22 +2779,22 @@ var capacitorPlugin = (function (exports, core) {
             this._proxy = BarcodeTrackingBasicOverlayProxy.forOverlay(this);
         }
     }
-    __decorate$c([
+    __decorate$1([
         ignoreFromSerialization
     ], BarcodeTrackingBasicOverlay.prototype, "barcodeTracking", void 0);
-    __decorate$c([
+    __decorate$1([
         nameForSerialization('defaultBrush')
     ], BarcodeTrackingBasicOverlay.prototype, "_defaultBrush", void 0);
-    __decorate$c([
+    __decorate$1([
         nameForSerialization('shouldShowScanAreaGuides')
     ], BarcodeTrackingBasicOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
-    __decorate$c([
+    __decorate$1([
         ignoreFromSerialization
     ], BarcodeTrackingBasicOverlay.prototype, "listener", void 0);
-    __decorate$c([
+    __decorate$1([
         ignoreFromSerialization
     ], BarcodeTrackingBasicOverlay.prototype, "_proxy", void 0);
-    __decorate$c([
+    __decorate$1([
         nameForSerialization('style')
     ], BarcodeTrackingBasicOverlay.prototype, "_style", void 0);
     class BarcodeTrackingAdvancedOverlay extends DefaultSerializeable {
@@ -2845,16 +2845,16 @@ var capacitorPlugin = (function (exports, core) {
             this._proxy = BarcodeTrackingAdvancedOverlayProxy.forOverlay(this);
         }
     }
-    __decorate$c([
+    __decorate$1([
         nameForSerialization('shouldShowScanAreaGuides')
     ], BarcodeTrackingAdvancedOverlay.prototype, "_shouldShowScanAreaGuides", void 0);
-    __decorate$c([
+    __decorate$1([
         ignoreFromSerialization
     ], BarcodeTrackingAdvancedOverlay.prototype, "barcodeTracking", void 0);
-    __decorate$c([
+    __decorate$1([
         ignoreFromSerialization
     ], BarcodeTrackingAdvancedOverlay.prototype, "listener", void 0);
-    __decorate$c([
+    __decorate$1([
         ignoreFromSerialization
     ], BarcodeTrackingAdvancedOverlay.prototype, "_proxy", void 0);
 
@@ -2873,17 +2873,17 @@ var capacitorPlugin = (function (exports, core) {
             this.subscribeListener();
         }
         subscribeListener() {
-            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.SubscribeBarcodeTrackingListener]();
-            core.Plugins[Capacitor$1.pluginName]
+            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingListener]();
+            core.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeTrackingListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
         }
         reset() {
-            return core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.ResetBarcodeTrackingSession]();
+            return core.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeTrackingSession]();
         }
         notifyListeners(event) {
             const done = () => {
                 this.barcodeTracking.isInListenerCallback = false;
-                core.Plugins[Capacitor$1.pluginName].finishCallback({
+                core.Plugins[Capacitor.pluginName].finishCallback({
                     result: {
                         enabled: this.barcodeTracking.isEnabled,
                         finishCallbackID: event.name,
@@ -2912,9 +2912,9 @@ var capacitorPlugin = (function (exports, core) {
             return done();
         }
     }
-    BarcodeTrackingListenerProxy.capacitorExec = Capacitor$1.exec;
+    BarcodeTrackingListenerProxy.capacitorExec = Capacitor.exec;
 
-    var __decorate$d = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -2945,7 +2945,7 @@ var capacitorPlugin = (function (exports, core) {
             return this._context;
         }
         static get recommendedCameraSettings() {
-            return new CameraSettings(Capacitor$1.defaults.BarcodeTracking.RecommendedCameraSettings);
+            return new CameraSettings(Capacitor.defaults.BarcodeTracking.RecommendedCameraSettings);
         }
         static forContext(context, settings) {
             const barcodeTracking = new BarcodeTracking();
@@ -2981,16 +2981,16 @@ var capacitorPlugin = (function (exports, core) {
             }
         }
     }
-    __decorate$d([
+    __decorate([
         nameForSerialization('enabled')
     ], BarcodeTracking.prototype, "_isEnabled", void 0);
-    __decorate$d([
+    __decorate([
         ignoreFromSerialization
     ], BarcodeTracking.prototype, "_context", void 0);
-    __decorate$d([
+    __decorate([
         ignoreFromSerialization
     ], BarcodeTracking.prototype, "listeners", void 0);
-    __decorate$d([
+    __decorate([
         ignoreFromSerialization
     ], BarcodeTracking.prototype, "listenerProxy", void 0);
 
@@ -3017,7 +3017,7 @@ var capacitorPlugin = (function (exports, core) {
         }
         settingsForSymbology(symbology) {
             if (!this.symbologies[symbology]) {
-                const symbologySettings = Capacitor$1.defaults.SymbologySettings[symbology];
+                const symbologySettings = Capacitor.defaults.SymbologySettings[symbology];
                 symbologySettings._symbology = symbology;
                 this.symbologies[symbology] = symbologySettings;
             }
@@ -3106,13 +3106,7 @@ var capacitorPlugin = (function (exports, core) {
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     };
-    class ScanditBarcodePlugin extends core.WebPlugin {
-        constructor() {
-            super({
-                name: 'ScanditBarcodePlugin',
-                platforms: ['android', 'ios'],
-            });
-        }
+    class ScanditBarcodePluginImplementation {
         initialize() {
             return __awaiter(this, void 0, void 0, function* () {
                 const api = {
@@ -3154,21 +3148,26 @@ var capacitorPlugin = (function (exports, core) {
                     Range,
                     TrackedBarcodeView,
                 };
-                return new Promise((resolve, reject) => getDefaults$1.then(() => {
+                return new Promise((resolve, reject) => getDefaults.then(() => {
                     resolve(api);
                 }, reject));
             });
         }
     }
-    const scanditBarcode = new ScanditBarcodePlugin();
-    core.registerWebPlugin(scanditBarcode);
+    // tslint:disable-next-line:variable-name
+    core.registerPlugin('ScanditBarcodePlugin', {
+        android: () => new ScanditBarcodePluginImplementation(),
+        ios: () => new ScanditBarcodePluginImplementation(),
+    });
+    // tslint:disable-next-line:variable-name
+    const ScanditBarcodePlugin = new ScanditBarcodePluginImplementation();
 
     exports.ScanditBarcodePlugin = ScanditBarcodePlugin;
-    exports.scanditBarcode = scanditBarcode;
+    exports.ScanditBarcodePluginImplementation = ScanditBarcodePluginImplementation;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
     return exports;
 
-}({}, require('@capacitor/core')));
+})({}, require('@capacitor/core'));
 //# sourceMappingURL=plugin.js.map

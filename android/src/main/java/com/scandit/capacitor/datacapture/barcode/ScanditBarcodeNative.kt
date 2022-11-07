@@ -5,14 +5,13 @@
  */
 package com.scandit.capacitor.datacapture.barcode
 
-import android.Manifest
 import android.util.Log
 import android.view.View
 import com.getcapacitor.JSObject
-import com.getcapacitor.NativePlugin
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
+import com.getcapacitor.annotation.CapacitorPlugin
 import com.scandit.capacitor.datacapture.barcode.callbacks.BarcodeCallbackContainer
 import com.scandit.capacitor.datacapture.barcode.callbacks.BarcodeCaptureCallback
 import com.scandit.capacitor.datacapture.barcode.callbacks.BarcodeSelectionCallback
@@ -92,14 +91,12 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-@NativePlugin(
-    permissions = [
-        Manifest.permission.CAMERA
-    ]
+@CapacitorPlugin(
+    name = "ScanditBarcodeNative"
 )
 class ScanditBarcodeNative :
     Plugin(),
-    CapacitorPlugin,
+    com.scandit.capacitor.datacapture.barcode.CapacitorPlugin,
     ActionFinishHandler,
     BarcodeCaptureListener,
     BarcodeTrackingListener,

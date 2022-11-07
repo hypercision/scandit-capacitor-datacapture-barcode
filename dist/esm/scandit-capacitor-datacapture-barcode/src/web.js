@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { WebPlugin } from '@capacitor/core';
+import { registerPlugin } from '@capacitor/core';
 import { getDefaults } from './ts/Capacitor/Capacitor';
 import { Barcode, Checksum, CompositeFlag, CompositeType, EncodingRange, LocalizedOnlyBarcode, Range, Symbology, SymbologyDescription, SymbologySettings, TrackedBarcode, } from './ts/Barcode';
 import { BarcodeCapture, } from './ts/BarcodeCapture';
@@ -20,13 +20,7 @@ import { BarcodeTracking, } from './ts/BarcodeTracking';
 import { BarcodeTrackingScenario, BarcodeTrackingSettings, } from './ts/BarcodeTrackingSettings';
 import { BarcodeTrackingAdvancedOverlay, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingSession, } from './ts/BarcodeTracking+Related';
 import { TrackedBarcodeView, } from './ts/TrackedBarcodeView';
-export class ScanditBarcodePlugin extends WebPlugin {
-    constructor() {
-        super({
-            name: 'ScanditBarcodePlugin',
-            platforms: ['android', 'ios'],
-        });
-    }
+export class ScanditBarcodePluginImplementation {
     initialize() {
         return __awaiter(this, void 0, void 0, function* () {
             const api = {
@@ -74,8 +68,11 @@ export class ScanditBarcodePlugin extends WebPlugin {
         });
     }
 }
-const scanditBarcode = new ScanditBarcodePlugin();
-export { scanditBarcode };
-import { registerWebPlugin } from '@capacitor/core';
-registerWebPlugin(scanditBarcode);
+// tslint:disable-next-line:variable-name
+registerPlugin('ScanditBarcodePlugin', {
+    android: () => new ScanditBarcodePluginImplementation(),
+    ios: () => new ScanditBarcodePluginImplementation(),
+});
+// tslint:disable-next-line:variable-name
+export const ScanditBarcodePlugin = new ScanditBarcodePluginImplementation();
 //# sourceMappingURL=web.js.map
