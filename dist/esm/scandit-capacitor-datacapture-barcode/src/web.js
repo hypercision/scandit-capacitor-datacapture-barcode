@@ -8,7 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { registerPlugin } from '@capacitor/core';
-import { getDefaults } from './ts/Capacitor/Capacitor';
+import { Capacitor as CapacitorCore } from '../../scandit-capacitor-datacapture-core/src/ts/Capacitor/Capacitor';
+import { Capacitor as CapacitorBarcode, getDefaults } from './ts/Capacitor/Capacitor';
 import { Barcode, Checksum, CompositeFlag, CompositeType, EncodingRange, LocalizedOnlyBarcode, Range, Symbology, SymbologyDescription, SymbologySettings, TrackedBarcode, } from './ts/Barcode';
 import { BarcodeCapture, } from './ts/BarcodeCapture';
 import { BarcodeSelection, } from './ts/BarcodeSelection';
@@ -21,7 +22,7 @@ import { BarcodeTrackingScenario, BarcodeTrackingSettings, } from './ts/BarcodeT
 import { BarcodeTrackingAdvancedOverlay, BarcodeTrackingBasicOverlay, BarcodeTrackingBasicOverlayStyle, BarcodeTrackingSession, } from './ts/BarcodeTracking+Related';
 import { TrackedBarcodeView, } from './ts/TrackedBarcodeView';
 export class ScanditBarcodePluginImplementation {
-    initialize() {
+    initialize(coreDefaults) {
         return __awaiter(this, void 0, void 0, function* () {
             const api = {
                 Barcode,
@@ -62,9 +63,10 @@ export class ScanditBarcodePluginImplementation {
                 Range,
                 TrackedBarcodeView,
             };
-            return new Promise((resolve, reject) => getDefaults.then(() => {
-                resolve(api);
-            }, reject));
+            CapacitorCore.defaults = coreDefaults;
+            const barcodeDefaults = yield getDefaults();
+            CapacitorBarcode.defaults = barcodeDefaults;
+            return api;
         });
     }
 }
@@ -72,6 +74,7 @@ export class ScanditBarcodePluginImplementation {
 registerPlugin('ScanditBarcodePlugin', {
     android: () => new ScanditBarcodePluginImplementation(),
     ios: () => new ScanditBarcodePluginImplementation(),
+    web: () => new ScanditBarcodePluginImplementation(),
 });
 // tslint:disable-next-line:variable-name
 export const ScanditBarcodePlugin = new ScanditBarcodePluginImplementation();

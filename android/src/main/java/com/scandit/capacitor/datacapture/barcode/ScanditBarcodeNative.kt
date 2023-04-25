@@ -143,7 +143,9 @@ class ScanditBarcodeNative :
         session: BarcodeCaptureSession,
         data: FrameData
     ) {
+        ScanditCaptureCoreNative.lastFrame = data
         barcodeCallbacks.barcodeCaptureCallback?.onSessionUpdated(barcodeCapture, session, data)
+        ScanditCaptureCoreNative.lastFrame = null
     }
 
     override fun onBarcodeScanned(
@@ -151,7 +153,9 @@ class ScanditBarcodeNative :
         session: BarcodeCaptureSession,
         data: FrameData
     ) {
+        ScanditCaptureCoreNative.lastFrame = data
         barcodeCallbacks.barcodeCaptureCallback?.onBarcodeScanned(barcodeCapture, session, data)
+        ScanditCaptureCoreNative.lastFrame = null
     }
     //endregion
 
@@ -161,7 +165,9 @@ class ScanditBarcodeNative :
         session: BarcodeTrackingSession,
         data: FrameData
     ) {
+        ScanditCaptureCoreNative.lastFrame = data
         barcodeCallbacks.barcodeTrackingCallback?.onSessionUpdated(mode, session, data)
+        ScanditCaptureCoreNative.lastFrame = null
     }
     //endregion
 
@@ -286,7 +292,9 @@ class ScanditBarcodeNative :
         session: BarcodeSelectionSession,
         frameData: FrameData?
     ) {
+        ScanditCaptureCoreNative.lastFrame = frameData
         barcodeCallbacks.barcodeSelectionCallback?.onSelectionUpdated(barcodeSelection, session)
+        ScanditCaptureCoreNative.lastFrame = null
     }
 
     override fun onSessionUpdated(
@@ -294,7 +302,9 @@ class ScanditBarcodeNative :
         session: BarcodeSelectionSession,
         frameData: FrameData?
     ) {
+        ScanditCaptureCoreNative.lastFrame = frameData
         barcodeCallbacks.barcodeSelectionCallback?.onSessionUpdated(barcodeSelection, session)
+        ScanditCaptureCoreNative.lastFrame = null
     }
     //endregion
 
@@ -561,7 +571,6 @@ class ScanditBarcodeNative :
     @PluginMethod
     fun setOffsetForTrackedBarcode(call: PluginCall) {
         try {
-            // TODO: check how data is called to retrieve it from the call
             val data = SerializableAdvancedOverlayOffsetActionData(
                 JSONObject(call.data.toString())
             )

@@ -1,5 +1,5 @@
+import { CameraProxy } from '../../../../scandit-capacitor-datacapture-core/src/ts/Capacitor/CameraProxy';
 import { BarcodeSelectionSession, } from '../BarcodeSelection+Related';
-import { Plugins } from '@capacitor/core';
 import { Capacitor, CapacitorFunction } from './Capacitor';
 var BarcodeSelectionListenerEvent;
 (function (BarcodeSelectionListenerEvent) {
@@ -21,22 +21,22 @@ export class BarcodeSelectionListenerProxy {
         });
     }
     reset() {
-        return Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeSelectionSession]();
+        return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeSelectionSession]();
     }
     initialize() {
         this.subscribeListener();
     }
     subscribeListener() {
-        Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeSelectionListener]();
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeSelectionListener]();
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeSelectionListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeSelectionListenerEvent.DidUpdateSelection, this.notifyListeners.bind(this));
     }
     notifyListeners(event) {
         const done = () => {
             this.barcodeSelection.isInListenerCallback = false;
-            Plugins[Capacitor.pluginName].finishCallback({
+            window.Capacitor.Plugins[Capacitor.pluginName].finishCallback({
                 result: {
                     enabled: this.barcodeSelection.isEnabled,
                     finishCallbackID: event.name,
@@ -59,7 +59,7 @@ export class BarcodeSelectionListenerProxy {
                         const session = BarcodeSelectionSession
                             .fromJSON(JSON.parse(event.session));
                         session.listenerProxy = this;
-                        listener.didUpdateSelection(this.barcodeSelection, session);
+                        listener.didUpdateSelection(this.barcodeSelection, session, CameraProxy.getLastFrame);
                     }
                     break;
                 case BarcodeSelectionListenerEvent.DidUpdateSession:
@@ -67,7 +67,7 @@ export class BarcodeSelectionListenerProxy {
                         const session = BarcodeSelectionSession
                             .fromJSON(JSON.parse(event.session));
                         session.listenerProxy = this;
-                        listener.didUpdateSession(this.barcodeSelection, session);
+                        listener.didUpdateSession(this.barcodeSelection, session, CameraProxy.getLastFrame);
                     }
                     break;
             }

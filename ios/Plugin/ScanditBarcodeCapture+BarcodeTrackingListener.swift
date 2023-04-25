@@ -1,3 +1,9 @@
+/*
+ * This file is part of the Scandit Data Capture SDK
+ *
+ * Copyright (C) 2023- Scandit AG. All rights reserved.
+ */
+
 import ScanditBarcodeCapture
 import ScanditCapacitorDatacaptureCore
 
@@ -11,6 +17,9 @@ extension ScanditBarcodeCapture: BarcodeTrackingListener {
 
         lastTrackedBarcodes = session.trackedBarcodes
         lastFrameSequenceId = session.frameSequenceId
+
+        ScanditCaptureCore.lastFrame = frameData
+        defer { ScanditCaptureCore.lastFrame = nil }
 
         barcodeTrackingSession = session
 

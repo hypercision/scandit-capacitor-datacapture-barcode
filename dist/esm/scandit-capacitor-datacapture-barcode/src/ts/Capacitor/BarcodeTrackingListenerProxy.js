@@ -1,5 +1,5 @@
+import { CameraProxy } from '../../../../scandit-capacitor-datacapture-core/src/ts/Capacitor/CameraProxy';
 import { BarcodeTrackingSession, } from '../BarcodeTracking+Related';
-import { Plugins } from '@capacitor/core';
 import { Capacitor, CapacitorFunction } from './Capacitor';
 var BarcodeTrackingListenerEvent;
 (function (BarcodeTrackingListenerEvent) {
@@ -16,17 +16,17 @@ export class BarcodeTrackingListenerProxy {
         this.subscribeListener();
     }
     subscribeListener() {
-        Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingListener]();
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingListener]();
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeTrackingListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
     }
     reset() {
-        return Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeTrackingSession]();
+        return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeTrackingSession]();
     }
     notifyListeners(event) {
         const done = () => {
             this.barcodeTracking.isInListenerCallback = false;
-            Plugins[Capacitor.pluginName].finishCallback({
+            window.Capacitor.Plugins[Capacitor.pluginName].finishCallback({
                 result: {
                     enabled: this.barcodeTracking.isEnabled,
                     finishCallbackID: event.name,
@@ -47,7 +47,7 @@ export class BarcodeTrackingListenerProxy {
                 case BarcodeTrackingListenerEvent.DidUpdateSession:
                     if (listener.didUpdateSession) {
                         listener.didUpdateSession(this.barcodeTracking, BarcodeTrackingSession
-                            .fromJSON(JSON.parse(event.session)));
+                            .fromJSON(JSON.parse(event.session)), CameraProxy.getLastFrame);
                     }
                     break;
             }

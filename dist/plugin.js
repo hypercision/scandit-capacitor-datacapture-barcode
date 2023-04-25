@@ -35,7 +35,7 @@ var capacitorPlugin = (function (exports, core) {
                     // tslint:disable-next-line:no-console
                     console.log(`[SCANDIT WARNING] Took ${callbackDuration}ms to execute callback that's blocking native execution. You should keep this duration short, for more information, take a look at the documentation.`);
                 }
-                core.Plugins[pluginName].finishCallback([{
+                window.Capacitor.Plugins[pluginName].finishCallback([{
                         finishCallbackID,
                         result: callbackResult,
                     }]);
@@ -50,14 +50,14 @@ var capacitorPlugin = (function (exports, core) {
                 errorCallback(error);
             }
         };
-        core.Plugins[pluginName][functionName](args).then(extendedSuccessCallback, extendedErrorCallback);
+        window.Capacitor.Plugins[pluginName][functionName](args).then(extendedSuccessCallback, extendedErrorCallback);
     };
     const doReturnWithFinish = (finishCallbackID, result) => {
-        if (core.Plugins.ScanditBarcodeNative) {
-            core.Plugins.ScanditBarcodeNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
+        if (window.Capacitor.Plugins.ScanditBarcodeNative) {
+            window.Capacitor.Plugins.ScanditBarcodeNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
         }
-        else if (core.Plugins.ScanditIdNative) {
-            core.Plugins.ScanditIdNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
+        else if (window.Capacitor.Plugins.ScanditIdNative) {
+            window.Capacitor.Plugins.ScanditIdNative.finishCallback({ result: Object.assign({ finishCallbackID }, result) });
         }
         return result;
     };
@@ -595,7 +595,94 @@ var capacitorPlugin = (function (exports, core) {
         Direction["BottomToTop"] = "bottomToTop";
     })(Direction || (Direction = {}));
 
+    var LogoStyle;
+    (function (LogoStyle) {
+        LogoStyle["Minimal"] = "minimal";
+        LogoStyle["Extended"] = "extended";
+    })(LogoStyle || (LogoStyle = {}));
+
     var __decorate$c = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+        return c > 3 && r && Object.defineProperty(target, key, r), r;
+    };
+    var RectangularViewfinderStyle;
+    (function (RectangularViewfinderStyle) {
+        RectangularViewfinderStyle["Legacy"] = "legacy";
+        RectangularViewfinderStyle["Rounded"] = "rounded";
+        RectangularViewfinderStyle["Square"] = "square";
+    })(RectangularViewfinderStyle || (RectangularViewfinderStyle = {}));
+    var RectangularViewfinderLineStyle;
+    (function (RectangularViewfinderLineStyle) {
+        RectangularViewfinderLineStyle["Light"] = "light";
+        RectangularViewfinderLineStyle["Bold"] = "bold";
+    })(RectangularViewfinderLineStyle || (RectangularViewfinderLineStyle = {}));
+    var LaserlineViewfinderStyle;
+    (function (LaserlineViewfinderStyle) {
+        LaserlineViewfinderStyle["Legacy"] = "legacy";
+        LaserlineViewfinderStyle["Animated"] = "animated";
+    })(LaserlineViewfinderStyle || (LaserlineViewfinderStyle = {}));
+    class RectangularViewfinderAnimation extends DefaultSerializeable {
+        constructor(isLooping) {
+            super();
+            this._isLooping = false;
+            this._isLooping = isLooping;
+        }
+        static fromJSON(json) {
+            if (json === null) {
+                return null;
+            }
+            return new RectangularViewfinderAnimation(json.looping);
+        }
+        get isLooping() {
+            return this._isLooping;
+        }
+    }
+    __decorate$c([
+        nameForSerialization('isLooping')
+    ], RectangularViewfinderAnimation.prototype, "_isLooping", void 0);
+
+    (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var CapacitorFunction$1;
+    (function (CapacitorFunction) {
+        CapacitorFunction["GetDefaults"] = "getDefaults";
+        CapacitorFunction["ContextFromJSON"] = "contextFromJSON";
+        CapacitorFunction["DisposeContext"] = "disposeContext";
+        CapacitorFunction["UpdateContextFromJSON"] = "updateContextFromJSON";
+        CapacitorFunction["SubscribeContextListener"] = "subscribeContextListener";
+        CapacitorFunction["SubscribeContextFrameListener"] = "subscribeContextFrameListener";
+        CapacitorFunction["SetViewPositionAndSize"] = "setViewPositionAndSize";
+        CapacitorFunction["ShowView"] = "showView";
+        CapacitorFunction["HideView"] = "hideView";
+        CapacitorFunction["ViewPointForFramePoint"] = "viewPointForFramePoint";
+        CapacitorFunction["ViewQuadrilateralForFrameQuadrilateral"] = "viewQuadrilateralForFrameQuadrilateral";
+        CapacitorFunction["SubscribeViewListener"] = "subscribeViewListener";
+        CapacitorFunction["GetCurrentCameraState"] = "getCurrentCameraState";
+        CapacitorFunction["GetIsTorchAvailable"] = "getIsTorchAvailable";
+        CapacitorFunction["GetLastFrame"] = "getLastFrame";
+        CapacitorFunction["GetLastFrameOrNull"] = "getLastFrameOrNull";
+        CapacitorFunction["EmitFeedback"] = "emitFeedback";
+        CapacitorFunction["SubscribeVolumeButtonObserver"] = "subscribeVolumeButtonObserver";
+        CapacitorFunction["UnsubscribeVolumeButtonObserver"] = "unsubscribeVolumeButtonObserver";
+    })(CapacitorFunction$1 || (CapacitorFunction$1 = {}));
+    const pluginName$1 = 'ScanditCaptureCoreNative';
+    // tslint:disable-next-line:variable-name
+    const Capacitor$1 = {
+        pluginName: pluginName$1,
+        defaults: {},
+        exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName$1, functionName, args),
+    };
+
+    var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
         else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
@@ -704,13 +791,13 @@ var capacitorPlugin = (function (exports, core) {
             }
         }
     }
-    __decorate$c([
+    __decorate$b([
         ignoreFromSerialization
     ], SymbologySettings.prototype, "_symbology", void 0);
-    __decorate$c([
+    __decorate$b([
         nameForSerialization('enabled')
     ], SymbologySettings.prototype, "isEnabled", void 0);
-    __decorate$c([
+    __decorate$b([
         nameForSerialization('colorInvertedEnabled')
     ], SymbologySettings.prototype, "isColorInvertedEnabled", void 0);
     var Checksum;
@@ -766,13 +853,13 @@ var capacitorPlugin = (function (exports, core) {
             return range;
         }
     }
-    __decorate$c([
+    __decorate$b([
         nameForSerialization('minimum')
     ], Range.prototype, "_minimum", void 0);
-    __decorate$c([
+    __decorate$b([
         nameForSerialization('maximum')
     ], Range.prototype, "_maximum", void 0);
-    __decorate$c([
+    __decorate$b([
         nameForSerialization('step')
     ], Range.prototype, "_step", void 0);
     class Barcode {
@@ -836,194 +923,6 @@ var capacitorPlugin = (function (exports, core) {
             return trackedBarcode;
         }
     }
-
-    class PrivateFocusGestureDeserializer {
-        static fromJSON(json) {
-            if (json && json.type === new TapToFocus().type) {
-                return new TapToFocus();
-            }
-            else {
-                return null;
-            }
-        }
-    }
-    class TapToFocus extends DefaultSerializeable {
-        constructor() {
-            super();
-            this.type = 'tapToFocus';
-        }
-    }
-    class PrivateZoomGestureDeserializer {
-        static fromJSON(json) {
-            if (json && json.type === new SwipeToZoom().type) {
-                return new SwipeToZoom();
-            }
-            else {
-                return null;
-            }
-        }
-    }
-    class SwipeToZoom extends DefaultSerializeable {
-        constructor() {
-            super();
-            this.type = 'swipeToZoom';
-        }
-    }
-    var LogoStyle;
-    (function (LogoStyle) {
-        LogoStyle["Minimal"] = "minimal";
-        LogoStyle["Extended"] = "extended";
-    })(LogoStyle || (LogoStyle = {}));
-
-    var __decorate$b = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-    var RectangularViewfinderStyle;
-    (function (RectangularViewfinderStyle) {
-        RectangularViewfinderStyle["Legacy"] = "legacy";
-        RectangularViewfinderStyle["Rounded"] = "rounded";
-        RectangularViewfinderStyle["Square"] = "square";
-    })(RectangularViewfinderStyle || (RectangularViewfinderStyle = {}));
-    var RectangularViewfinderLineStyle;
-    (function (RectangularViewfinderLineStyle) {
-        RectangularViewfinderLineStyle["Light"] = "light";
-        RectangularViewfinderLineStyle["Bold"] = "bold";
-    })(RectangularViewfinderLineStyle || (RectangularViewfinderLineStyle = {}));
-    var LaserlineViewfinderStyle;
-    (function (LaserlineViewfinderStyle) {
-        LaserlineViewfinderStyle["Legacy"] = "legacy";
-        LaserlineViewfinderStyle["Animated"] = "animated";
-    })(LaserlineViewfinderStyle || (LaserlineViewfinderStyle = {}));
-    class RectangularViewfinderAnimation extends DefaultSerializeable {
-        constructor(isLooping) {
-            super();
-            this._isLooping = false;
-            this._isLooping = isLooping;
-        }
-        static fromJSON(json) {
-            if (json === null) {
-                return null;
-            }
-            return new RectangularViewfinderAnimation(json.looping);
-        }
-        get isLooping() {
-            return this._isLooping;
-        }
-    }
-    __decorate$b([
-        nameForSerialization('isLooping')
-    ], RectangularViewfinderAnimation.prototype, "_isLooping", void 0);
-
-    const defaultsFromJSON$1 = (json) => {
-        return {
-            Camera: {
-                Settings: {
-                    preferredResolution: json.Camera.Settings.preferredResolution,
-                    zoomFactor: json.Camera.Settings.zoomFactor,
-                    focusRange: json.Camera.Settings.focusRange,
-                    zoomGestureZoomFactor: json.Camera.Settings.zoomGestureZoomFactor,
-                    focusGestureStrategy: json.Camera.Settings.focusGestureStrategy,
-                    shouldPreferSmoothAutoFocus: json.Camera.Settings.shouldPreferSmoothAutoFocus,
-                },
-                defaultPosition: (json.Camera.defaultPosition || null),
-                availablePositions: json.Camera.availablePositions,
-            },
-            DataCaptureView: {
-                scanAreaMargins: MarginsWithUnit
-                    .fromJSON(JSON.parse(json.DataCaptureView.scanAreaMargins)),
-                pointOfInterest: PointWithUnit
-                    .fromJSON(JSON.parse(json.DataCaptureView.pointOfInterest)),
-                logoAnchor: json.DataCaptureView.logoAnchor,
-                logoOffset: PointWithUnit
-                    .fromJSON(JSON.parse(json.DataCaptureView.logoOffset)),
-                focusGesture: PrivateFocusGestureDeserializer.fromJSON(JSON.parse(json.DataCaptureView.focusGesture)),
-                zoomGesture: PrivateZoomGestureDeserializer.fromJSON(JSON.parse(json.DataCaptureView.zoomGesture)),
-                logoStyle: json.DataCaptureView.logoStyle.toLowerCase(),
-            },
-            LaserlineViewfinder: Object
-                .keys(json.LaserlineViewfinder.styles)
-                .reduce((acc, key) => {
-                const viewfinder = json.LaserlineViewfinder.styles[key];
-                acc.styles[key] = {
-                    width: NumberWithUnit
-                        .fromJSON(JSON.parse(viewfinder.width)),
-                    enabledColor: Color
-                        .fromJSON(viewfinder.enabledColor),
-                    disabledColor: Color
-                        .fromJSON(viewfinder.disabledColor),
-                    style: viewfinder.style,
-                };
-                return acc;
-            }, { defaultStyle: json.LaserlineViewfinder.defaultStyle, styles: {} }),
-            RectangularViewfinder: Object
-                .keys(json.RectangularViewfinder.styles)
-                .reduce((acc, key) => {
-                const viewfinder = json.RectangularViewfinder.styles[key];
-                acc.styles[key] = {
-                    size: SizeWithUnitAndAspect
-                        .fromJSON(JSON.parse(viewfinder.size)),
-                    color: Color
-                        .fromJSON(viewfinder.color),
-                    style: viewfinder.style,
-                    lineStyle: viewfinder.lineStyle,
-                    dimming: viewfinder.dimming,
-                    disabledDimming: viewfinder.disabledDimming,
-                    animation: RectangularViewfinderAnimation
-                        .fromJSON(viewfinder.animation ? JSON.parse(viewfinder.animation) : null),
-                };
-                return acc;
-            }, { defaultStyle: json.RectangularViewfinder.defaultStyle, styles: {} }),
-            AimerViewfinder: {
-                frameColor: Color.fromJSON(json.AimerViewfinder.frameColor),
-                dotColor: Color.fromJSON(json.AimerViewfinder.dotColor),
-            },
-            Brush: {
-                fillColor: Color
-                    .fromJSON(json.Brush.fillColor),
-                strokeColor: Color
-                    .fromJSON(json.Brush.strokeColor),
-                strokeWidth: json.Brush.strokeWidth,
-            },
-            deviceID: json.deviceID,
-            capacitorVersion: json.capacitorVersion,
-        };
-    };
-
-    var CapacitorFunction$1;
-    (function (CapacitorFunction) {
-        CapacitorFunction["GetDefaults"] = "getDefaults";
-        CapacitorFunction["ContextFromJSON"] = "contextFromJSON";
-        CapacitorFunction["DisposeContext"] = "disposeContext";
-        CapacitorFunction["UpdateContextFromJSON"] = "updateContextFromJSON";
-        CapacitorFunction["SubscribeContextListener"] = "subscribeContextListener";
-        CapacitorFunction["SubscribeContextFrameListener"] = "subscribeContextFrameListener";
-        CapacitorFunction["SetViewPositionAndSize"] = "setViewPositionAndSize";
-        CapacitorFunction["ShowView"] = "showView";
-        CapacitorFunction["HideView"] = "hideView";
-        CapacitorFunction["ViewPointForFramePoint"] = "viewPointForFramePoint";
-        CapacitorFunction["ViewQuadrilateralForFrameQuadrilateral"] = "viewQuadrilateralForFrameQuadrilateral";
-        CapacitorFunction["SubscribeViewListener"] = "subscribeViewListener";
-        CapacitorFunction["GetCurrentCameraState"] = "getCurrentCameraState";
-        CapacitorFunction["GetIsTorchAvailable"] = "getIsTorchAvailable";
-        CapacitorFunction["EmitFeedback"] = "emitFeedback";
-        CapacitorFunction["SubscribeVolumeButtonObserver"] = "subscribeVolumeButtonObserver";
-        CapacitorFunction["UnsubscribeVolumeButtonObserver"] = "unsubscribeVolumeButtonObserver";
-    })(CapacitorFunction$1 || (CapacitorFunction$1 = {}));
-    const pluginName$1 = 'ScanditCaptureCoreNative';
-    // tslint:disable-next-line:variable-name
-    const Capacitor$1 = {
-        pluginName: pluginName$1,
-        defaults: {},
-        exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName$1, functionName, args),
-    };
-    new Promise((resolve, reject) => core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetDefaults]().then((defaultsJSON) => {
-        const defaults = defaultsFromJSON$1(defaultsJSON);
-        Capacitor$1.defaults = defaults;
-        resolve(defaults);
-    }, reject));
 
     var FrameSourceState;
     (function (FrameSourceState) {
@@ -1129,6 +1028,37 @@ var capacitorPlugin = (function (exports, core) {
             return this[name];
         }
     }
+    class ImageBuffer {
+        get width() {
+            return this._width;
+        }
+        get height() {
+            return this._height;
+        }
+        get data() {
+            return this._data;
+        }
+    }
+    class PrivateFrameData {
+        get imageBuffers() {
+            return this._imageBuffers;
+        }
+        get orientation() {
+            return this._orientation;
+        }
+        static fromJSON(json) {
+            const frameData = new PrivateFrameData();
+            frameData._imageBuffers = json.imageBuffers.map((imageBufferJSON) => {
+                const imageBuffer = new ImageBuffer();
+                imageBuffer._width = imageBufferJSON.width;
+                imageBuffer._height = imageBufferJSON.height;
+                imageBuffer._data = imageBufferJSON.data;
+                return imageBuffer;
+            });
+            frameData._orientation = json.orientation;
+            return frameData;
+        }
+    }
 
     class FeedbackProxy {
         static forFeedback(feedback) {
@@ -1137,7 +1067,7 @@ var capacitorPlugin = (function (exports, core) {
             return proxy;
         }
         emit() {
-            core.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.EmitFeedback]({ feedback: this.feedback.toJSON() });
+            window.Capacitor.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.EmitFeedback]({ feedback: this.feedback.toJSON() });
         }
     }
 
@@ -1406,6 +1336,15 @@ var capacitorPlugin = (function (exports, core) {
         };
     };
 
+    var __awaiter$1 = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
     var CapacitorFunction;
     (function (CapacitorFunction) {
         CapacitorFunction["GetDefaults"] = "getDefaults";
@@ -1434,11 +1373,18 @@ var capacitorPlugin = (function (exports, core) {
         defaults: {},
         exec: (success, error, functionName, args) => capacitorExec(success, error, pluginName, functionName, args),
     };
-    const getDefaults = new Promise((resolve, reject) => core.Plugins[Capacitor.pluginName][CapacitorFunction.GetDefaults]().then((defaultsJSON) => {
-        const defaults = defaultsFromJSON(defaultsJSON);
-        Capacitor.defaults = defaults;
-        resolve(defaults);
-    }, reject));
+    const getDefaults = () => __awaiter$1(void 0, void 0, void 0, function* () {
+        yield window.Capacitor.Plugins[pluginName][CapacitorFunction.GetDefaults]()
+            .then((defaultsJSON) => {
+            const defaults = defaultsFromJSON(defaultsJSON);
+            Capacitor.defaults = defaults;
+        })
+            .catch((error) => {
+            // tslint:disable-next-line:no-console
+            console.warn(error);
+        });
+        return Capacitor.defaults;
+    });
     // To circumvent a circular dependency
     SymbologyDescription.defaults = () => Capacitor.defaults;
 
@@ -1687,6 +1633,44 @@ var capacitorPlugin = (function (exports, core) {
         nameForSerialization('style')
     ], BarcodeCaptureOverlay.prototype, "_style", void 0);
 
+    class CameraProxy {
+        static forCamera(camera) {
+            const proxy = new CameraProxy();
+            proxy.camera = camera;
+            return proxy;
+        }
+        static getLastFrame() {
+            return new Promise(resolve => window.Capacitor.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetLastFrame]().then((frameDataJSONString) => {
+                let parsedData;
+                if (frameDataJSONString.data) {
+                    parsedData = JSON.parse(frameDataJSONString.data);
+                }
+                else {
+                    parsedData = frameDataJSONString;
+                }
+                resolve(PrivateFrameData.fromJSON(parsedData));
+            }));
+        }
+        static getLastFrameOrNull() {
+            return new Promise(resolve => window.Capacitor.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetLastFrameOrNull]()
+                .then((frameDataJSONString) => {
+                if (!frameDataJSONString) {
+                    return resolve(null);
+                }
+                resolve(PrivateFrameData.fromJSON(JSON.parse(frameDataJSONString)));
+            }));
+        }
+        getCurrentState() {
+            return new Promise((resolve, reject) => window.Capacitor.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetCurrentCameraState]()
+                .then(resolve, reject));
+        }
+        getIsTorchAvailable() {
+            return new Promise((resolve, reject) => window.Capacitor.Plugins[Capacitor$1.pluginName][CapacitorFunction$1.GetIsTorchAvailable]({
+                position: this.camera.position,
+            }).then(resolve, reject));
+        }
+    }
+
     var BarcodeCaptureListenerEvent;
     (function (BarcodeCaptureListenerEvent) {
         BarcodeCaptureListenerEvent["DidScan"] = "onBarcodeScannedEvent";
@@ -1703,19 +1687,19 @@ var capacitorPlugin = (function (exports, core) {
             this.subscribeListener();
         }
         reset() {
-            return core.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
+            return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
         }
         subscribeListener() {
-            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeCaptureListenerEvent.DidScan, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeCaptureListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
             const done = () => {
                 this.barcodeCapture.isInListenerCallback = false;
-                core.Plugins[Capacitor.pluginName].finishCallback({
+                window.Capacitor.Plugins[Capacitor.pluginName].finishCallback({
                     result: {
                         enabled: this.barcodeCapture.isEnabled,
                         finishCallbackID: event.name,
@@ -1736,13 +1720,13 @@ var capacitorPlugin = (function (exports, core) {
                     case BarcodeCaptureListenerEvent.DidScan:
                         if (listener.didScan) {
                             listener.didScan(this.barcodeCapture, BarcodeCaptureSession
-                                .fromJSON(JSON.parse(event.session)));
+                                .fromJSON(JSON.parse(event.session)), CameraProxy.getLastFrame);
                         }
                         break;
                     case BarcodeCaptureListenerEvent.DidUpdateSession:
                         if (listener.didUpdateSession) {
                             listener.didUpdateSession(this.barcodeCapture, BarcodeCaptureSession
-                                .fromJSON(JSON.parse(event.session)));
+                                .fromJSON(JSON.parse(event.session)), CameraProxy.getLastFrame);
                         }
                         break;
                 }
@@ -2142,22 +2126,22 @@ var capacitorPlugin = (function (exports, core) {
             });
         }
         reset() {
-            return core.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeSelectionSession]();
+            return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeSelectionSession]();
         }
         initialize() {
             this.subscribeListener();
         }
         subscribeListener() {
-            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeSelectionListener]();
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeSelectionListener]();
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeSelectionListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeSelectionListenerEvent.DidUpdateSelection, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
             const done = () => {
                 this.barcodeSelection.isInListenerCallback = false;
-                core.Plugins[Capacitor.pluginName].finishCallback({
+                window.Capacitor.Plugins[Capacitor.pluginName].finishCallback({
                     result: {
                         enabled: this.barcodeSelection.isEnabled,
                         finishCallbackID: event.name,
@@ -2180,7 +2164,7 @@ var capacitorPlugin = (function (exports, core) {
                             const session = BarcodeSelectionSession
                                 .fromJSON(JSON.parse(event.session));
                             session.listenerProxy = this;
-                            listener.didUpdateSelection(this.barcodeSelection, session);
+                            listener.didUpdateSelection(this.barcodeSelection, session, CameraProxy.getLastFrame);
                         }
                         break;
                     case BarcodeSelectionListenerEvent.DidUpdateSession:
@@ -2188,7 +2172,7 @@ var capacitorPlugin = (function (exports, core) {
                             const session = BarcodeSelectionSession
                                 .fromJSON(JSON.parse(event.session));
                             session.listenerProxy = this;
-                            listener.didUpdateSession(this.barcodeSelection, session);
+                            listener.didUpdateSession(this.barcodeSelection, session, CameraProxy.getLastFrame);
                         }
                         break;
                 }
@@ -2532,11 +2516,11 @@ var capacitorPlugin = (function (exports, core) {
             });
         }
         subscribeListener() {
-            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingAdvancedOverlayListener]();
-            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.AnchorForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.DidTapViewForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.OffsetForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.ViewForTrackedBarcode, this.notifyListeners.bind(this));
+            window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingAdvancedOverlayListener]();
+            window.Capacitor.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.AnchorForTrackedBarcode, this.notifyListeners.bind(this));
+            window.Capacitor.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.DidTapViewForTrackedBarcode, this.notifyListeners.bind(this));
+            window.Capacitor.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.OffsetForTrackedBarcode, this.notifyListeners.bind(this));
+            window.Capacitor.Plugins[Capacitor.pluginName].addListener(BarcodeTrackingAdvancedOverlayListenerEvent.ViewForTrackedBarcode, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
             if (!event || !this.overlay.listener) {
@@ -2620,10 +2604,10 @@ var capacitorPlugin = (function (exports, core) {
             });
         }
         subscribeListener() {
-            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingBasicOverlayListener]();
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingBasicOverlayListener]();
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeTrackingBasicOverlayListenerEvent.BrushForTrackedBarcode, this.notifyListeners.bind(this));
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeTrackingBasicOverlayListenerEvent.DidTapTrackedBarcode, this.notifyListeners.bind(this));
         }
         notifyListeners(event) {
@@ -2873,17 +2857,17 @@ var capacitorPlugin = (function (exports, core) {
             this.subscribeListener();
         }
         subscribeListener() {
-            core.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingListener]();
-            core.Plugins[Capacitor.pluginName]
+            window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingListener]();
+            window.Capacitor.Plugins[Capacitor.pluginName]
                 .addListener(BarcodeTrackingListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
         }
         reset() {
-            return core.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeTrackingSession]();
+            return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeTrackingSession]();
         }
         notifyListeners(event) {
             const done = () => {
                 this.barcodeTracking.isInListenerCallback = false;
-                core.Plugins[Capacitor.pluginName].finishCallback({
+                window.Capacitor.Plugins[Capacitor.pluginName].finishCallback({
                     result: {
                         enabled: this.barcodeTracking.isEnabled,
                         finishCallbackID: event.name,
@@ -2904,7 +2888,7 @@ var capacitorPlugin = (function (exports, core) {
                     case BarcodeTrackingListenerEvent.DidUpdateSession:
                         if (listener.didUpdateSession) {
                             listener.didUpdateSession(this.barcodeTracking, BarcodeTrackingSession
-                                .fromJSON(JSON.parse(event.session)));
+                                .fromJSON(JSON.parse(event.session)), CameraProxy.getLastFrame);
                         }
                         break;
                 }
@@ -3107,7 +3091,7 @@ var capacitorPlugin = (function (exports, core) {
         });
     };
     class ScanditBarcodePluginImplementation {
-        initialize() {
+        initialize(coreDefaults) {
             return __awaiter(this, void 0, void 0, function* () {
                 const api = {
                     Barcode,
@@ -3148,9 +3132,10 @@ var capacitorPlugin = (function (exports, core) {
                     Range,
                     TrackedBarcodeView,
                 };
-                return new Promise((resolve, reject) => getDefaults.then(() => {
-                    resolve(api);
-                }, reject));
+                Capacitor$1.defaults = coreDefaults;
+                const barcodeDefaults = yield getDefaults();
+                Capacitor.defaults = barcodeDefaults;
+                return api;
             });
         }
     }
@@ -3158,6 +3143,7 @@ var capacitorPlugin = (function (exports, core) {
     core.registerPlugin('ScanditBarcodePlugin', {
         android: () => new ScanditBarcodePluginImplementation(),
         ios: () => new ScanditBarcodePluginImplementation(),
+        web: () => new ScanditBarcodePluginImplementation(),
     });
     // tslint:disable-next-line:variable-name
     const ScanditBarcodePlugin = new ScanditBarcodePluginImplementation();

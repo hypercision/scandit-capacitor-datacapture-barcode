@@ -24,4 +24,8 @@ export declare const Capacitor: {
     defaults: Defaults;
     exec: (success: Function | null, error: Function | null, functionName: string, args: Optional<[any]>) => void;
 };
-export declare const getDefaults: Promise<Defaults>;
+export interface CapacitorWindow extends Window {
+    Scandit: any;
+    Capacitor: any;
+}
+export declare const getDefaults: () => Promise<Defaults>;

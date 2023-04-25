@@ -25,7 +25,7 @@ export interface SymbologySettingsDefaults {
 }
 export declare type SymbologyDescriptions = SymbologyDescriptionJSON[];
 export interface ScanditBarcodePluginInterface {
-    initialize(): Promise<any>;
+    initialize(coreDefaults: any): Promise<any>;
 }
 declare module Scandit {
 
@@ -270,8 +270,8 @@ interface PrivateBarcodeCaptureSession {
     fromJSON(json: BarcodeCaptureSessionJSON): BarcodeCaptureSession;
 }
 export interface BarcodeCaptureListener {
-    didScan?(barcodeCapture: BarcodeCapture, session: BarcodeCaptureSession): void;
-    didUpdateSession?(barcodeCapture: BarcodeCapture, session: BarcodeCaptureSession): void;
+    didScan?(barcodeCapture: BarcodeCapture, session: BarcodeCaptureSession, getFrameData: () => Promise<FrameData>): void;
+    didUpdateSession?(barcodeCapture: BarcodeCapture, session: BarcodeCaptureSession, getFrameData: () => Promise<FrameData>): void;
 }
 export class BarcodeCaptureFeedback {
     success: Feedback;
@@ -424,8 +424,8 @@ interface PrivateBarcodeSelectionSession {
     fromJSON(json: BarcodeSelectionSessionJSON): BarcodeSelectionSession;
 }
 export interface BarcodeSelectionListener {
-    didUpdateSelection?(barcodeSelection: BarcodeSelection, session: BarcodeSelectionSession): void;
-    didUpdateSession?(barcodeSelection: BarcodeSelection, session: BarcodeSelectionSession): void;
+    didUpdateSelection?(barcodeSelection: BarcodeSelection, session: BarcodeSelectionSession, getFrameData: () => Promise<FrameData>): void;
+    didUpdateSession?(barcodeSelection: BarcodeSelection, session: BarcodeSelectionSession, getFrameData: () => Promise<FrameData>): void;
 }
 interface PrivateBarcodeSelectionBasicOverlay {
     toJSON(): object;
@@ -545,7 +545,7 @@ export class BarcodeTrackingSession {
     reset(): Promise<void>;
 }
 export interface BarcodeTrackingListener {
-    didUpdateSession?(barcodeTracking: BarcodeTracking, session: BarcodeTrackingSession): void;
+    didUpdateSession?(barcodeTracking: BarcodeTracking, session: BarcodeTrackingSession, getFrameData: () => Promise<FrameData>): void;
 }
 export interface BarcodeTrackingBasicOverlayListener {
     brushForTrackedBarcode?(overlay: BarcodeTrackingBasicOverlay, trackedBarcode: TrackedBarcode): Optional<Brush>;
@@ -820,6 +820,88 @@ export class CameraSettings {
     constructor(settings: CameraSettings);
     setProperty(name: string, value: any): void;
     getProperty(name: string): any;
+}
+export interface FrameDataJSON {
+    imageBuffers: ImageBufferJSON[];
+    orientation: number;
+}
+export interface ImageBufferJSON {
+    width: number;
+    height: number;
+    data: string;
+}
+interface PrivateImageBuffer {
+    _width: number;
+    _height: number;
+    _data: string;
+}
+export interface FrameData {
+    readonly imageBuffers: ImageBuffer[];
+    readonly orientation: number;
+}
+export class ImageBuffer {
+    private _width;
+    private _height;
+    private _data;
+    get width(): number;
+    get height(): number;
+    get data(): string;
+}
+class PrivateFrameData implements FrameData {
+    private _imageBuffers;
+    private _orientation;
+    get imageBuffers(): ImageBuffer[];
+    get orientation(): number;
+    static fromJSON(json: FrameDataJSON): FrameData;
+}
+
+
+interface PrivateCamera {
+    context: Optional<DataCaptureContext>;
+    position: CameraPosition;
+    _desiredState: FrameSourceState;
+    desiredTorchState: TorchState;
+    settings: CameraSettings;
+    listeners: FrameSourceListener[];
+    _proxy: CameraProxy;
+    proxy: CameraProxy;
+    initialize: () => void;
+    didChange: () => Promise<void>;
+}
+export class Camera implements FrameSource {
+    private type;
+    private settings;
+    private position;
+    private _desiredTorchState;
+    private _desiredState;
+    private listeners;
+    private context;
+    private _proxy;
+    private get proxy();
+    static get default(): Optional<Camera>;
+    static atPosition(cameraPosition: CameraPosition): Optional<Camera>;
+    get desiredState(): FrameSourceState;
+    set desiredTorchState(desiredTorchState: TorchState);
+    get desiredTorchState(): TorchState;
+    switchToDesiredState(state: FrameSourceState): Promise<void>;
+    getCurrentState(): Promise<FrameSourceState>;
+    getIsTorchAvailable(): Promise<boolean>;
+    addListener(listener: Optional<FrameSourceListener>): void;
+    removeListener(listener: Optional<FrameSourceListener>): void;
+    applySettings(settings: CameraSettings): Promise<void>;
+    private initialize;
+    private didChange;
+}
+
+
+ 
+export class CameraProxy {
+    private camera;
+    static forCamera(camera: Camera): CameraProxy;
+    static getLastFrame(): Promise<FrameData>;
+    static getLastFrameOrNull(): Promise<FrameData | null>;
+    getCurrentState(): Promise<FrameSourceState>;
+    getIsTorchAvailable(): Promise<boolean>;
 }
 
  

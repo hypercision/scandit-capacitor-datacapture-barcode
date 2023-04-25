@@ -1,4 +1,3 @@
-import { Plugins } from '@capacitor/core';
 import { Capacitor, CapacitorFunction } from './Capacitor';
 export class FeedbackProxy {
     static forFeedback(feedback) {
@@ -7,7 +6,7 @@ export class FeedbackProxy {
         return proxy;
     }
     emit() {
-        Plugins[Capacitor.pluginName][CapacitorFunction.EmitFeedback]({ feedback: this.feedback.toJSON() });
+        window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.EmitFeedback]({ feedback: this.feedback.toJSON() });
     }
 }
 //# sourceMappingURL=FeedbackProxy.js.map

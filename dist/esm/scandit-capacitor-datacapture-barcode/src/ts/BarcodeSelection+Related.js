@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { Barcode } from './Barcode';
 import { Capacitor } from './Capacitor/Capacitor';
 import { DefaultSerializeable, ignoreFromSerialization, nameForSerialization, } from '../../../scandit-capacitor-datacapture-core/src/ts/Serializeable';
-import { AimerViewfinder, Brush } from '../../../scandit-capacitor-datacapture-core/src/ts/Viewfinder';
+import { AimerViewfinder, Brush, } from '../../../scandit-capacitor-datacapture-core/src/ts/Viewfinder';
 export class BarcodeSelectionFeedback extends DefaultSerializeable {
     constructor() {
         super(...arguments);

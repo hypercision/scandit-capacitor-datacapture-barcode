@@ -1,3 +1,9 @@
+/*
+ * This file is part of the Scandit Data Capture SDK
+ *
+ * Copyright (C) 2023- Scandit AG. All rights reserved.
+ */
+
 import ScanditBarcodeCapture
 import ScanditCapacitorDatacaptureCore
 
@@ -8,6 +14,9 @@ extension ScanditBarcodeCapture: BarcodeCaptureListener {
         guard let callback = callbacks.barcodeCaptureListener else {
             return
         }
+
+        ScanditCaptureCore.lastFrame = frameData
+        defer { ScanditCaptureCore.lastFrame = nil }
 
         barcodeCaptureSession = session
 
@@ -24,6 +33,9 @@ extension ScanditBarcodeCapture: BarcodeCaptureListener {
         guard let callback = callbacks.barcodeCaptureListener else {
             return
         }
+
+        ScanditCaptureCore.lastFrame = frameData
+        defer { ScanditCaptureCore.lastFrame = nil }
 
         barcodeCaptureSession = session
 

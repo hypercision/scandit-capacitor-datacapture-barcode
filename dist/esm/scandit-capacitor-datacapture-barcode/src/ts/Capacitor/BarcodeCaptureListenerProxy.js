@@ -1,5 +1,5 @@
+import { CameraProxy } from '../../../../scandit-capacitor-datacapture-core/src/ts/Capacitor/CameraProxy';
 import { BarcodeCaptureSession } from '../BarcodeCapture+Related';
-import { Plugins } from '@capacitor/core';
 import { Capacitor, CapacitorFunction } from './Capacitor';
 var BarcodeCaptureListenerEvent;
 (function (BarcodeCaptureListenerEvent) {
@@ -17,19 +17,19 @@ export class BarcodeCaptureListenerProxy {
         this.subscribeListener();
     }
     reset() {
-        return Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
+        return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
     }
     subscribeListener() {
-        Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeCaptureListenerEvent.DidScan, this.notifyListeners.bind(this));
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeCaptureListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
     }
     notifyListeners(event) {
         const done = () => {
             this.barcodeCapture.isInListenerCallback = false;
-            Plugins[Capacitor.pluginName].finishCallback({
+            window.Capacitor.Plugins[Capacitor.pluginName].finishCallback({
                 result: {
                     enabled: this.barcodeCapture.isEnabled,
                     finishCallbackID: event.name,
@@ -50,13 +50,13 @@ export class BarcodeCaptureListenerProxy {
                 case BarcodeCaptureListenerEvent.DidScan:
                     if (listener.didScan) {
                         listener.didScan(this.barcodeCapture, BarcodeCaptureSession
-                            .fromJSON(JSON.parse(event.session)));
+                            .fromJSON(JSON.parse(event.session)), CameraProxy.getLastFrame);
                     }
                     break;
                 case BarcodeCaptureListenerEvent.DidUpdateSession:
                     if (listener.didUpdateSession) {
                         listener.didUpdateSession(this.barcodeCapture, BarcodeCaptureSession
-                            .fromJSON(JSON.parse(event.session)));
+                            .fromJSON(JSON.parse(event.session)), CameraProxy.getLastFrame);
                     }
                     break;
             }

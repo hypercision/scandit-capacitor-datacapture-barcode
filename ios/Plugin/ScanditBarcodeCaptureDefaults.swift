@@ -1,3 +1,9 @@
+/*
+ * This file is part of the Scandit Data Capture SDK
+ *
+ * Copyright (C) 2023- Scandit AG. All rights reserved.
+ */
+
 import ScanditBarcodeCapture
 import ScanditCapacitorDatacaptureCore
 
@@ -22,19 +28,19 @@ fileprivate extension BarcodeSelectionBasicOverlay {
 
 struct ScanditBarcodeCaptureDefaults: Encodable {
     typealias CameraSettingsDefaults = ScanditCaptureCoreDefaults.CameraSettingsDefaults
-    
+
     struct BarcodeCaptureOverlayDefaults: Encodable {
         let defaultStyle: String
         let DefaultBrush: ScanditCaptureCoreDefaults.BrushDefaults
         let styles: [String: [String: ScanditCaptureCoreDefaults.BrushDefaults]]
     }
-    
+
     struct BarcodeTrackingBasicOverlayDefaults: Encodable {
         let defaultStyle: String
         let DefaultBrush: ScanditCaptureCoreDefaults.BrushDefaults
         let styles: [String: [String: ScanditCaptureCoreDefaults.BrushDefaults]]
     }
-    
+
     struct BarcodeSelectionBasicOverlayDefaults: Encodable {
         let defaultStyle: String
         let DefaultTrackedBrush: ScanditCaptureCoreDefaults.BrushDefaults
@@ -43,37 +49,37 @@ struct ScanditBarcodeCaptureDefaults: Encodable {
         let DefaultSelectingBrush: ScanditCaptureCoreDefaults.BrushDefaults
         let styles: [String: [String: ScanditCaptureCoreDefaults.BrushDefaults]]
     }
-    
+
     struct BarcodeCaptureSettingsDefaults: Encodable {
         let codeDuplicateFilter: Int
     }
-    
+
     struct BarcodeSelectionSettingsDefaults: Encodable {
         let codeDuplicateFilter: Int
         let singleBarcodeAutoDetection: Bool
         let selectionType: String
     }
-    
+
     struct BarcodeSelectionTapSelectionDefaults: Encodable {
         let defaultFreezeBehaviour: String
         let defaultTapBehaviour: String
     }
-    
+
     struct BarcodeSelectionAimerSelectionDefaults: Encodable {
         let defaultSelectionStrategy: String
     }
-    
+
     struct BarcodeCaptureDefaultsContainer: Encodable {
         let BarcodeCaptureOverlay: BarcodeCaptureOverlayDefaults
         let BarcodeCaptureSettings: BarcodeCaptureSettingsDefaults
         let RecommendedCameraSettings: CameraSettingsDefaults
     }
-    
+
     struct BarcodeTrackingDefaultsContainer: Encodable {
         let BarcodeTrackingBasicOverlay: BarcodeTrackingBasicOverlayDefaults
         let RecommendedCameraSettings: CameraSettingsDefaults
     }
-    
+
     struct BarcodeSelectionDefaultsContainer: Encodable {
         let RecommendedCameraSettings: CameraSettingsDefaults
         let feedback: String
@@ -82,18 +88,18 @@ struct ScanditBarcodeCaptureDefaults: Encodable {
         let BarcodeSelectionAimerSelection: BarcodeSelectionAimerSelectionDefaults
         let BarcodeSelectionBasicOverlay: BarcodeSelectionBasicOverlayDefaults
     }
-    
+
     typealias SymbologySettingsDefaults = [String: String]
     typealias SymbologyDescriptionsDefaults = [String]
     typealias CompositeTypeDescriptionsDefaults = [String]
-    
+
     let BarcodeCapture: BarcodeCaptureDefaultsContainer
     let BarcodeTracking: BarcodeTrackingDefaultsContainer
     let BarcodeSelection: BarcodeSelectionDefaultsContainer
     let SymbologySettings: SymbologySettingsDefaults
     let SymbologyDescriptions: SymbologyDescriptionsDefaults
     let CompositeTypeDescriptions: CompositeTypeDescriptionsDefaults
-    
+
     init(barcodeCaptureSettings: BarcodeCaptureSettings, overlay: BarcodeCaptureOverlay,
          basicTrackingOverlay: BarcodeTrackingBasicOverlay) {
         self.BarcodeCapture = BarcodeCaptureDefaultsContainer.from(barcodeCaptureSettings, overlay)
@@ -205,7 +211,7 @@ extension ScanditBarcodeCaptureDefaults.BarcodeSelectionBasicOverlayDefaults {
         let defaultAimedBrush = ScanditCaptureCoreDefaults.BrushDefaults.from(BarcodeSelectionBasicOverlay.defaultAimedBrush(forStyle: defaultStyle))
         let defaultSelectedBrush = ScanditCaptureCoreDefaults.BrushDefaults.from(BarcodeSelectionBasicOverlay.defaultSelectedBrush(forStyle: defaultStyle))
         let defaultSelectingBrush = ScanditCaptureCoreDefaults.BrushDefaults.from(BarcodeSelectionBasicOverlay.defaultSelectingBrush(forStyle: defaultStyle))
-        
+
         return ScanditBarcodeCaptureDefaults.BarcodeSelectionBasicOverlayDefaults(
             defaultStyle: defaultStyle.jsonString,
             DefaultTrackedBrush: defaultTrackedBrush,

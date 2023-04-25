@@ -1,6 +1,6 @@
 {
   "name": "scandit-capacitor-datacapture-barcode",
-  "version": "6.16.2",
+  "version": "6.17.0",
   "description": "Scandit Data Capture SDK for Capacitor",
   "license": "Apache-2.0",
   "private": false,
@@ -22,7 +22,7 @@
     "watch": "tsc --watch"
   },
   "dependencies": {
-    "scandit-capacitor-datacapture-core": "6.16.2"
+    "scandit-capacitor-datacapture-core": "6.17.0"
   },
   "devDependencies": {
     "@capacitor/android": ">=3.0.0",
@@ -30,14 +30,14 @@
     "@capacitor/ios": ">=3.0.0",
     "@ionic/prettier-config": "^1.0.0",
     "@ionic/swiftlint-config": "^1.0.0",
-    "@rollup/plugin-node-resolve": "^8.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "prettier": "^2.0.5",
-    "prettier-plugin-java": "^0.8.0",
-    "rimraf": "^3.0.0",
-    "rollup": "^2.21.0",
+    "prettier-plugin-java": "^2.0.0",
+    "rimraf": "^4.1.2",
+    "rollup": "^2.79.1",
     "swiftlint": "^1.0.1",
     "typescript": "~3.8.3",
-    "tslint": "^5.16.0"
+    "eslint": "^7.32.0"
   },
   "files": [
     "dist/",

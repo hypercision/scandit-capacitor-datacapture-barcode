@@ -1,5 +1,4 @@
 import { TrackedBarcode } from '../Barcode';
-import { Plugins } from '@capacitor/core';
 import { doReturnWithFinish } from '../../../../scandit-capacitor-datacapture-core/src/ts/Capacitor/CommonCapacitor';
 import { Capacitor, CapacitorFunction } from './Capacitor';
 var BarcodeTrackingBasicOverlayListenerEvent;
@@ -29,10 +28,10 @@ export class BarcodeTrackingBasicOverlayProxy {
         });
     }
     subscribeListener() {
-        Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingBasicOverlayListener]();
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeTrackingBasicOverlayListener]();
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeTrackingBasicOverlayListenerEvent.BrushForTrackedBarcode, this.notifyListeners.bind(this));
-        Plugins[Capacitor.pluginName]
+        window.Capacitor.Plugins[Capacitor.pluginName]
             .addListener(BarcodeTrackingBasicOverlayListenerEvent.DidTapTrackedBarcode, this.notifyListeners.bind(this));
     }
     notifyListeners(event) {
