@@ -1,12 +1,12 @@
 ext {
-    androidxCoreVersion = project.hasProperty('androidxCoreVersion') ? rootProject.ext.androidxCoreVersion : '1.6.0'
+    androidxCoreVersion = project.hasProperty('androidxCoreVersion') ? rootProject.ext.androidxCoreVersion : '1.10.0'
 }
 
 buildscript {
     ext {
         sdk_version = "6.17.2"
-        kotlin_version = "1.6.21"
-        agp_version = "7.2.1"
+        kotlin_version = "1.8.20"
+        agp_version = "8.0.0"
     }
     repositories {
         google()
@@ -22,12 +22,17 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 32
+    namespace "com.scandit.capacitor.datacapture.barcode.scanditcapacitordatacapturebarcode"
+    compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 33
     defaultConfig {
         minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 23
-        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 32
+        targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 33
         versionCode 1
         versionName "1.0"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     buildTypes {
         release {
