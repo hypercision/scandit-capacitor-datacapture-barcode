@@ -2,6 +2,7 @@ import { CameraSettings } from '../../../../scandit-capacitor-datacapture-core/s
 import { CameraSettingsDefaultsJSON } from '../../../../scandit-capacitor-datacapture-core/src/ts/Capacitor/Defaults';
 import { Color } from '../../../../scandit-capacitor-datacapture-core/src/ts/Common';
 import { PrivateCompositeTypeDescription, SymbologyDescription, SymbologySettings } from '../Barcode';
+import { BarcodeCountDefaults, BarcodeCountDefaultsJSON } from './BarcodeCountDefaults';
 declare type BarcodeCaptureOverlayStyle = any;
 declare type BarcodeTrackingBasicOverlayStyle = any;
 declare type BarcodeSelectionFeedback = any;
@@ -83,6 +84,7 @@ export interface Defaults {
             };
         };
     };
+    BarcodeCount: BarcodeCountDefaults;
 }
 export interface DefaultsJSON {
     SymbologySettings: {
@@ -157,6 +159,7 @@ export interface DefaultsJSON {
             };
         };
     };
+    BarcodeCount: BarcodeCountDefaultsJSON;
 }
 export declare const defaultsFromJSON: (json: DefaultsJSON) => Defaults;
 export {};

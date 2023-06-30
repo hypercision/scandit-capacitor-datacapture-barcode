@@ -18,16 +18,6 @@ object BarcodeCaptureActionFactory {
     const val SEND_SESSION_UPDATED_EVENT = "onSessionUpdateEvent"
     const val SEND_BARCODE_SCANNED_EVENT = "onBarcodeScannedEvent"
 
-    const val ACTION_BARCODE_SCANNED = "didScanInBarcodeCapture"
-    const val ACTION_CAPTURE_SESSION_UPDATED = "didUpdateSessionInBarcodeCapture"
-    const val ACTION_TRACKING_SESSION_UPDATED = "didUpdateSessionInBarcodeTracking"
-    const val ACTION_BRUSH_FOR_TRACKED_BARCODE = "brushForTrackedBarcode"
-    const val ACTION_TAP_TRACKED_BARCODE = "didTapTrackedBarcode"
-    const val ACTION_VIEW_FOR_TRACKED_BARCODE = "viewForTrackedBarcode"
-    const val ACTION_OFFSET_FOR_TRACKED_BARCODE = "offsetForTrackedBarcode"
-    const val ACTION_ANCHOR_FOR_TRACKED_BARCODE = "anchorForTrackedBarcode"
-    const val ACTION_TAP_VIEW_FOR_TRACKED_BARCODE = "didTapViewForTrackedBarcode"
-
     const val ACTION_SELECTION_UPDATED = "didUpdateSelectionInBarcodeSelection"
     const val ACTION_SELECTION_SESSION_UPDATED = "didUpdateSessionInBarcodeSelection"
 

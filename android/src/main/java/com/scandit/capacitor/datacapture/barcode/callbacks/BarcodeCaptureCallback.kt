@@ -7,7 +7,7 @@
 package com.scandit.capacitor.datacapture.barcode.callbacks
 
 import com.getcapacitor.JSObject
-import com.scandit.capacitor.datacapture.barcode.CapacitorPlugin
+import com.scandit.capacitor.datacapture.barcode.ScanditBarcodeNative
 import com.scandit.capacitor.datacapture.barcode.factories.BarcodeCaptureActionFactory
 import com.scandit.capacitor.datacapture.core.data.SerializableFinishModeCallbackData
 import com.scandit.capacitor.datacapture.core.utils.Callback
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
 
-class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
+class BarcodeCaptureCallback(private val plugin: ScanditBarcodeNative) : Callback() {
 
     private val lock = ReentrantLock(true)
     private val condition = lock.newCondition()
@@ -34,6 +34,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
         session: BarcodeCaptureSession,
         @Suppress("UNUSED_PARAMETER") frameData: FrameData
     ) {
+        if (!plugin.hasListener(BarcodeCaptureActionFactory.SEND_SESSION_UPDATED_EVENT)) return
         if (disposed.get()) return
 
         lock.withLock {
@@ -60,6 +61,7 @@ class BarcodeCaptureCallback(private val plugin: CapacitorPlugin) : Callback() {
         session: BarcodeCaptureSession,
         @Suppress("UNUSED_PARAMETER") frameData: FrameData
     ) {
+        if (!plugin.hasListener(BarcodeCaptureActionFactory.SEND_BARCODE_SCANNED_EVENT)) return
         if (disposed.get()) return
 
         lock.withLock {

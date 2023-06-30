@@ -13,18 +13,37 @@ export class BarcodeCaptureListenerProxy {
         proxy.initialize();
         return proxy;
     }
+    constructor() {
+        this.notifyListeners = this.notifyListeners.bind(this);
+    }
     initialize() {
         this.subscribeListener();
     }
     reset() {
         return window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.ResetBarcodeCaptureSession]();
     }
+    addListener(listener) {
+        if (listener.didScan) {
+            window.Capacitor.Plugins[Capacitor.pluginName]
+                .addListener(BarcodeCaptureListenerEvent.DidScan, this.notifyListeners);
+        }
+        if (listener.didUpdateSession) {
+            window.Capacitor.Plugins[Capacitor.pluginName]
+                .addListener(BarcodeCaptureListenerEvent.DidUpdateSession, this.notifyListeners);
+        }
+    }
+    removeListener(listener) {
+        if (listener.didScan) {
+            window.Capacitor.Plugins[Capacitor.pluginName]
+                .removeListener(BarcodeCaptureListenerEvent.DidScan, this.notifyListeners);
+        }
+        if (listener.didUpdateSession) {
+            window.Capacitor.Plugins[Capacitor.pluginName]
+                .removeListener(BarcodeCaptureListenerEvent.DidUpdateSession, this.notifyListeners);
+        }
+    }
     subscribeListener() {
         window.Capacitor.Plugins[Capacitor.pluginName][CapacitorFunction.SubscribeBarcodeCaptureListener]();
-        window.Capacitor.Plugins[Capacitor.pluginName]
-            .addListener(BarcodeCaptureListenerEvent.DidScan, this.notifyListeners.bind(this));
-        window.Capacitor.Plugins[Capacitor.pluginName]
-            .addListener(BarcodeCaptureListenerEvent.DidUpdateSession, this.notifyListeners.bind(this));
     }
     notifyListeners(event) {
         const done = () => {

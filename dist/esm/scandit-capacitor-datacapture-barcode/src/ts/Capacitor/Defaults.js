@@ -2,8 +2,9 @@ import { CameraSettings } from '../../../../scandit-capacitor-datacapture-core/s
 import { Color } from '../../../../scandit-capacitor-datacapture-core/src/ts/Common';
 import { Feedback } from '../../../../scandit-capacitor-datacapture-core/src/ts/Feedback';
 import { SymbologyDescription, SymbologySettings, } from '../Barcode';
+import { barcodeCountDefaultsFromJSON } from './BarcodeCountDefaults';
 export const defaultsFromJSON = (json) => {
-    return {
+    const defaults = {
         SymbologySettings: Object.keys(json.SymbologySettings)
             .reduce((settings, identifier) => {
             settings[identifier] = SymbologySettings
@@ -172,6 +173,8 @@ export const defaultsFromJSON = (json) => {
                 }, {}),
             },
         },
+        BarcodeCount: barcodeCountDefaultsFromJSON(json)
     };
+    return defaults;
 };
 //# sourceMappingURL=Defaults.js.map

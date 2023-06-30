@@ -28,6 +28,6 @@ export declare const pluginName = "ScanditCaptureCoreNative";
 export declare const Capacitor: {
     pluginName: string;
     defaults: Defaults;
-    exec: (success: Function | null, error: Function | null, functionName: string, args: Optional<[any]>) => void;
+    exec: (success: Optional<Function>, error: Optional<Function>, functionName: string, args: Optional<[any]>) => void;
 };
 export declare const getDefaults: () => Promise<Defaults>;

@@ -8,11 +8,6 @@ import { Capacitor } from './Capacitor/Capacitor';
 import { Color, MeasureUnit, NumberWithUnit, SizeWithUnitAndAspect } from './Common';
 import { DefaultSerializeable, ignoreFromSerialization, nameForSerialization } from './Serializeable';
 export class Brush extends DefaultSerializeable {
-    constructor(fillColor = Capacitor.defaults.Brush.fillColor, strokeColor = Capacitor.defaults.Brush.strokeColor, strokeWidth = Capacitor.defaults.Brush.strokeWidth) {
-        super();
-        this.fill = { color: fillColor };
-        this.stroke = { color: strokeColor, width: strokeWidth };
-    }
     static get transparent() {
         const transparentBlack = Color.fromRGBA(255, 255, 255, 0);
         return new Brush(transparentBlack, transparentBlack, 0);
@@ -25,6 +20,11 @@ export class Brush extends DefaultSerializeable {
     }
     get strokeWidth() {
         return this.stroke.width;
+    }
+    constructor(fillColor = Capacitor.defaults.Brush.fillColor, strokeColor = Capacitor.defaults.Brush.strokeColor, strokeWidth = Capacitor.defaults.Brush.strokeWidth) {
+        super();
+        this.fill = { color: fillColor };
+        this.stroke = { color: strokeColor, width: strokeWidth };
     }
 }
 // tslint:disable-next-line:variable-name
@@ -47,6 +47,9 @@ __decorate([
     nameForSerialization('style')
 ], LaserlineViewfinder.prototype, "_style", void 0);
 export class RectangularViewfinder extends DefaultSerializeable {
+    get sizeWithUnitAndAspect() {
+        return this._sizeWithUnitAndAspect;
+    }
     constructor(style, lineStyle) {
         super();
         this.type = 'rectangular';
@@ -62,9 +65,6 @@ export class RectangularViewfinder extends DefaultSerializeable {
         if (lineStyle !== undefined) {
             this._lineStyle = lineStyle;
         }
-    }
-    get sizeWithUnitAndAspect() {
-        return this._sizeWithUnitAndAspect;
     }
     get style() {
         return this._style;

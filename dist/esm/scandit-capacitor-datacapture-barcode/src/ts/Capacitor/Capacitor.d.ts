@@ -17,12 +17,18 @@ export declare enum CapacitorFunction {
     ResetBarcodeTrackingSession = "resetBarcodeTrackingSession",
     ResetBarcodeSelectionSession = "resetBarcodeSelectionSession",
     ResetBarcodeSelection = "resetBarcodeSelection",
-    UnfreezeCameraInBarcodeSelection = "unfreezeCameraInBarcodeSelection"
+    UnfreezeCameraInBarcodeSelection = "unfreezeCameraInBarcodeSelection",
+    SubscribeBarcodeCountListener = "registerBarcodeCountListener",
+    UnsubscribeBarcodeCountListener = "unregisterBarcodeCountListener",
+    ResetBarcodeCountSession = "resetBarcodeCountSession",
+    StartBarcodeCountScanningPhase = "startScanningPhase",
+    EndBarcodeCountScanningPhase = "endScanningPhase",
+    SetBarcodeCountCaptureList = "setBarcodeCountCaptureList"
 }
 export declare const Capacitor: {
     pluginName: string;
     defaults: Defaults;
-    exec: (success: Function | null, error: Function | null, functionName: string, args: Optional<[any]>) => void;
+    exec: (success: Optional<Function>, error: Optional<Function>, functionName: string, args: Optional<[any]>) => void;
 };
 export interface CapacitorWindow extends Window {
     Scandit: any;

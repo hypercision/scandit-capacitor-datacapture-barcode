@@ -80,14 +80,14 @@ export class PrivateBarcodeSelectionType {
     }
 }
 export class BarcodeSelectionAimerSelection extends DefaultSerializeable {
+    static get aimerSelection() {
+        return new BarcodeSelectionAimerSelection();
+    }
     constructor() {
         super();
         this.type = BarcodeSelectionTypeName.Aimer;
         this.selectionStrategy = Capacitor.defaults.BarcodeSelection.BarcodeSelectionAimerSelection
             .defaultSelectionStrategy(PrivateBarcodeSelectionStrategy.fromJSON);
-    }
-    static get aimerSelection() {
-        return new BarcodeSelectionAimerSelection();
     }
 }
 class PrivateBarcodeSelectionAimerSelection {
@@ -159,17 +159,6 @@ export var BarcodeSelectionBasicOverlayStyle;
     BarcodeSelectionBasicOverlayStyle["Dot"] = "dot";
 })(BarcodeSelectionBasicOverlayStyle || (BarcodeSelectionBasicOverlayStyle = {}));
 export class BarcodeSelectionBasicOverlay extends DefaultSerializeable {
-    constructor() {
-        super();
-        this.type = 'barcodeSelectionBasic';
-        this._trackedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeWidth);
-        this._aimedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeWidth);
-        this._selectedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeWidth);
-        this._selectingBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeWidth);
-        this._shouldShowScanAreaGuides = false;
-        this._shouldShowHints = true;
-        this._viewfinder = new AimerViewfinder();
-    }
     get trackedBrush() {
         return this._trackedBrush;
     }
@@ -248,6 +237,17 @@ export class BarcodeSelectionBasicOverlay extends DefaultSerializeable {
             view.addOverlay(overlay);
         }
         return overlay;
+    }
+    constructor() {
+        super();
+        this.type = 'barcodeSelectionBasic';
+        this._trackedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultTrackedBrush.strokeWidth);
+        this._aimedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultAimedBrush.strokeWidth);
+        this._selectedBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectedBrush.strokeWidth);
+        this._selectingBrush = new Brush(Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.fillColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeColor, Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.styles[Capacitor.defaults.BarcodeSelection.BarcodeSelectionBasicOverlay.defaultStyle].DefaultSelectingBrush.strokeWidth);
+        this._shouldShowScanAreaGuides = false;
+        this._shouldShowHints = true;
+        this._viewfinder = new AimerViewfinder();
     }
 }
 __decorate([

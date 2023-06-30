@@ -45,13 +45,6 @@ export var CompositeType;
     CompositeType["C"] = "C";
 })(CompositeType || (CompositeType = {}));
 export class SymbologyDescription {
-    constructor(symbology) {
-        if (!symbology) {
-            return;
-        }
-        return SymbologyDescription.all[SymbologyDescription.all
-            .findIndex(description => description.identifier === symbology)];
-    }
     static get all() {
         return this.defaults().SymbologyDescriptions;
     }
@@ -81,6 +74,13 @@ export class SymbologyDescription {
             return null;
         }
         return new SymbologyDescription(identifier);
+    }
+    constructor(symbology) {
+        if (!symbology) {
+            return;
+        }
+        return SymbologyDescription.all[SymbologyDescription.all
+            .findIndex(description => description.identifier === symbology)];
     }
 }
 export class SymbologySettings extends DefaultSerializeable {
@@ -231,14 +231,44 @@ export class TrackedBarcode {
     get barcode() { return this._barcode; }
     get location() { return this._location; }
     get identifier() { return this._identifier; }
-    get shouldAnimateFromPreviousToNextState() { return this._shouldAnimateFromPreviousToNextState; }
+    get shouldAnimateFromPreviousToNextState() {
+        // tslint:disable-next-line:no-console
+        console.warn('shouldAnimateFromPreviousToNextState is deprecated and returns "false" when accessed');
+        return false;
+    }
     static fromJSON(json) {
         const trackedBarcode = new TrackedBarcode();
         trackedBarcode._identifier = json.identifier;
-        trackedBarcode._shouldAnimateFromPreviousToNextState = json.shouldAnimateFromPreviousToNextState;
         trackedBarcode._barcode = Barcode.fromJSON(json.barcode);
         trackedBarcode._location = Quadrilateral.fromJSON(json.location);
         return trackedBarcode;
     }
 }
+export class TargetBarcode extends DefaultSerializeable {
+    get data() {
+        return this._data;
+    }
+    get quantity() {
+        return this._quantity;
+    }
+    static create(data, quantity) {
+        return new TargetBarcode(data, quantity);
+    }
+    static fromJSON(json) {
+        const data = json.data;
+        const quantity = json.quantity;
+        return TargetBarcode.create(data, quantity);
+    }
+    constructor(data, quantity) {
+        super();
+        this._data = data;
+        this._quantity = quantity;
+    }
+}
+__decorate([
+    nameForSerialization('data')
+], TargetBarcode.prototype, "_data", void 0);
+__decorate([
+    nameForSerialization('quantity')
+], TargetBarcode.prototype, "_quantity", void 0);
 //# sourceMappingURL=Barcode.js.map

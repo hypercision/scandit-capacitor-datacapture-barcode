@@ -58,15 +58,19 @@ export class BarcodeCapture extends DefaultSerializeable {
         return this.didChange();
     }
     addListener(listener) {
+        var _a;
         if (this.listeners.includes(listener)) {
             return;
         }
+        (_a = this.listenerProxy) === null || _a === void 0 ? void 0 : _a.addListener(listener);
         this.listeners.push(listener);
     }
     removeListener(listener) {
+        var _a;
         if (!this.listeners.includes(listener)) {
             return;
         }
+        (_a = this.listenerProxy) === null || _a === void 0 ? void 0 : _a.removeListener(listener);
         this.listeners.splice(this.listeners.indexOf(listener), 1);
     }
     didChange() {

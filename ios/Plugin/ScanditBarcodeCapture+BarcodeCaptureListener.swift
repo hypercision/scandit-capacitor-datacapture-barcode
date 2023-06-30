@@ -11,6 +11,9 @@ extension ScanditBarcodeCapture: BarcodeCaptureListener {
     func barcodeCapture(_ barcodeCapture: BarcodeCapture,
                         didScanIn session: BarcodeCaptureSession,
                         frameData: FrameData) {
+        if !hasListener(eventName: ListenerEvent.Name.didScanInBarcodeCapture.rawValue) {
+            return
+        }
         guard let callback = callbacks.barcodeCaptureListener else {
             return
         }
@@ -30,6 +33,10 @@ extension ScanditBarcodeCapture: BarcodeCaptureListener {
     func barcodeCapture(_ barcodeCapture: BarcodeCapture,
                         didUpdate session: BarcodeCaptureSession,
                         frameData: FrameData) {
+        if !hasListener(eventName: ListenerEvent.Name.didUpdateSessionInBarcodeCapture.rawValue) {
+            return
+        }
+
         guard let callback = callbacks.barcodeCaptureListener else {
             return
         }

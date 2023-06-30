@@ -47,13 +47,6 @@ export var BarcodeCaptureOverlayStyle;
     BarcodeCaptureOverlayStyle["Legacy"] = "legacy";
 })(BarcodeCaptureOverlayStyle || (BarcodeCaptureOverlayStyle = {}));
 export class BarcodeCaptureOverlay extends DefaultSerializeable {
-    constructor() {
-        super();
-        this.type = 'barcodeCapture';
-        this._shouldShowScanAreaGuides = false;
-        this._viewfinder = null;
-        this._brush = BarcodeCaptureOverlay.defaultBrush;
-    }
     static get defaultBrush() {
         // tslint:disable-next-line:no-console
         console.warn('defaultBrush is deprecated and will be removed in a future release. ' +
@@ -99,6 +92,13 @@ export class BarcodeCaptureOverlay extends DefaultSerializeable {
             view.addOverlay(overlay);
         }
         return overlay;
+    }
+    constructor() {
+        super();
+        this.type = 'barcodeCapture';
+        this._shouldShowScanAreaGuides = false;
+        this._viewfinder = null;
+        this._brush = BarcodeCaptureOverlay.defaultBrush;
     }
 }
 __decorate([

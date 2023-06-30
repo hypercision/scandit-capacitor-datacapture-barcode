@@ -8,6 +8,10 @@ import { DefaultSerializeable, nameForSerialization, } from '../../../scandit-ca
 import { PrivateBarcodeSelectionType } from './BarcodeSelection+Related';
 import { Capacitor } from './Capacitor/Capacitor';
 export class BarcodeSelectionSettings extends DefaultSerializeable {
+    get enabledSymbologies() {
+        return Object.keys(this.symbologies)
+            .filter(symbology => this.symbologies[symbology].isEnabled);
+    }
     constructor() {
         super();
         this.codeDuplicateFilter = Capacitor.defaults.BarcodeSelection.BarcodeSelectionSettings.codeDuplicateFilter;
@@ -15,10 +19,6 @@ export class BarcodeSelectionSettings extends DefaultSerializeable {
         this.selectionType = Capacitor.defaults.BarcodeSelection.BarcodeSelectionSettings.selectionType(PrivateBarcodeSelectionType.fromJSON);
         this.properties = {};
         this.symbologies = {};
-    }
-    get enabledSymbologies() {
-        return Object.keys(this.symbologies)
-            .filter(symbology => this.symbologies[symbology].isEnabled);
     }
     settingsForSymbology(symbology) {
         if (!this.symbologies[symbology]) {

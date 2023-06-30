@@ -6,6 +6,10 @@
 
 package com.scandit.capacitor.datacapture.barcode.callbacks
 
+import com.scandit.capacitor.datacapture.barcode.count.callbacks.BarcodeCountCaptureListCallback
+import com.scandit.capacitor.datacapture.barcode.count.callbacks.BarcodeCountListenerCallback
+import com.scandit.capacitor.datacapture.barcode.count.callbacks.BarcodeCountViewListenerCallback
+import com.scandit.capacitor.datacapture.barcode.count.callbacks.BarcodeCountViewUiListenerCallback
 import com.scandit.capacitor.datacapture.barcode.data.SerializableFinishAdvancedOverlayAnchorData
 import com.scandit.capacitor.datacapture.barcode.data.SerializableFinishAdvancedOverlayOffsetData
 import com.scandit.capacitor.datacapture.barcode.data.SerializableFinishAdvancedOverlayViewData
@@ -61,11 +65,73 @@ class BarcodeCallbackContainer {
         this.barcodeTrackingAdvancedOverlayCallback = barcodeTrackingAdvancedOverlayCallback
     }
 
+    var barcodeCountCallback: BarcodeCountListenerCallback? = null
+        private set
+
+    fun setBarcodeCountCallback(barcodeCountListenerCallback: BarcodeCountListenerCallback) {
+        disposeBarcodeCountCallback()
+        this.barcodeCountCallback = barcodeCountListenerCallback
+    }
+
+    fun disposeBarcodeCountCallback() {
+        barcodeTrackingAdvancedOverlayCallback?.dispose()
+        barcodeTrackingAdvancedOverlayCallback = null
+    }
+
+    var barcodeCountViewCallback: BarcodeCountViewListenerCallback? = null
+        private set
+
+    fun setBarcodeCountViewCallback(
+        barcodeCountViewListenerCallback: BarcodeCountViewListenerCallback
+    ) {
+        disposeBarcodeCountViewCallback()
+        this.barcodeCountViewCallback = barcodeCountViewListenerCallback
+    }
+
+    fun disposeBarcodeCountViewCallback() {
+        barcodeCountViewCallback?.dispose()
+        barcodeCountViewCallback = null
+    }
+
+    var barcodeCountViewUiCallback: BarcodeCountViewUiListenerCallback? = null
+        private set
+
+    fun setBarcodeCountViewUiCallback(
+        barcodeCountViewUiListenerCallback: BarcodeCountViewUiListenerCallback
+    ) {
+        disposeBarcodeCountViewUiCallback()
+        this.barcodeCountViewUiCallback = barcodeCountViewUiListenerCallback
+    }
+
+    fun disposeBarcodeCountViewUiCallback() {
+        this.barcodeCountViewUiCallback?.dispose()
+        this.barcodeCountViewUiCallback = null
+    }
+
+    var barcodeCountCaptureListCallback: BarcodeCountCaptureListCallback? = null
+        private set
+
+    fun setBarcodeCountCaptureListCallback(
+        barcodeCountCaptureListCallback: BarcodeCountCaptureListCallback
+    ) {
+        disposeBarcodeCountCaptureListCallback()
+        this.barcodeCountCaptureListCallback = barcodeCountCaptureListCallback
+    }
+
+    fun disposeBarcodeCountCaptureListCallback() {
+        this.barcodeCountCaptureListCallback?.dispose()
+        this.barcodeCountCaptureListCallback = null
+    }
+
     fun disposeAll() {
         disposeBarcodeCaptureCallback()
         disposeBarcodeTrackingCallback()
         disposeBarcodeTrackingBasicOverlayCallback()
         disposeBarcodeTrackingAdvancedOverlayCallback()
+        disposeBarcodeCountCallback()
+        disposeBarcodeCountViewCallback()
+        disposeBarcodeCountViewUiCallback()
+        disposeBarcodeCountCaptureListCallback()
     }
 
     fun onFinishBarcodeCaptureAction(finishData: SerializableFinishModeCallbackData?) {

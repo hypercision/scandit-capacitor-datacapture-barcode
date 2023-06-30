@@ -1,4 +1,4 @@
-export declare type Optional<T> = T | null;
+export type Optional<T> = T | null;
 export interface SymbologySettingsJSON {
     enabled: boolean;
     colorInvertedEnabled: boolean;
@@ -23,9 +23,48 @@ export interface SymbologyDescriptionJSON {
 export interface SymbologySettingsDefaults {
     [key: string]: SymbologySettingsJSON;
 }
-export declare type SymbologyDescriptions = SymbologyDescriptionJSON[];
+export type SymbologyDescriptions = SymbologyDescriptionJSON[];
 export interface ScanditBarcodePluginInterface {
     initialize(coreDefaults: any): Promise<any>;
+}
+export interface ScanditBarcodeCountNativeInterface {
+    finishBarcodeCountListenerOnScan(): Promise<void>;
+    createView(data: any): Promise<void>;
+    updateView(data: {
+        BarcodeCountView: any;
+    }): Promise<void>;
+    updateMode(data: {
+        BarcodeCount: any;
+    }): Promise<void>;
+    setViewPositionAndSize(data: any): Promise<void>;
+    showView(): Promise<void>;
+    hideView(): Promise<void>;
+    registerBarcodeCountListener(): Promise<void>;
+    unregisterBarcodeCountListener(): Promise<void>;
+    registerBarcodeCountViewListener(): Promise<void>;
+    unregisterBarcodeCountViewListener(): Promise<void>;
+    registerBarcodeCountViewUiListener(): Promise<void>;
+    unregisterBarcodeCountViewUiListener(): Promise<void>;
+    setBarcodeCountCaptureList(data: {
+        TargetBarcodes: any[];
+    }): Promise<void>;
+    resetBarcodeCountSession(): Promise<void>;
+    resetBarcodeCount(): Promise<void>;
+    startScanningPhase(): Promise<void>;
+    endScanningPhase(): Promise<void>;
+    clearBarcodeCountViewHighlights(): Promise<void>;
+    finishBarcodeCountViewListenerBrushForRecognizedBarcode(data: {
+        brush: string | null;
+        trackedBarcodeId: number;
+    }): Promise<void>;
+    finishBarcodeCountViewListenerBrushForRecognizedBarcodeNotInList(data: {
+        brush: string | null;
+        trackedBarcodeId: number;
+    }): Promise<void>;
+    finishBarcodeCountViewListenerOnBrushForUnrecognizedBarcode(data: {
+        brush: string | null;
+        trackedBarcodeId: number;
+    }): Promise<void>;
 }
 declare module Scandit {
 
@@ -227,7 +266,6 @@ interface PrivateLocalizedOnlyBarcode {
 export interface TrackedBarcodeJSON {
     deltaTime: number;
     identifier: number;
-    shouldAnimateFromPreviousToNextState: boolean;
     barcode: BarcodeJSON;
     predictedLocation: QuadrilateralJSON;
     location: QuadrilateralJSON;
@@ -244,9 +282,21 @@ export class TrackedBarcode {
     private _identifier;
     get identifier(): number;
     private sessionFrameSequenceID;
-    private _shouldAnimateFromPreviousToNextState;
     get shouldAnimateFromPreviousToNextState(): boolean;
     private static fromJSON;
+}
+export interface TargetBarcodeJSON {
+    data: string;
+    quantity: number;
+}
+export class TargetBarcode {
+    get data(): string;
+    get quantity(): number;
+    private _data;
+    private _quantity;
+    static create(data: string, quantity: number): TargetBarcode;
+    private static fromJSON;
+    private constructor();
 }
 
 
@@ -345,6 +395,390 @@ export class BarcodeCaptureSettings {
     enableSymbologies(symbologies: Symbology[]): void;
     enableSymbology(symbology: Symbology, enabled: boolean): void;
     enableSymbologiesForCompositeTypes(compositeTypes: CompositeType[]): void;
+}
+
+
+export class BarcodeCountFeedback {
+    static get default(): BarcodeCountFeedback;
+    success: Feedback;
+    failure: Feedback;
+    private static fromJSON;
+    private constructor();
+}
+export interface BarcodeCountListener {
+    didScan?(barcodeCount: BarcodeCount, session: BarcodeCountSession, getFrameData: () => Promise<FrameData | null>): void;
+}
+export interface BarcodeCountSessionJSON {
+    recognizedBarcodes: string;
+    additionalBarcodes: Barcode[];
+    frameSequenceId: number;
+}
+interface PrivateBarcodeCountSession {
+    fromJSON(json: BarcodeCountSessionJSON): BarcodeCountSession;
+}
+export class BarcodeCountSession {
+    private _recognizedBarcodes;
+    private _additionalBarcodes;
+    private _frameSequenceID;
+    private static fromJSON;
+    get recognizedBarcodes(): {
+        [key: number]: TrackedBarcode;
+    };
+    get additionalBarcodes(): Barcode[];
+    get frameSequenceID(): number;
+    reset(): Promise<void>;
+}
+interface PrivateBarcodeCount {
+    _context: DataCaptureContext;
+    listeners: BarcodeCountListener[];
+    isInListenerCallback: boolean;
+}
+
+
+export class BarcodeCount implements DataCaptureMode {
+    get isEnabled(): boolean;
+    set isEnabled(isEnabled: boolean);
+    get context(): DataCaptureContext | null;
+    get feedback(): BarcodeCountFeedback;
+    set feedback(feedback: BarcodeCountFeedback);
+    private type;
+    private _feedback;
+    private _isEnabled;
+    private settings;
+    private listeners;
+    private _additionalBarcodes;
+    private isInListenerCallback;
+    private privateContext;
+    private get _context();
+    private set _context(value);
+    private listenerProxy;
+    static forContext(context: DataCaptureContext, settings: BarcodeCountSettings): BarcodeCount;
+    private constructor();
+    applySettings(settings: BarcodeCountSettings): Promise<void>;
+    addListener(listener: BarcodeCountListener): void;
+    removeListener(listener: BarcodeCountListener): void;
+    private checkAndUnsubscribeListeners;
+    reset(): Promise<void>;
+    startScanningPhase(): void;
+    endScanningPhase(): void;
+    setBarcodeCountCaptureList(barcodeCountCaptureList: BarcodeCountCaptureList): void;
+    setAdditionalBarcodes(barcodes: Barcode[]): Promise<void>;
+    clearAdditionalBarcodes(): Promise<void>;
+    static get recommendedCameraSettings(): CameraSettings;
+    private didChange;
+}
+
+
+export class BarcodeCountCaptureList {
+    private listener;
+    private targetBarcodes;
+    static create(listener: BarcodeCountCaptureListListener, targetBarcodes: TargetBarcode[]): BarcodeCountCaptureList;
+    private constructor();
+}
+interface PrivateBarcodeCountCaptureList {
+    targetBarcodes: TargetBarcode[];
+    listener: BarcodeCountCaptureListListener;
+}
+export interface BarcodeCountCaptureListListener {
+    didUpdateSession?(barcodeCountCaptureList: BarcodeCountCaptureList, session: BarcodeCountCaptureListSession): void;
+}
+export interface BarcodeCountCaptureListSessionJSON {
+    correctBarcodes: TrackedBarcode[];
+    wrongBarcodes: TrackedBarcode[];
+    missingBarcodes: TargetBarcode[];
+    additionalBarcodes: Barcode[];
+}
+interface PrivateBarcodeCountCaptureListSession {
+    fromJSON(json: BarcodeCountCaptureListSessionJSON): BarcodeCountCaptureListSession;
+}
+export class BarcodeCountCaptureListSession {
+    get correctBarcodes(): TrackedBarcode[];
+    get wrongBarcodes(): TrackedBarcode[];
+    get missingBarcodes(): TargetBarcode[];
+    get additionalBarcodes(): Barcode[];
+    private _correctBarcodes;
+    private _wrongBarcodes;
+    private _missingBarcodes;
+    private _additionalBarcodes;
+    private static fromJSON;
+    private constructor();
+}
+
+
+export class BarcodeCountSettings {
+    private symbologies;
+    private properties;
+    private _filterSettings;
+    private _expectsOnlyUniqueBarcodes;
+    constructor();
+    get expectsOnlyUniqueBarcodes(): boolean;
+    get filterSettings(): BarcodeFilterSettings;
+    get enabledSymbologies(): Symbology[];
+    settingsForSymbology(symbology: Symbology): SymbologySettings;
+    enableSymbologies(symbologies: Symbology[]): void;
+    enableSymbology(symbology: Symbology, enabled: boolean): void;
+    setProperty(name: string, value: any): void;
+    getProperty(name: string): any;
+}
+
+
+export interface BarcodeCountViewListener {
+    brushForRecognizedBarcode?(view: BarcodeCountView, trackedBarcode: TrackedBarcode): Brush | null;
+    brushForUnrecognizedBarcode?(view: BarcodeCountView, trackedBarcode: TrackedBarcode): Brush | null;
+    brushForRecognizedBarcodeNotInList?(view: BarcodeCountView, trackedBarcode: TrackedBarcode): Brush | null;
+    didTapRecognizedBarcode?(view: BarcodeCountView, trackedBarcode: TrackedBarcode): void;
+    didTapUnrecognizedBarcode?(view: BarcodeCountView, trackedBarcode: TrackedBarcode): void;
+    didTapFilteredBarcode?(view: BarcodeCountView, filteredBarcode: TrackedBarcode): void;
+    didTapRecognizedBarcodeNotInList?(view: BarcodeCountView, trackedBarcode: TrackedBarcode): void;
+    didCompleteCaptureList?(view: BarcodeCountView): void;
+}
+export interface BarcodeCountViewUiListener {
+    didTapListButton?(view: BarcodeCountView): void;
+    didTapExitButton?(view: BarcodeCountView): void;
+    didTapSingleScanButton?(view: BarcodeCountView): void;
+}
+interface PrivateBarcodeCountView {
+    _context: DataCaptureContext;
+    _barcodeCount: BarcodeCount;
+    toJSON(): object;
+}
+export class BarcodeCountToolbarSettings {
+    audioOnButtonText: string;
+    audioOffButtonText: string;
+    audioButtonContentDescription: string | null;
+    audioButtonAccessibilityHint: string | null;
+    audioButtonAccessibilityLabel: string | null;
+    vibrationOnButtonText: string;
+    vibrationOffButtonText: string;
+    vibrationButtonContentDescription: string | null;
+    vibrationButtonAccessibilityHint: string | null;
+    vibrationButtonAccessibilityLabel: string | null;
+    strapModeOnButtonText: string;
+    strapModeOffButtonText: string;
+    strapModeButtonContentDescription: string | null;
+    strapModeButtonAccessibilityHint: string | null;
+    strapModeButtonAccessibilityLabel: string | null;
+    colorSchemeOnButtonText: string;
+    colorSchemeOffButtonText: string;
+    colorSchemeButtonContentDescription: string | null;
+    colorSchemeButtonAccessibilityHint: string | null;
+    colorSchemeButtonAccessibilityLabel: string | null;
+}
+
+
+export enum BarcodeCountViewStyle {
+    Icon = "icon",
+    Dot = "dot"
+}
+export class BarcodeCountView {
+    get uiListener(): BarcodeCountViewUiListener | null;
+    set uiListener(listener: BarcodeCountViewUiListener | null);
+    get listener(): BarcodeCountViewListener | null;
+    set listener(listener: BarcodeCountViewListener | null);
+    get shouldShowUserGuidanceView(): boolean;
+    set shouldShowUserGuidanceView(newValue: boolean);
+    get shouldShowListButton(): boolean;
+    set shouldShowListButton(newValue: boolean);
+    get shouldShowExitButton(): boolean;
+    set shouldShowExitButton(newValue: boolean);
+    get shouldShowShutterButton(): boolean;
+    set shouldShowShutterButton(newValue: boolean);
+    get shouldShowHints(): boolean;
+    set shouldShowHints(newValue: boolean);
+    get shouldShowClearHighlightsButton(): boolean;
+    set shouldShowClearHighlightsButton(newValue: boolean);
+    get shouldShowSingleScanButton(): boolean;
+    set shouldShowSingleScanButton(newValue: boolean);
+    get shouldShowFloatingShutterButton(): boolean;
+    set shouldShowFloatingShutterButton(newValue: boolean);
+    get shouldShowToolbar(): boolean;
+    set shouldShowToolbar(newValue: boolean);
+    get shouldShowScanAreaGuides(): boolean;
+    set shouldShowScanAreaGuides(newValue: boolean);
+    static get defaultRecognizedBrush(): Brush;
+    static get defaultUnrecognizedBrush(): Brush;
+    static get defaultNotInListBrush(): Brush;
+    get recognizedBrush(): Brush | null;
+    set recognizedBrush(newValue: Brush | null);
+    get unrecognizedBrush(): Brush | null;
+    set unrecognizedBrush(newValue: Brush | null);
+    get notInListBrush(): Brush | null;
+    set notInListBrush(newValue: Brush | null);
+    get filterSettings(): BarcodeFilterHighlightSettings | null;
+    set filterSettings(newValue: BarcodeFilterHighlightSettings | null);
+    get style(): BarcodeCountViewStyle;
+    get listButtonAccessibilityHint(): string;
+    set listButtonAccessibilityHint(newValue: string);
+    get listButtonAccessibilityLabel(): string;
+    set listButtonAccessibilityLabel(newValue: string);
+    get listButtonContentDescription(): string;
+    set listButtonContentDescription(newValue: string);
+    get exitButtonAccessibilityHint(): string;
+    set exitButtonAccessibilityHint(newValue: string);
+    get exitButtonAccessibilityLabel(): string;
+    set exitButtonAccessibilityLabel(newValue: string);
+    get exitButtonContentDescription(): string;
+    set exitButtonContentDescription(newValue: string);
+    get shutterButtonAccessibilityHint(): string;
+    set shutterButtonAccessibilityHint(newValue: string);
+    get shutterButtonAccessibilityLabel(): string;
+    set shutterButtonAccessibilityLabel(newValue: string);
+    get shutterButtonContentDescription(): string;
+    set shutterButtonContentDescription(newValue: string);
+    get floatingShutterButtonAccessibilityHint(): string;
+    set floatingShutterButtonAccessibilityHint(newValue: string);
+    get floatingShutterButtonAccessibilityLabel(): string;
+    set floatingShutterButtonAccessibilityLabel(newValue: string);
+    get floatingShutterButtonContentDescription(): string;
+    set floatingShutterButtonContentDescription(newValue: string);
+    get clearHighlightsButtonAccessibilityHint(): string;
+    set clearHighlightsButtonAccessibilityHint(newValue: string);
+    get clearHighlightsButtonAccessibilityLabel(): string;
+    set clearHighlightsButtonAccessibilityLabel(newValue: string);
+    get clearHighlightsButtonContentDescription(): string;
+    set clearHighlightsButtonContentDescription(newValue: string);
+    get singleScanButtonAccessibilityHint(): string;
+    set singleScanButtonAccessibilityHint(newValue: string);
+    get singleScanButtonAccessibilityLabel(): string;
+    set singleScanButtonAccessibilityLabel(newValue: string);
+    get singleScanButtonContentDescription(): string;
+    set singleScanButtonContentDescription(newValue: string);
+    get clearHighlightsButtonText(): string;
+    set clearHighlightsButtonText(newValue: string);
+    get exitButtonText(): string;
+    set exitButtonText(newValue: string);
+    get textForTapShutterToScanHint(): string;
+    set textForTapShutterToScanHint(newValue: string);
+    get textForScanningHint(): string;
+    set textForScanningHint(newValue: string);
+    get textForMoveCloserAndRescanHint(): string;
+    set textForMoveCloserAndRescanHint(newValue: string);
+    get textForMoveFurtherAndRescanHint(): string;
+    set textForMoveFurtherAndRescanHint(newValue: string);
+    get textForUnrecognizedBarcodesDetectedHint(): string;
+    set textForUnrecognizedBarcodesDetectedHint(newValue: string);
+    private _barcodeCount;
+    private _context;
+    private viewProxy;
+    private _uiListener;
+    private _listener;
+    private _shouldShowUserGuidanceView;
+    private _shouldShowListButton;
+    private _shouldShowExitButton;
+    private _shouldShowShutterButton;
+    private _shouldShowHints;
+    private _shouldShowClearHighlightsButton;
+    private _shouldShowSingleScanButton;
+    private _shouldShowFloatingShutterButton;
+    private _shouldShowToolbar;
+    private _shouldShowScanAreaGuides;
+    private _recognizedBrush;
+    private _unrecognizedBrush;
+    private _notInListBrush;
+    private _filterSettings;
+    private _style;
+    private _listButtonAccessibilityHint;
+    private _listButtonAccessibilityLabel;
+    private _listButtonContentDescription;
+    private _exitButtonAccessibilityHint;
+    private _exitButtonAccessibilityLabel;
+    private _exitButtonContentDescription;
+    private _shutterButtonAccessibilityHint;
+    private _shutterButtonAccessibilityLabel;
+    private _shutterButtonContentDescription;
+    private _floatingShutterButtonAccessibilityHint;
+    private _floatingShutterButtonAccessibilityLabel;
+    private _floatingShutterButtonContentDescription;
+    private _clearHighlightsButtonAccessibilityHint;
+    private _clearHighlightsButtonAccessibilityLabel;
+    private _clearHighlightsButtonContentDescription;
+    private _singleScanButtonAccessibilityHint;
+    private _singleScanButtonAccessibilityLabel;
+    private _singleScanButtonContentDescription;
+    private _clearHighlightsButtonText;
+    private _exitButtonText;
+    private _textForTapShutterToScanHint;
+    private _textForScanningHint;
+    private _textForMoveCloserAndRescanHint;
+    private _textForMoveFurtherAndRescanHint;
+    private _textForUnrecognizedBarcodesDetectedHint;
+    private _toolbarSettings;
+    private htmlElement;
+    private _htmlElementState;
+    private set htmlElementState(value);
+    private get htmlElementState();
+    private scrollListener;
+    private domObserver;
+    static forContextWithMode(context: DataCaptureContext, barcodeCount: BarcodeCount): BarcodeCountView;
+    static forContextWithModeAndStyle(context: DataCaptureContext, barcodeCount: BarcodeCount, style: BarcodeCountViewStyle): BarcodeCountView;
+    constructor({ context, barcodeCount, style }: {
+        context: DataCaptureContext;
+        barcodeCount: BarcodeCount;
+        style: BarcodeCountViewStyle;
+    });
+    private orientationChangeListener;
+    clearHighlights(): Promise<void>;
+    setToolbarSettings(settings: BarcodeCountToolbarSettings): void;
+    private updateNative;
+    connectToElement(element: HTMLElement): void;
+    detachFromElement(): void;
+    setFrame(frame: Rect, isUnderContent?: boolean): Promise<void>;
+    show(): Promise<void>;
+    hide(): Promise<void>;
+    private subscribeToChangesOnHTMLElement;
+    private unsubscribeFromChangesOnHTMLElement;
+    private elementDidChange;
+    private updatePositionAndSize;
+    private _show;
+    private _hide;
+}
+
+
+export interface BarcodeFilterSettingsJSON {
+    excludeEan13: boolean;
+    excludeUpca: boolean;
+    excludedCodesRegex: string;
+    excludedSymbolCounts: {
+        [key in Symbology]?: number[];
+    };
+    excludedSymbologies: Symbology[];
+}
+export class BarcodeFilterSettings {
+    get excludeEan13(): boolean;
+    set excludeEan13(value: boolean);
+    get excludeUpca(): boolean;
+    set excludeUpca(value: boolean);
+    get excludedCodesRegex(): string;
+    set excludedCodesRegex(value: string);
+    get excludedSymbologies(): Symbology[];
+    set excludedSymbologies(values: Symbology[]);
+    private _excludeEan13;
+    private _excludeUpca;
+    private _excludedCodesRegex;
+    private _excludedSymbolCounts;
+    private _excludedSymbologies;
+    private static fromJSON;
+    private constructor();
+    getExcludedSymbolCountsForSymbology(symbology: Symbology): number[];
+    setExcludedSymbolCounts(excludedSymbolCounts: number[], symbology: Symbology): void;
+}
+export enum BarcodeFilterHighlightType {
+    Brush = "brush"
+}
+interface PrivateBarcodeFilterSettings {
+    fromJSON(json: BarcodeFilterSettingsJSON): BarcodeFilterSettings;
+}
+export interface BarcodeFilterHighlightSettings {
+    readonly highlightType: BarcodeFilterHighlightType;
+    readonly brush: Brush | null;
+}
+export class BarcodeFilterHighlightSettingsBrush implements BarcodeFilterHighlightSettings {
+    private _highlightType;
+    private _brush;
+    static create(brush: Brush): BarcodeFilterHighlightSettingsBrush;
+    private constructor();
+    get highlightType(): BarcodeFilterHighlightType;
+    get brush(): Brush | null;
 }
 
 
@@ -657,9 +1091,58 @@ export class BarcodeCaptureListenerProxy {
     private static capacitorExec;
     private barcodeCapture;
     static forBarcodeCapture(barcodeCapture: BarcodeCapture): BarcodeCaptureListenerProxy;
+    private constructor();
     private initialize;
     reset(): Promise<void>;
+    addListener(listener: BarcodeCaptureListener): void;
+    removeListener(listener: BarcodeCaptureListener): void;
     private subscribeListener;
+    private notifyListeners;
+}
+
+
+export class BarcodeCountListenerProxy {
+    private barcodeCount;
+    private _barcodeCountCaptureList;
+    static forBarcodeCount(barcodeCount: BarcodeCount): BarcodeCountListenerProxy;
+    constructor();
+    private initialize;
+    reset(): Promise<void>;
+    resetSession(): Promise<void>;
+    subscribeListener(): void;
+    unsubscribeListener(): void;
+    startScanningPhase(): void;
+    endScanningPhase(): void;
+    setBarcodeCountCaptureList(barcodeCountCaptureList: BarcodeCountCaptureList): void;
+    private notifyListeners;
+}
+
+
+export class BarcodeCountViewProxy {
+    private view;
+    private barcodeCount;
+    private isInListenerCallback;
+    static forBarcodeCount(view: BarcodeCountView): BarcodeCountViewProxy;
+    private constructor();
+    update(): Promise<void>;
+    private create;
+    dispose(): void;
+    setUiListener(listener: BarcodeCountViewUiListener | null): void;
+    setListener(listener: BarcodeCountViewListener | null): void;
+    clearHighlights(): Promise<void>;
+    setPositionAndSize(top: number, left: number, width: number, height: number, shouldBeUnderWebView: boolean): Promise<void>;
+    show(): Promise<void>;
+    hide(): Promise<void>;
+    private subscribeListeners;
+    private unsubscribeListeners;
+    private singleScanButtonTappedHandler;
+    private listButtonTappedHandler;
+    private exitButtonTappedHandler;
+    private filteredBarcodeTappedHandler;
+    private recognizedBarcodeNotInListTappedHandler;
+    private recognizedBarcodeTappedHandler;
+    private unrecognizedBarcodeTappedHandler;
+    private captureListCompletedHandler;
     private notifyListeners;
 }
 
@@ -1105,7 +1588,8 @@ export class MarginsWithUnit {
     private static fromJSON;
     private static get zero();
     constructor(left: NumberWithUnit, right: NumberWithUnit, top: NumberWithUnit, bottom: NumberWithUnit);
-} type ColorJSON = string;
+}
+type ColorJSON = string;
 interface PrivateColor {
     fromJSON(json: ColorJSON): Color;
 }

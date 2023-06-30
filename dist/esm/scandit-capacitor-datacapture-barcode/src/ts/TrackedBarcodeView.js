@@ -1,14 +1,6 @@
 import { Size } from '../../../scandit-capacitor-datacapture-core/src/ts/Common';
 import { DefaultSerializeable } from '../../../scandit-capacitor-datacapture-core/src/ts/Serializeable';
 export class TrackedBarcodeView extends DefaultSerializeable {
-    constructor(encodedData, options) {
-        super();
-        if (options == null) {
-            options = { scale: 1 };
-        }
-        this.data = encodedData;
-        this.options = options;
-    }
     static withHTMLElement(element, options) {
         return this.getEncodedImageData(element).then(data => new TrackedBarcodeView(data, options));
     }
@@ -57,6 +49,14 @@ export class TrackedBarcodeView extends DefaultSerializeable {
             image.onerror = reject;
             image.src = 'data:image/svg+xml,' + svgData.data;
         });
+    }
+    constructor(encodedData, options) {
+        super();
+        if (options == null) {
+            options = { scale: 1 };
+        }
+        this.data = encodedData;
+        this.options = options;
     }
 }
 //# sourceMappingURL=TrackedBarcodeView.js.map

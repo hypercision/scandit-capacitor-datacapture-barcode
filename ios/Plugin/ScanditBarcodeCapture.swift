@@ -21,6 +21,9 @@ class BarcodeCaptureCallbacks {
     var barcodeTrackingBasicOverlayListener: Callback?
     var barcodeTrackingAdvancedOverlayListener: Callback?
     var barcodeSelectionListener: Callback?
+    var barcodeCountListener: Callback?
+    var barcodeCountViewListener: Callback?
+    var barcodeCountViewUIListener: Callback?
 
     func reset() {
         barcodeCaptureListener = nil
@@ -28,6 +31,9 @@ class BarcodeCaptureCallbacks {
         barcodeSelectionListener = nil
         barcodeTrackingBasicOverlayListener = nil
         barcodeTrackingAdvancedOverlayListener = nil
+        barcodeCountListener = nil
+        barcodeCountViewListener = nil
+        barcodeCountViewUIListener = nil
     }
 }
 
@@ -68,23 +74,48 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
     lazy var callbacks = BarcodeCaptureCallbacks()
     lazy var callbackLocks = CallbackLocks()
 
+    lazy var barcodeCountDeserializer = BarcodeCountDeserializer()
+    lazy var barcodeCountViewDeserializer = BarcodeCountViewDeserializer()
+    lazy var barcodeCountViewHandler: BarcodeCountViewHandler = {
+        let handler = BarcodeCountViewHandler(relativeTo: webView!)
+        handler.barcodeCountViewDelegate = self
+        handler.barcodeCountViewUIDelegate = self
+        return handler
+    }()
+    var barcodeCountBrushRequests: [String: TrackedBarcode] = [:]
+
     lazy var basicOverlayListenerQueue = DispatchQueue(label: "basicOverlayListenerQueue")
     lazy var advancedOverlayListenerQueue = DispatchQueue(label: "advancedOverlayListenerQueue")
+    lazy var barcodeCountViewListenerQueue = DispatchQueue(label: "barcodeCountViewListenerQueue")
+    lazy var barcodeCountViewUIListenerQueue = DispatchQueue(label: "barcodeCountViewUIListenerQueue")
     var barcodeTrackingBasicOverlay: BarcodeTrackingBasicOverlay?
     var barcodeTrackingAdvancedOverlay: BarcodeTrackingAdvancedOverlay?
     var lastTrackedBarcodes: [NSNumber: TrackedBarcode]?
     var lastFrameSequenceId: Int?
+
+    var context: DataCaptureContext?
+    var captureList: BarcodeCountCaptureList?
 
     var barcodeSelection: BarcodeSelection?
     var barcodeSelectionSession: BarcodeSelectionSession?
     var barcodeCaptureSession: BarcodeCaptureSession?
     var barcodeTrackingSession: BarcodeTrackingSession?
     var barcodeSelectionBasicOverlay: BarcodeSelectionBasicOverlay?
+    var barcodeCount: BarcodeCount? {
+        willSet {
+            barcodeCount?.remove(self)
+        }
+        didSet {
+            barcodeCount?.add(self)
+        }
+    }
+    var barcodeCountSession: BarcodeCountSession?
 
     var offset: [Int: PointWithUnit] = [:]
 
     override func load() {
         ScanditCaptureCore.dataCapturePlugins.append(self as DataCapturePlugin)
+        ScanditCaptureCore.registerContextChangeListener(listener: self)
     }
 
     func onReset() {
@@ -92,6 +123,8 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
 
         lastTrackedBarcodes = nil
         lastFrameSequenceId = nil
+
+        ScanditCaptureCore.unregisterContextChangeListener(listener: self)
     }
 
     @objc(getDefaults:)
@@ -120,6 +153,10 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
     }
 
     // MARK: Listeners
+
+    func hasListener(eventName: String) -> Bool {
+        return hasListeners(eventName)
+    }
 
     @objc(subscribeBarcodeCaptureListener:)
     func subscribeBarcodeCaptureListener(_ call: CAPPluginCall) {
@@ -160,7 +197,7 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
             return
         }
         guard let result = BarcodeCaptureCallbackResult.from(([
-            "finishCallbackID":  finishCallbackId,
+            "finishCallbackID": finishCallbackId,
             "result": resultObject] as NSDictionary).jsonString) else {
             call.reject(CommandError.invalidJSON.toJSONString())
             return
@@ -300,6 +337,106 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
         call.resolve()
     }
 
+    @objc(registerBarcodeCountListener:)
+    func registerBarcodeCountListener(_ call: CAPPluginCall) {
+        callbacks.barcodeCountListener = Callback(id: call.callbackId)
+        call.resolve()
+    }
+
+    @objc(registerBarcodeCountViewListener:)
+    func registerBarcodeCountViewListener(_ call: CAPPluginCall) {
+        callbacks.barcodeCountViewListener = Callback(id: call.callbackId)
+        call.resolve()
+    }
+
+    @objc(registerBarcodeCountViewUiListener:)
+    func registerBarcodeCountViewUIListener(_ call: CAPPluginCall) {
+        callbacks.barcodeCountViewUIListener = Callback(id: call.callbackId)
+        call.resolve()
+    }
+
+    @objc(unregisterBarcodeCountListener:)
+    func unregisterBarcodeCountListener(_ call: CAPPluginCall) {
+        callbacks.barcodeCountListener = nil
+        call.resolve()
+    }
+
+    @objc(unregisterBarcodeCountViewListener:)
+    func unregisterBarcodeCountViewListener(_ call: CAPPluginCall) {
+        callbacks.barcodeCountViewListener = nil
+        call.resolve()
+    }
+
+    @objc(unregisterBarcodeCountViewUiListener:)
+    func unregisterBarcodeCountViewUIListener(_ call: CAPPluginCall) {
+        callbacks.barcodeCountViewUIListener = nil
+        call.resolve()
+    }
+
+    @objc(setViewPositionAndSize:)
+    func setViewPosiztionAndSize(_ call: CAPPluginCall) {
+        DispatchQueue.main.sync {
+            let jsonObject = call.getObject("position")
+            guard let viewPositionAndSizeJSON = try? ViewPositionAndSizeJSON.fromJSONObject(jsonObject as Any) else {
+                call.reject(CommandError.invalidJSON.toJSONString())
+                return
+            }
+
+            self.barcodeCountViewHandler.updatePositionAndSize(fromJSON: viewPositionAndSizeJSON)
+
+            if viewPositionAndSizeJSON.shouldBeUnderWebView {
+                // Make the WebView transparent, so we can see views behind
+                self.webView?.isOpaque = false
+                self.webView?.backgroundColor = .clear
+                self.webView?.scrollView.backgroundColor = .clear
+            } else {
+                self.webView?.isOpaque = true
+                self.webView?.backgroundColor = nil
+                self.webView?.scrollView.backgroundColor = nil
+            }
+
+            call.resolve()
+        }
+    }
+
+    @objc(showView:)
+    func show(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            guard let barcodeCountView = self.barcodeCountViewHandler.barcodeCountView else {
+                call.reject(CommandError.noViewToBeShown.toJSONString())
+                return
+            }
+
+            barcodeCountView.isHidden = false
+
+            call.resolve()
+        }
+    }
+
+    @objc(hideView:)
+    func hideView(_ call: CAPPluginCall) {
+        DispatchQueue.main.sync {
+            guard let barcodeCountView = barcodeCountViewHandler.barcodeCountView else {
+                call.reject(CommandError.noViewToBeHidden.toJSONString())
+                return
+            }
+
+            barcodeCountView.isHidden = true
+
+            call.resolve()
+        }
+    }
+
+    @objc(resetBarcodeCount:)
+    func resetBarcodeCount(_ call: CAPPluginCall) {
+        guard let barcodeCount = barcodeCount else {
+            call.reject(CommandError.noBarcodeCount.toJSONString())
+            return
+        }
+        barcodeCount.reset()
+        call.resolve()
+    }
+
     @objc(getCountForBarcodeInBarcodeSelectionSession:)
     func getCountForBarcodeInBarcodeSelectionSession(_ call: CAPPluginCall) {
         guard let barcodeSelectionSession = self.barcodeSelectionSession else {
@@ -311,7 +448,7 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
             return
         }
         call.resolve([
-            "result": barcodeSelectionSession.count(for : json.selectionIdentifier)
+            "result": barcodeSelectionSession.count(for: json.selectionIdentifier)
         ])
     }
 
@@ -342,6 +479,201 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
             return
         }
         barcodeSelectionSession.reset()
+        call.resolve()
+    }
+
+    @objc(createView:)
+    func createView(_ call: CAPPluginCall) {
+        guard let context = context else {
+            call.reject(CommandError.noContext.toJSONString())
+            return
+        }
+        guard let barcodeCountJson = call.options["BarcodeCount"] as? String else {
+            call.reject(CommandError.invalidJSON.toJSONString())
+            return
+        }
+        var barcodeCount: BarcodeCount
+        do {
+            barcodeCount = try barcodeCountDeserializer.mode(fromJSONString: barcodeCountJson,
+                                                             context: context)
+            self.barcodeCount = barcodeCount
+        } catch let error as NSError {
+            call.reject(CommandError.barcodeCountDeserializationError(message: error.localizedDescription).toJSONString())
+            return
+        }
+        if let captureList = captureList {
+            barcodeCount.setCaptureList(captureList)
+        }
+        guard let barcodeCountViewJson = call.options["BarcodeCountView"] as? String else {
+            call.reject(CommandError.invalidJSON.toJSONString())
+            return
+        }
+        do {
+            try DispatchQueue.main.sync {
+                let barcodeCountView = try barcodeCountViewDeserializer.view(fromJSONString: barcodeCountViewJson,
+                                                                             barcodeCount: barcodeCount,
+                                                                             context: context)
+                self.barcodeCountViewHandler.barcodeCountView = barcodeCountView
+            }
+        } catch {
+            call.reject(CommandError.barcodeCountViewDeserializationError(message: error.localizedDescription).toJSONString())
+            return
+        }
+        call.resolve()
+    }
+
+    @objc(updateView:)
+    func updateView(_ call: CAPPluginCall) {
+        guard let view = barcodeCountViewHandler.barcodeCountView else {
+            call.reject(CommandError.noBarcodeCountView.toJSONString())
+            return
+        }
+        guard let barcodeCountViewDictionary = call.options["BarcodeCountView"] as? [String: Any],
+              let barcodeCountViewData = try? JSONSerialization.data(withJSONObject: barcodeCountViewDictionary),
+              let barcodeCountViewJson = String(data: barcodeCountViewData, encoding: .utf8) else {
+            call.reject(CommandError.invalidJSON.toJSONString())
+            return
+        }
+        do {
+            try barcodeCountViewDeserializer.update(view, fromJSONString: barcodeCountViewJson)
+        } catch {
+            call.reject(CommandError.barcodeCountViewDeserializationError(message: error.localizedDescription).toJSONString())
+            return
+        }
+        call.resolve()
+    }
+
+    @objc(updateMode:)
+    func updateMode(_ call: CAPPluginCall) {
+        guard let mode = barcodeCount else {
+            call.reject(CommandError.noBarcodeCount.toJSONString())
+            return
+        }
+        guard let barcodeCountDictionary = call.options["BarcodeCount"] as? [String: Any],
+              let barcodeCountData = try? JSONSerialization.data(withJSONObject: barcodeCountDictionary),
+              let barcodeCountJson = String(data: barcodeCountData, encoding: .utf8) else {
+            call.reject(CommandError.invalidJSON.toJSONString())
+            return
+        }
+        do {
+            try barcodeCountDeserializer.updateMode(mode, fromJSONString: barcodeCountJson)
+        } catch {
+            call.reject(CommandError.barcodeCountDeserializationError(message: error.localizedDescription).toJSONString())
+            return
+        }
+        call.resolve()
+    }
+
+    @objc(resetBarcodeCountSession:)
+    func resetBarcodeCountSession(_ call: CAPPluginCall) {
+        if let session = barcodeCountSession {
+            session.reset()
+        }
+        call.resolve()
+    }
+
+    @objc(startScanningPhase:)
+    func startScanningPhase(_ call: CAPPluginCall) {
+        if let mode = barcodeCount {
+            mode.startScanningPhase()
+        }
+        call.resolve()
+    }
+
+    @objc(endScanningPhase:)
+    func endScanningPhase(_ call: CAPPluginCall) {
+        if let mode = barcodeCount {
+            mode.endScanningPhase()
+        }
+        call.resolve()
+    }
+
+    @objc(clearBarcodeCountViewHighlights:)
+    func clearBarcodeCountViewHighlights(_ call: CAPPluginCall) {
+        if let view = barcodeCountViewHandler.barcodeCountView {
+            view.clearHighlights()
+        }
+        call.resolve()
+    }
+
+    @objc(setBarcodeCountCaptureList:)
+    func setBarcodeCountCaptureList(_ call: CAPPluginCall) {
+        guard let barcodeCount = barcodeCount else {
+            call.reject(CommandError.noBarcodeCount.toJSONString())
+            return
+        }
+        guard let barcodesArray = call.options["TargetBarcodes"] as? [[String: Any]],
+              let barcodesData = try? JSONSerialization.data(withJSONObject: barcodesArray),
+              let barcodes = String(data: barcodesData, encoding: .utf8) else {
+            call.reject(CommandError.invalidJSON.toJSONString())
+            return
+        }
+        let jsonArray = JSONValue(string: barcodes).asArray()
+        let targetBarcodes = Set((0...jsonArray.count() - 1).map { jsonArray.atIndex($0).asObject() }.map {
+            TargetBarcode(data: $0.string(forKey: "data"),
+                          quantity: $0.integer(forKey: "quantity"))
+        })
+        barcodeCount.setCaptureList(BarcodeCountCaptureList(listener: self, targetBarcodes: targetBarcodes))
+        call.resolve()
+    }
+
+    @objc(finishBarcodeCountListenerOnScan:)
+    func finishBarcodeCountListenerOnScan(_ call: CAPPluginCall) {
+        callbackLocks.release(for: .didScanInBarcodeCount)
+        call.resolve()
+    }
+
+    @objc(finishBarcodeCountViewListenerBrushForRecognizedBarcode:)
+    func finishBarcodeCountViewListenerBrushForRecognizedBarcode(_ call: CAPPluginCall) {
+        guard let brushJson = call.options["brush"] as? String else { call.reject("Invalid brush json received."); return }
+        guard let trackedBarcodeIdString = call.options["trackedBarcodeId"] as? String,
+              let trackedBarcodeId = Int(trackedBarcodeIdString)
+        else { call.reject("Invalid tracked barcode id received."); return }
+
+        let brush = Brush(jsonString: brushJson)
+        let key = trackedBarcodeId.barcodeCountBrushKeyFor(prefix: ListenerEvent.Name.barcodeCountViewBrushForRecognizedBarcode.rawValue)
+        guard let trackedBarcode = barcodeCountBrushRequests[key] else {
+            call.resolve()
+            return
+        }
+        barcodeCountBrushRequests.removeValue(forKey: key)
+        barcodeCountViewHandler.barcodeCountView?.setBrush(brush, forRecognizedBarcode: trackedBarcode)
+        call.resolve()
+    }
+
+    @objc(finishBarcodeCountViewListenerBrushForRecognizedBarcodeNotInList:)
+    func finishBarcodeCountViewListenerBrushForRecognizedBarcodeNotInList(_ call: CAPPluginCall) {
+        guard let brushJson = call.options["brush"] as? String else { call.reject("Invalid brush json received."); return }
+        guard let trackedBarcodeIdString = call.options["trackedBarcodeId"] as? String,
+              let trackedBarcodeId = Int(trackedBarcodeIdString)
+        else { call.reject("Invalid tracked barcode id received."); return }
+
+        let brush = Brush(jsonString: brushJson)
+        let key = trackedBarcodeId.barcodeCountBrushKeyFor(prefix: ListenerEvent.Name.barcodeCountViewBrushForRecognizedBarcodeNotInList.rawValue)
+        guard let trackedBarcode = barcodeCountBrushRequests[key] else {
+            call.resolve()
+            return
+        }
+        barcodeCountBrushRequests.removeValue(forKey: key)
+        barcodeCountViewHandler.barcodeCountView?.setBrush(brush, forRecognizedBarcodeNotInList: trackedBarcode)
+        call.resolve()
+    }
+
+    @objc(finishBarcodeCountViewListenerOnBrushForUnrecognizedBarcode:)
+    func finishBarcodeCountViewListenerOnBrushForUnrecognizedBarcode(_ call: CAPPluginCall) {
+        guard let brushJson = call.options["brush"] as? String else { call.reject("Invalid brush json received."); return }
+        guard let trackedBarcodeIdString = call.options["trackedBarcodeId"] as? String,
+              let trackedBarcodeId = Int(trackedBarcodeIdString)
+        else { call.reject("Invalid tracked barcode id received."); return }
+
+        let brush = Brush(jsonString: brushJson)
+        let key = trackedBarcodeId.barcodeCountBrushKeyFor(prefix: ListenerEvent.Name.barcodeCountViewBrushForUnrecognizedBarcode.rawValue)
+        guard let trackedBarcode = barcodeCountBrushRequests[key] else {
+            call.resolve()
+            return
+        }
+        barcodeCountBrushRequests.removeValue(forKey: key)
+        barcodeCountViewHandler.barcodeCountView?.setBrush(brush, forUnrecognizedBarcode: trackedBarcode)
         call.resolve()
     }
 
@@ -462,5 +794,17 @@ class ScanditBarcodeCapture: CAPPlugin, DataCapturePlugin {
         }
 
         return trackedBarcode
+    }
+}
+
+extension ScanditBarcodeCapture: ContextChangeListener {
+    func context(didChange context: DataCaptureContext?) {
+        self.context = context
+    }
+}
+
+extension Int {
+    func barcodeCountBrushKeyFor(prefix: String) -> String {
+        return  "\(prefix)-\(self)"
     }
 }

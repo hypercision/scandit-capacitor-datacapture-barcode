@@ -29,4 +29,30 @@ CAP_PLUGIN(ScanditBarcodeCapture, "ScanditBarcodeNative",
            CAP_PLUGIN_METHOD(resetBarcodeTrackingSession, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(resetBarcodeSelectionSession, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(unfreezeCameraInBarcodeSelection, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(getCountForBarcodeInBarcodeSelectionSession, CAPPluginReturnPromise);)
+           CAP_PLUGIN_METHOD(getCountForBarcodeInBarcodeSelectionSession, CAPPluginReturnPromise);
+           // Barcode count
+           CAP_PLUGIN_METHOD(registerBarcodeCountListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(registerBarcodeCountViewListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(registerBarcodeCountViewUiListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(unegisterBarcodeCountListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(unregisterBarcodeCountViewListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(unregisterBarcodeCountViewUiListener, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setViewPositionAndSize, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(showView, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(hideView, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(createView, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(updateView, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(updateMode, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(resetBarcodeCount, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(resetBarcodeCountSession, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(startScanningPhase, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(endScanningPhase, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(clearBarcodeCountViewHighlights, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setBarcodeCountCaptureList, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(finishBarcodeCountListenerOnScan, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(finishBarcodeCountViewListenerBrushForRecognizedBarcode,
+                             CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(finishBarcodeCountViewListenerBrushForRecognizedBarcodeNotInList,
+                             CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(finishBarcodeCountViewListenerOnBrushForUnrecognizedBarcode,
+                             CAPPluginReturnPromise);)

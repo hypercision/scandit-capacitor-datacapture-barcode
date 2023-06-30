@@ -16,6 +16,7 @@ data class SerializableBarcodeDefaults(
     private val barcodeCaptureDefaults: SerializableBarcodeCaptureDefaults,
     private val barcodeTrackingDefaults: SerializableBarcodeTrackingDefaults,
     private val barcodeSelectionDefaults: SerializableBarcodeSelectionDefaults,
+    private val barcodeCountDefaults: SerializableBarcodeCountDefaults,
     private val compositeTypeDescriptions: JSONArray
 ) : SerializableData {
 
@@ -26,6 +27,7 @@ data class SerializableBarcodeDefaults(
             FIELD_BARCODE_CAPTURE_DEFAULTS to barcodeCaptureDefaults.toJson(),
             FIELD_BARCODE_TRACKING_DEFAULTS to barcodeTrackingDefaults.toJson(),
             FIELD_BARCODE_SELECTION_DEFAULTS to barcodeSelectionDefaults.toJson(),
+            FIELD_BARCODE_COUNT_DEFAULTS to barcodeCountDefaults.toJson(),
             FIELD_COMPOSITE_TYPE_DESCRIPTION_DEFAULTS to compositeTypeDescriptions
         )
     )
@@ -36,6 +38,7 @@ data class SerializableBarcodeDefaults(
         private const val FIELD_SYMBOLOGY_DESCRIPTION_DEFAULTS = "SymbologyDescriptions"
         private const val FIELD_BARCODE_TRACKING_DEFAULTS = "BarcodeTracking"
         private const val FIELD_BARCODE_SELECTION_DEFAULTS = "BarcodeSelection"
+        private const val FIELD_BARCODE_COUNT_DEFAULTS = "BarcodeCount"
         private const val FIELD_COMPOSITE_TYPE_DESCRIPTION_DEFAULTS = "CompositeTypeDescriptions"
     }
 }

@@ -8,14 +8,6 @@ import { NoneLocationSelection } from '../../../scandit-capacitor-datacapture-co
 import { DefaultSerializeable, serializationDefault } from '../../../scandit-capacitor-datacapture-core/src/ts/Serializeable';
 import { Capacitor } from './Capacitor/Capacitor';
 export class BarcodeCaptureSettings extends DefaultSerializeable {
-    constructor() {
-        super();
-        this.codeDuplicateFilter = Capacitor.defaults.BarcodeCapture.BarcodeCaptureSettings.codeDuplicateFilter;
-        this.locationSelection = null;
-        this.enabledCompositeTypes = [];
-        this.properties = {};
-        this.symbologies = {};
-    }
     get compositeTypeDescriptions() {
         return Capacitor.defaults.CompositeTypeDescriptions.reduce((descriptions, description) => {
             descriptions[description.types[0]] = description;
@@ -25,6 +17,14 @@ export class BarcodeCaptureSettings extends DefaultSerializeable {
     get enabledSymbologies() {
         return Object.keys(this.symbologies)
             .filter(symbology => this.symbologies[symbology].isEnabled);
+    }
+    constructor() {
+        super();
+        this.codeDuplicateFilter = Capacitor.defaults.BarcodeCapture.BarcodeCaptureSettings.codeDuplicateFilter;
+        this.locationSelection = null;
+        this.enabledCompositeTypes = [];
+        this.properties = {};
+        this.symbologies = {};
     }
     settingsForSymbology(symbology) {
         if (!this.symbologies[symbology]) {
